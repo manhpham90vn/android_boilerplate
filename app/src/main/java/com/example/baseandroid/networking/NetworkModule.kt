@@ -15,9 +15,6 @@ class NetworkModule {
 
         private fun createHttpClient(): OkHttpClient {
             return OkHttpClient.Builder()
-                .dispatcher(Dispatcher().apply {
-                    this.maxRequestsPerHost = 1
-                })
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .addInterceptor(TokenInterceptor())
