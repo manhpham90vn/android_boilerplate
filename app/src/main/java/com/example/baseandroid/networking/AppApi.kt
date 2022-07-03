@@ -24,6 +24,7 @@ interface AppApi {
         @Query("page") page: Int
     ): Call<PagingResponse>
 
+    @FormUrlEncoded
     @POST("refreshToken")
     fun refresh(
         @Field("token") token: String

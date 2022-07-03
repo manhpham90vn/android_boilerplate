@@ -3,12 +3,14 @@ package com.example.baseandroid
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.example.baseandroid.data.LocalStorage
 import com.example.baseandroid.models.LoginResponse
 import com.example.baseandroid.networking.NetworkModule
+import com.example.baseandroid.networking.RefreshTokenAuthenticator
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -16,6 +18,13 @@ import retrofit2.Response
 class LoginActivity : Activity(), Callback<LoginResponse> {
 
     private lateinit var local: LocalStorage
+
+    companion object {
+        val TAG = LoginActivity::class.java.simpleName
+        fun log(message: String) {
+            Log.d(TAG, message)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +36,7 @@ class LoginActivity : Activity(), Callback<LoginResponse> {
         val loginButton = findViewById<Button>(R.id.button)
 
         loginButton.setOnClickListener {
+            log("start login")
             NetworkModule(this).provideAppApi().callLogin(email.text.toString(), password.text.toString()).enqueue(this)
         }
 
@@ -43,8 +53,7 @@ class LoginActivity : Activity(), Callback<LoginResponse> {
         local.save(LocalStorage.token, response.body()!!.token!!)
         local.save(LocalStorage.refreshToken, response.body()!!.refreshToken!!)
 
-        // show alert
-        Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show()
+        log("login success")
 
         // navigation
         val intent = Intent(this, HomeActivity::class.java)
@@ -52,6 +61,6 @@ class LoginActivity : Activity(), Callback<LoginResponse> {
     }
 
     override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-        Toast.makeText(this, "Login Error ${t.toString()}", Toast.LENGTH_SHORT).show()
+        log("login onFailure")
     }
 }
