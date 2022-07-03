@@ -27,7 +27,7 @@ class LoginActivity : Activity(), Callback<LoginResponse> {
         val loginButton = findViewById<Button>(R.id.button)
 
         loginButton.setOnClickListener {
-            NetworkModule.provideAppApi().callLogin(email.text.toString(), password.text.toString()).enqueue(this)
+            NetworkModule(this).provideAppApi().callLogin(email.text.toString(), password.text.toString()).enqueue(this)
         }
 
         if (local.get(LocalStorage.token) != null && local.get(LocalStorage.refreshToken) != null) {

@@ -2,9 +2,16 @@ package com.example.baseandroid
 
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import com.example.baseandroid.data.LocalStorage
+import com.example.baseandroid.models.PagingResponse
+import com.example.baseandroid.models.UserResponse
+import com.example.baseandroid.networking.NetworkModule
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class HomeActivity : Activity() {
 
@@ -27,6 +34,30 @@ class HomeActivity : Activity() {
 
         refresh.setOnClickListener {
             Toast.makeText(this, "Refresh", Toast.LENGTH_SHORT).show()
+            NetworkModule(this).provideAppApi().getUserInfo().enqueue(object: Callback<UserResponse> {
+                override fun onResponse(
+                    call: Call<UserResponse>,
+                    response: Response<UserResponse>
+                ) {
+                    Log.d("HomeActivity", response.body()?.email ?: "getUserInfo error")
+                }
+
+                override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+
+                }
+            })
+            NetworkModule(this).provideAppApi().getList(1).enqueue(object: Callback<PagingResponse> {
+                override fun onResponse(
+                    call: Call<PagingResponse>,
+                    response: Response<PagingResponse>
+                ) {
+                    Log.d("HomeActivity", response.body()?.array?.first()?.name ?: "getList error")
+                }
+
+                override fun onFailure(call: Call<PagingResponse>, t: Throwable) {
+
+                }
+            })
         }
     }
 
