@@ -6,18 +6,14 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
 import com.example.baseandroid.data.LocalStorage
 import com.example.baseandroid.models.LoginResponse
 import com.example.baseandroid.networking.NetworkModule
-import com.example.baseandroid.networking.RefreshTokenAuthenticator
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class LoginActivity : Activity(), Callback<LoginResponse> {
-
-    private lateinit var local: LocalStorage
 
     companion object {
         val TAG = LoginActivity::class.java.simpleName
@@ -29,7 +25,6 @@ class LoginActivity : Activity(), Callback<LoginResponse> {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login)
-        local = LocalStorage(this)
 
         val email = findViewById<EditText>(R.id.email)
         val password = findViewById<EditText>(R.id.password)
@@ -37,10 +32,10 @@ class LoginActivity : Activity(), Callback<LoginResponse> {
 
         loginButton.setOnClickListener {
             log("start login")
-            NetworkModule(this).provideAppApi().callLogin(email.text.toString(), password.text.toString()).enqueue(this)
+            NetworkModule.provideAppApi().callLogin(email.text.toString(), password.text.toString()).enqueue(this)
         }
 
-        if (local.get(LocalStorage.token) != null && local.get(LocalStorage.refreshToken) != null) {
+        if (LocalStorage.get(LocalStorage.Constants.token) != null && LocalStorage.get(LocalStorage.Constants.refreshToken) != null) {
             val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
         }
@@ -50,8 +45,8 @@ class LoginActivity : Activity(), Callback<LoginResponse> {
     override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
 
         // save data
-        local.save(LocalStorage.token, response.body()!!.token!!)
-        local.save(LocalStorage.refreshToken, response.body()!!.refreshToken!!)
+        LocalStorage.save(LocalStorage.Constants.token, response.body()!!.token!!)
+        LocalStorage.save(LocalStorage.Constants.refreshToken, response.body()!!.refreshToken!!)
 
         log("login success")
 

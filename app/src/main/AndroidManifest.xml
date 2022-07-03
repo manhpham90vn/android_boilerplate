@@ -15,6 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BaseAndroid"
         android:usesCleartextTraffic="true"
+        android:name=".MyApplication"
 
         tools:targetApi="31">
         <activity

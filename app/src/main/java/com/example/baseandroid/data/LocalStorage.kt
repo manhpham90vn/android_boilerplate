@@ -1,14 +1,15 @@
 package com.example.baseandroid.data
 
 import android.content.Context
+import com.example.baseandroid.MyApplication
 
-class LocalStorage(private val context: Context) {
-    companion object {
+object LocalStorage {
+    object Constants {
         const val token = "token"
         const val refreshToken = "refreshToken"
     }
 
-    private val sharedPreferences = context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE)
+    private val sharedPreferences = MyApplication.getContext().getSharedPreferences(MyApplication.getContext().packageName, Context.MODE_PRIVATE)
 
     fun save(key: String, value: String?) {
         sharedPreferences.edit().putString(key, value).apply()

@@ -1,19 +1,36 @@
 package com.example.baseandroid.networking
 
-import android.content.Context
 import android.util.Log
 import com.example.baseandroid.data.LocalStorage
-import com.example.baseandroid.models.RefreshTokenResponse
 import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
-import retrofit2.Call
-import retrofit2.Callback
+import java.util.concurrent.locks.ReentrantLock
+import kotlin.concurrent.withLock
 
-class RefreshTokenAuthenticator(private val context: Context): Authenticator {
+enum class RefreshTokenState {
+    NOT_NEED_REFRESH,
+    IS_REFRESHING,
+    REFRESH_SUCCESS,
+    REFRESH_ERROR
+}
 
-    var count = 0
+class RefreshTokenValidator {
+
+    companion object {
+        @Volatile private var INSTANCE: RefreshTokenValidator? = null
+        fun getInstance(): RefreshTokenValidator =  INSTANCE ?: synchronized(this) {
+            INSTANCE ?: RefreshTokenValidator().also { INSTANCE = it }
+        }
+    }
+
+    var refreshTokenState: RefreshTokenState = RefreshTokenState.NOT_NEED_REFRESH
+}
+
+class RefreshTokenAuthenticator: Authenticator {
+
+    private val lock: ReentrantLock = ReentrantLock(true)
 
     companion object {
         val TAG = RefreshTokenAuthenticator::class.java.simpleName
@@ -23,47 +40,58 @@ class RefreshTokenAuthenticator(private val context: Context): Authenticator {
     }
 
     override fun authenticate(route: Route?, response: Response): Request? {
-        val isRefreshTokenRequest = response.request.url.toString().endsWith("refreshToken")
-        if (response.code == 401 && !isRefreshTokenRequest) {
-            if (count < 1) {
-                count += 1
-                refreshToken()
+        lock.withLock {
+            val isRefreshTokenRequest = response.request.url.toString().endsWith("refreshToken")
+            if (response.code == 401 && !isRefreshTokenRequest) {
+                if (RefreshTokenValidator.getInstance().refreshTokenState != RefreshTokenState.IS_REFRESHING) {
+                    RefreshTokenValidator.getInstance().refreshTokenState = RefreshTokenState.IS_REFRESHING
+                    val token = refreshToken()
+                    if (token != null) {
+                        LocalStorage.save(LocalStorage.Constants.token, token)
+                        RefreshTokenValidator.getInstance().refreshTokenState = RefreshTokenState.REFRESH_SUCCESS
+                    } else {
+                        RefreshTokenValidator.getInstance().refreshTokenState = RefreshTokenState.REFRESH_ERROR
+                    }
+                }
+                return newRequest(response)
             }
+            return null
         }
-        return null
     }
 
     private fun newRequest(response: Response): Request? {
-        val currentAccessToken = LocalStorage(context).get(LocalStorage.token)
-        return response
-            .request
-            .newBuilder()
-            .apply {
-                if (!currentAccessToken.isNullOrEmpty()) {
-                    removeHeader("authorization")
-                    addHeader("authorization", "Bearer $currentAccessToken")
+        when (RefreshTokenValidator.getInstance().refreshTokenState) {
+            RefreshTokenState.NOT_NEED_REFRESH -> return null
+            RefreshTokenState.IS_REFRESHING -> {
+                while (true) {
+                    Thread.sleep(1000)
+                    return newRequest(response)
                 }
             }
-            .build()
+            RefreshTokenState.REFRESH_SUCCESS -> {
+                val currentAccessToken = LocalStorage.get(LocalStorage.Constants.token)
+                return response
+                    .request
+                    .newBuilder()
+                    .apply {
+                        if (!currentAccessToken.isNullOrEmpty()) {
+                            removeHeader("authorization")
+                            addHeader("authorization", "Bearer $currentAccessToken")
+                        }
+                    }
+                    .build()
+            }
+            RefreshTokenState.REFRESH_ERROR -> return null
+        }
     }
 
-    private fun refreshToken() {
-        val refreshToken = LocalStorage(context).get(LocalStorage.refreshToken)
-        if (!refreshToken.isNullOrEmpty()) {
-            NetworkModule(context).provideAppApi().refresh(refreshToken).enqueue(object: Callback<RefreshTokenResponse> {
-                override fun onResponse(
-                    call: Call<RefreshTokenResponse>,
-                    response: retrofit2.Response<RefreshTokenResponse>
-                ) {
-                    Log.d("RefreshTokenAuthenticator", response.body()?.token ?: "Error get refresh token")
-                }
-
-                override fun onFailure(call: Call<RefreshTokenResponse>, t: Throwable) {
-                    Log.d("RefreshTokenAuthenticator", "Error get refresh token")
-                }
-            })
+    private fun refreshToken(): String? {
+        val refreshToken = LocalStorage.get(LocalStorage.Constants.refreshToken)
+        return if (!refreshToken.isNullOrEmpty()) {
+            NetworkModule.provideAppApi().refresh(refreshToken).execute().body()?.token
+        } else {
+            null
         }
     }
 
 }
-
