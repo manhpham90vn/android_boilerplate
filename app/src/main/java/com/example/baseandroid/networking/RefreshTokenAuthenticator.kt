@@ -1,7 +1,6 @@
 package com.example.baseandroid.networking
 
 import android.content.Context
-import android.util.Log
 import com.example.baseandroid.data.LocalStorage
 import okhttp3.Authenticator
 import okhttp3.Request
