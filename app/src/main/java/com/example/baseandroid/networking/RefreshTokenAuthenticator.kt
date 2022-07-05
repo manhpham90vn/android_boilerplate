@@ -6,6 +6,7 @@ import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
+import java.util.*
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
@@ -26,6 +27,8 @@ class RefreshTokenValidator {
     }
 
     var refreshTokenState: RefreshTokenState = RefreshTokenState.NOT_NEED_REFRESH
+    var lastFailedDate: Long? = null
+
 }
 
 class RefreshTokenAuthenticator: Authenticator {
@@ -42,16 +45,10 @@ class RefreshTokenAuthenticator: Authenticator {
     override fun authenticate(route: Route?, response: Response): Request? {
         lock.withLock {
             val isRefreshTokenRequest = response.request.url.toString().endsWith("refreshToken")
-            if (response.code == 401 && !isRefreshTokenRequest) {
+            if (response.code == 401 && !isRefreshTokenRequest && checkRepeatRefreshToken()) {
                 if (RefreshTokenValidator.getInstance().refreshTokenState != RefreshTokenState.IS_REFRESHING) {
                     RefreshTokenValidator.getInstance().refreshTokenState = RefreshTokenState.IS_REFRESHING
-                    val token = refreshToken()
-                    if (token != null) {
-                        LocalStorage.save(LocalStorage.Constants.token, token)
-                        RefreshTokenValidator.getInstance().refreshTokenState = RefreshTokenState.REFRESH_SUCCESS
-                    } else {
-                        RefreshTokenValidator.getInstance().refreshTokenState = RefreshTokenState.REFRESH_ERROR
-                    }
+                    refreshToken()
                 }
                 return newRequest(response)
             }
@@ -59,38 +56,57 @@ class RefreshTokenAuthenticator: Authenticator {
         }
     }
 
-    private fun newRequest(response: Response): Request? {
-        when (RefreshTokenValidator.getInstance().refreshTokenState) {
-            RefreshTokenState.NOT_NEED_REFRESH -> return null
-            RefreshTokenState.IS_REFRESHING -> {
-                while (true) {
-                    Thread.sleep(1000)
-                    return newRequest(response)
-                }
-            }
-            RefreshTokenState.REFRESH_SUCCESS -> {
-                val currentAccessToken = LocalStorage.get(LocalStorage.Constants.token)
-                return response
-                    .request
-                    .newBuilder()
-                    .apply {
-                        if (!currentAccessToken.isNullOrEmpty()) {
-                            removeHeader("authorization")
-                            addHeader("authorization", "Bearer $currentAccessToken")
-                        }
-                    }
-                    .build()
-            }
-            RefreshTokenState.REFRESH_ERROR -> return null
+    private fun checkRepeatRefreshToken(): Boolean {
+        val timeDiff = System.currentTimeMillis() - (RefreshTokenValidator.getInstance().lastFailedDate ?: System.currentTimeMillis())
+        return if (RefreshTokenValidator.getInstance().lastFailedDate != null) {
+            timeDiff > 30000
+        } else {
+            true
         }
     }
 
-    private fun refreshToken(): String? {
+    private fun newRequest(response: Response): Request? {
+        when (RefreshTokenValidator.getInstance().refreshTokenState) {
+            RefreshTokenState.IS_REFRESHING -> {
+                Thread.sleep(1000)
+                return newRequest(response)
+            }
+            RefreshTokenState.REFRESH_SUCCESS -> {
+                val currentAccessToken = LocalStorage.get(LocalStorage.Constants.token)
+                return if (!currentAccessToken.isNullOrEmpty()) {
+                    response
+                        .request
+                        .newBuilder()
+                        .apply {
+                            if (!currentAccessToken.isNullOrEmpty()) {
+                                removeHeader("authorization")
+                                addHeader("authorization", "Bearer $currentAccessToken")
+                            }
+                        }
+                        .build()
+                } else {
+                    null
+                }
+            }
+            else -> return null
+        }
+    }
+
+    private fun refreshToken() {
         val refreshToken = LocalStorage.get(LocalStorage.Constants.refreshToken)
-        return if (!refreshToken.isNullOrEmpty()) {
-            NetworkModule.provideAppApi().refresh(refreshToken).execute().body()?.token
+        if (!refreshToken.isNullOrEmpty()) {
+            NetworkModule.provideAppApi().refresh(refreshToken).execute().let {
+                if (it.isSuccessful && it.code() == 200) {
+                    LocalStorage.save(LocalStorage.Constants.token, it.body()?.token)
+                    RefreshTokenValidator.getInstance().refreshTokenState = RefreshTokenState.REFRESH_SUCCESS
+                    RefreshTokenValidator.getInstance().lastFailedDate = null
+                } else {
+                    RefreshTokenValidator.getInstance().refreshTokenState = RefreshTokenState.REFRESH_ERROR
+                    RefreshTokenValidator.getInstance().lastFailedDate = System.currentTimeMillis()
+                }
+            }
         } else {
-            null
+            RefreshTokenValidator.getInstance().refreshTokenState = RefreshTokenState.REFRESH_ERROR
         }
     }
 

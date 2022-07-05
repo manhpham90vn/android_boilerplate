@@ -2,6 +2,8 @@ package com.example.baseandroid
 
 import android.app.Activity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.widget.Button
 import android.widget.Toast
@@ -38,6 +40,85 @@ class HomeActivity : Activity() {
 
         refresh.setOnClickListener {
             Toast.makeText(this, "Refresh", Toast.LENGTH_SHORT).show()
+
+            // call in turn
+
+            Handler(Looper.getMainLooper()).postDelayed({
+                NetworkModule.provideAppApi().getUserInfo().enqueue(object: Callback<UserResponse> {
+                    override fun onResponse(
+                        call: Call<UserResponse>,
+                        response: Response<UserResponse>
+                    ) {
+                        log(response.body()?.email ?: "getUserInfo error")
+                    }
+
+                    override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                        log("refresh onFailure")
+                    }
+                })
+            }, 500)
+
+            Handler(Looper.getMainLooper()).postDelayed({
+                NetworkModule.provideAppApi().getUserInfo().enqueue(object: Callback<UserResponse> {
+                    override fun onResponse(
+                        call: Call<UserResponse>,
+                        response: Response<UserResponse>
+                    ) {
+                        log(response.body()?.email ?: "getUserInfo error")
+                    }
+
+                    override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                        log("refresh onFailure")
+                    }
+                })
+            }, 1000)
+
+            Handler(Looper.getMainLooper()).postDelayed({
+                NetworkModule.provideAppApi().getUserInfo().enqueue(object: Callback<UserResponse> {
+                    override fun onResponse(
+                        call: Call<UserResponse>,
+                        response: Response<UserResponse>
+                    ) {
+                        log(response.body()?.email ?: "getUserInfo error")
+                    }
+
+                    override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                        log("refresh onFailure")
+                    }
+                })
+            }, 1500)
+
+            Handler(Looper.getMainLooper()).postDelayed({
+                NetworkModule.provideAppApi().getUserInfo().enqueue(object: Callback<UserResponse> {
+                    override fun onResponse(
+                        call: Call<UserResponse>,
+                        response: Response<UserResponse>
+                    ) {
+                        log(response.body()?.email ?: "getUserInfo error")
+                    }
+
+                    override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                        log("refresh onFailure")
+                    }
+                })
+            }, 2000)
+
+            Handler(Looper.getMainLooper()).postDelayed({
+                NetworkModule.provideAppApi().getUserInfo().enqueue(object: Callback<UserResponse> {
+                    override fun onResponse(
+                        call: Call<UserResponse>,
+                        response: Response<UserResponse>
+                    ) {
+                        log(response.body()?.email ?: "getUserInfo error")
+                    }
+
+                    override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                        log("refresh onFailure")
+                    }
+                })
+            }, 2500)
+
+            // call at the same time
             NetworkModule.provideAppApi().getUserInfo().enqueue(object: Callback<UserResponse> {
                 override fun onResponse(
                     call: Call<UserResponse>,
