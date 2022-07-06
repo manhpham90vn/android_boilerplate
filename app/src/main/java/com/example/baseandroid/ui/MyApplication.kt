@@ -1,4 +1,4 @@
-package com.example.baseandroid
+package com.example.baseandroid.ui
 
 import android.app.Application
 import com.example.baseandroid.data.SharedPreferencesStorage
