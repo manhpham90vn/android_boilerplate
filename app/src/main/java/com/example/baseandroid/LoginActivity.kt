@@ -6,9 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
-import com.example.baseandroid.data.LocalStorage
 import com.example.baseandroid.models.LoginResponse
-import com.example.baseandroid.networking.NetworkModule
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -32,10 +30,10 @@ class LoginActivity : Activity(), Callback<LoginResponse> {
 
         loginButton.setOnClickListener {
             log("start login")
-            NetworkModule.provideAppApi().callLogin(email.text.toString(), password.text.toString()).enqueue(this)
+            (application as MyApplication).appRemoteData.callLogin(email.text.toString(), password.text.toString()).enqueue(this)
         }
 
-        if (LocalStorage.get(LocalStorage.Constants.token) != null && LocalStorage.get(LocalStorage.Constants.refreshToken) != null) {
+        if ((application as MyApplication).appLocalData.isLogin()) {
             val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
         }
@@ -45,8 +43,8 @@ class LoginActivity : Activity(), Callback<LoginResponse> {
     override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
 
         // save data
-        LocalStorage.save(LocalStorage.Constants.token, response.body()!!.token!!)
-        LocalStorage.save(LocalStorage.Constants.refreshToken, response.body()!!.refreshToken!!)
+        (application as MyApplication).appLocalData.setToken(response.body()?.token ?: "")
+        (application as MyApplication).appLocalData.setRefreshToken(response.body()?.refreshToken ?: "")
 
         log("login success")
 

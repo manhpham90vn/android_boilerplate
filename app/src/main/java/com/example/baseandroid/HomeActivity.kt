@@ -7,7 +7,7 @@ import android.os.Looper
 import android.util.Log
 import android.widget.Button
 import android.widget.Toast
-import com.example.baseandroid.data.LocalStorage
+import com.example.baseandroid.data.Storage
 import com.example.baseandroid.models.PagingResponse
 import com.example.baseandroid.models.UserResponse
 import com.example.baseandroid.networking.NetworkModule
@@ -33,8 +33,8 @@ class HomeActivity : Activity() {
 
         logout.setOnClickListener {
             Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show()
-            LocalStorage.clear(LocalStorage.Constants.token)
-            LocalStorage.clear(LocalStorage.Constants.refreshToken)
+            (application as MyApplication).appLocalData.cleanToken()
+            (application as MyApplication).appLocalData.cleanRefreshToken()
             finish()
         }
 
@@ -44,7 +44,7 @@ class HomeActivity : Activity() {
             // call in turn
 
             Handler(Looper.getMainLooper()).postDelayed({
-                NetworkModule.provideAppApi().getUserInfo().enqueue(object: Callback<UserResponse> {
+                (application as MyApplication).appRemoteData.getUserInfo().enqueue(object: Callback<UserResponse> {
                     override fun onResponse(
                         call: Call<UserResponse>,
                         response: Response<UserResponse>
@@ -59,7 +59,7 @@ class HomeActivity : Activity() {
             }, 500)
 
             Handler(Looper.getMainLooper()).postDelayed({
-                NetworkModule.provideAppApi().getUserInfo().enqueue(object: Callback<UserResponse> {
+                (application as MyApplication).appRemoteData.getUserInfo().enqueue(object: Callback<UserResponse> {
                     override fun onResponse(
                         call: Call<UserResponse>,
                         response: Response<UserResponse>
@@ -74,7 +74,7 @@ class HomeActivity : Activity() {
             }, 1000)
 
             Handler(Looper.getMainLooper()).postDelayed({
-                NetworkModule.provideAppApi().getUserInfo().enqueue(object: Callback<UserResponse> {
+                (application as MyApplication).appRemoteData.getUserInfo().enqueue(object: Callback<UserResponse> {
                     override fun onResponse(
                         call: Call<UserResponse>,
                         response: Response<UserResponse>
@@ -89,7 +89,7 @@ class HomeActivity : Activity() {
             }, 1500)
 
             Handler(Looper.getMainLooper()).postDelayed({
-                NetworkModule.provideAppApi().getUserInfo().enqueue(object: Callback<UserResponse> {
+                (application as MyApplication).appRemoteData.getUserInfo().enqueue(object: Callback<UserResponse> {
                     override fun onResponse(
                         call: Call<UserResponse>,
                         response: Response<UserResponse>
@@ -104,7 +104,7 @@ class HomeActivity : Activity() {
             }, 2000)
 
             Handler(Looper.getMainLooper()).postDelayed({
-                NetworkModule.provideAppApi().getUserInfo().enqueue(object: Callback<UserResponse> {
+                (application as MyApplication).appRemoteData.getUserInfo().enqueue(object: Callback<UserResponse> {
                     override fun onResponse(
                         call: Call<UserResponse>,
                         response: Response<UserResponse>
@@ -119,7 +119,7 @@ class HomeActivity : Activity() {
             }, 2500)
 
             // call at the same time
-            NetworkModule.provideAppApi().getUserInfo().enqueue(object: Callback<UserResponse> {
+            (application as MyApplication).appRemoteData.getUserInfo().enqueue(object: Callback<UserResponse> {
                 override fun onResponse(
                     call: Call<UserResponse>,
                     response: Response<UserResponse>
@@ -132,7 +132,7 @@ class HomeActivity : Activity() {
                 }
             })
 
-            NetworkModule.provideAppApi().getUserInfo().enqueue(object: Callback<UserResponse> {
+            (application as MyApplication).appRemoteData.getUserInfo().enqueue(object: Callback<UserResponse> {
                 override fun onResponse(
                     call: Call<UserResponse>,
                     response: Response<UserResponse>
@@ -145,7 +145,7 @@ class HomeActivity : Activity() {
                 }
             })
 
-            NetworkModule.provideAppApi().getList(1).enqueue(object: Callback<PagingResponse> {
+            (application as MyApplication).appRemoteData.getList(1).enqueue(object: Callback<PagingResponse> {
                 override fun onResponse(
                     call: Call<PagingResponse>,
                     response: Response<PagingResponse>
@@ -158,7 +158,7 @@ class HomeActivity : Activity() {
                 }
             })
 
-            NetworkModule.provideAppApi().getList(1).enqueue(object: Callback<PagingResponse> {
+            (application as MyApplication).appRemoteData.getList(1).enqueue(object: Callback<PagingResponse> {
                 override fun onResponse(
                     call: Call<PagingResponse>,
                     response: Response<PagingResponse>

@@ -1,12 +1,11 @@
 package com.example.baseandroid.networking
 
 import android.util.Log
-import com.example.baseandroid.data.LocalStorage
+import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
 import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
-import java.util.*
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
@@ -31,7 +30,7 @@ class RefreshTokenValidator {
 
 }
 
-class RefreshTokenAuthenticator: Authenticator {
+class RefreshTokenAuthenticator(private val appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface): Authenticator {
 
     private val lock: ReentrantLock = ReentrantLock(true)
 
@@ -72,13 +71,13 @@ class RefreshTokenAuthenticator: Authenticator {
                 return newRequest(response)
             }
             RefreshTokenState.REFRESH_SUCCESS -> {
-                val currentAccessToken = LocalStorage.get(LocalStorage.Constants.token)
-                return if (!currentAccessToken.isNullOrEmpty()) {
+                val currentAccessToken = appLocalDataRepositoryInterface.getToken()
+                return if (currentAccessToken.isNotEmpty()) {
                     response
                         .request
                         .newBuilder()
                         .apply {
-                            if (!currentAccessToken.isNullOrEmpty()) {
+                            if (currentAccessToken.isNotEmpty()) {
                                 removeHeader("authorization")
                                 addHeader("authorization", "Bearer $currentAccessToken")
                             }
@@ -93,11 +92,11 @@ class RefreshTokenAuthenticator: Authenticator {
     }
 
     private fun refreshToken() {
-        val refreshToken = LocalStorage.get(LocalStorage.Constants.refreshToken)
-        if (!refreshToken.isNullOrEmpty()) {
-            NetworkModule.provideAppApi().refresh(refreshToken).execute().let {
+        val refreshToken = appLocalDataRepositoryInterface.getRefreshToken()
+        if (refreshToken.isNotEmpty()) {
+            NetworkModule(appLocalDataRepositoryInterface).provideAppApi().refresh(refreshToken).execute().let {
                 if (it.isSuccessful && it.code() == 200) {
-                    LocalStorage.save(LocalStorage.Constants.token, it.body()?.token)
+                    appLocalDataRepositoryInterface.setToken(it.body()?.token ?: "")
                     RefreshTokenValidator.getInstance().refreshTokenState = RefreshTokenState.REFRESH_SUCCESS
                     RefreshTokenValidator.getInstance().lastFailedDate = null
                 } else {

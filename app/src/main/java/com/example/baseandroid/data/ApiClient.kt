@@ -1,4 +1,4 @@
-package com.example.baseandroid.networking
+package com.example.baseandroid.data
 
 import com.example.baseandroid.models.LoginResponse
 import com.example.baseandroid.models.PagingResponse
@@ -7,7 +7,7 @@ import com.example.baseandroid.models.UserResponse
 import retrofit2.Call
 import retrofit2.http.*
 
-interface AppApi {
+interface ApiClient {
 
     @FormUrlEncoded
     @POST("login")

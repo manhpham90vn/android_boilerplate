@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -50,8 +51,13 @@ dependencies {
     // until
     implementation 'com.google.code.gson:gson:2.9.0'
 
+    // coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.2'
+
+    // dagger
+    implementation 'com.google.dagger:dagger:2.40'
+    kapt 'com.google.dagger:dagger-compiler:2.40'
 
     // test
     testImplementation 'junit:junit:4.13.2'

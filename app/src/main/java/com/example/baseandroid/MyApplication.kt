@@ -1,20 +1,19 @@
 package com.example.baseandroid
 
 import android.app.Application
-import android.content.Context
+import com.example.baseandroid.data.SharedPreferencesStorage
+import com.example.baseandroid.networking.NetworkModule
+import com.example.baseandroid.repository.AppLocalDataRepository
+import com.example.baseandroid.repository.AppRemoteDataRepository
 
 class MyApplication: Application() {
 
-    companion object {
-        private lateinit var instance: MyApplication
-
-        fun getContext(): Context {
-            return instance.applicationContext
-        }
+    val appLocalData by lazy {
+        AppLocalDataRepository(SharedPreferencesStorage(this))
     }
 
-    override fun onCreate() {
-        super.onCreate()
-        instance = this
+    val appRemoteData by lazy {
+        AppRemoteDataRepository(NetworkModule(appLocalData).provideAppApi())
     }
+
 }

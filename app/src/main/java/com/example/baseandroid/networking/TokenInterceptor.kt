@@ -1,10 +1,10 @@
 package com.example.baseandroid.networking
 
-import com.example.baseandroid.data.LocalStorage
+import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
 import okhttp3.Interceptor
 import okhttp3.Response
 
-class TokenInterceptor: Interceptor {
+class TokenInterceptor(private val appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface): Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         return chain.proceed(
@@ -13,7 +13,7 @@ class TokenInterceptor: Interceptor {
                 .run {
                     newBuilder()
                         .apply {
-                            val currentAccessToken = LocalStorage.get(LocalStorage.Constants.token)
+                            val currentAccessToken = appLocalDataRepositoryInterface.getToken()
                             if (!currentAccessToken.isNullOrEmpty()) {
                                 removeHeader("authorization")
                                 addHeader("authorization", "Bearer $currentAccessToken")
