@@ -17,7 +17,7 @@ class LoginActivity : BaseActivity() {
     lateinit var viewModel: LoginViewModel
 
     private val appLocalData by lazy {
-        AppLocalDataRepository(SharedPreferencesStorage(this))
+        AppLocalDataRepository(SharedPreferencesStorage(applicationContext))
     }
 
     private val appRemoteData by lazy {
