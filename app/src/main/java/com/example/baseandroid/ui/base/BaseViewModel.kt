@@ -1,14 +1,10 @@
 package com.example.baseandroid.ui.base
 
 import android.util.Log
+import androidx.lifecycle.ViewModel
 
-open class BaseViewModel {
-
-    companion object {
-        val TAG = BaseViewModel::class.java.simpleName
-        fun log(message: String) {
-            Log.d(TAG, message)
-        }
+open class BaseViewModel: ViewModel() {
+    fun log(message: String) {
+        Log.d(this.javaClass.simpleName, message)
     }
-
 }

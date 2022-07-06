@@ -2,7 +2,7 @@ package com.example.baseandroid.data
 
 import android.content.Context
 
-class SharedPreferencesStorage(private val context: Context): Storage {
+class SharedPreferencesStorage(context: Context): Storage {
 
     private val sharedPreferences = context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE)
 
