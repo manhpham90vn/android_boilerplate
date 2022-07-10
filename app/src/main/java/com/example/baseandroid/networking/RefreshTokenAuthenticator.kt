@@ -1,12 +1,14 @@
 package com.example.baseandroid.networking
 
 import android.util.Log
+import com.example.baseandroid.data.remote.ApiClient
 import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
 import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
 import java.util.concurrent.locks.ReentrantLock
+import javax.inject.Inject
 import kotlin.concurrent.withLock
 
 enum class RefreshTokenState {
@@ -30,7 +32,7 @@ class RefreshTokenValidator {
 
 }
 
-class RefreshTokenAuthenticator(private val appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface): Authenticator {
+class RefreshTokenAuthenticator @Inject constructor(private val appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface, private val apiClient: ApiClient): Authenticator {
 
     private val lock: ReentrantLock = ReentrantLock(true)
 
@@ -94,7 +96,7 @@ class RefreshTokenAuthenticator(private val appLocalDataRepositoryInterface: App
     private fun refreshToken() {
         val refreshToken = appLocalDataRepositoryInterface.getRefreshToken()
         if (refreshToken.isNotEmpty()) {
-            NetworkModule(appLocalDataRepositoryInterface).provideAppApi().refresh(refreshToken).execute().let {
+            apiClient.refresh(refreshToken).execute().let {
                 if (it.isSuccessful && it.code() == 200) {
                     appLocalDataRepositoryInterface.setToken(it.body()?.token ?: "")
                     RefreshTokenValidator.getInstance().refreshTokenState = RefreshTokenState.REFRESH_SUCCESS

@@ -5,33 +5,24 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import com.example.baseandroid.R
-import com.example.baseandroid.data.SharedPreferencesStorage
-import com.example.baseandroid.networking.NetworkModule
-import com.example.baseandroid.repository.AppLocalDataRepository
-import com.example.baseandroid.repository.AppRemoteDataRepository
+import com.example.baseandroid.ui.MyApplication
 import com.example.baseandroid.ui.base.BaseActivity
 import com.example.baseandroid.ui.home.HomeActivity
+import javax.inject.Inject
 
 class LoginActivity : BaseActivity() {
 
-    lateinit var viewModel: LoginViewModel
-
-    private val appLocalData by lazy {
-        AppLocalDataRepository(SharedPreferencesStorage(applicationContext))
-    }
-
-    private val appRemoteData by lazy {
-        AppRemoteDataRepository(NetworkModule(appLocalData).provideAppApi())
-    }
+    @Inject lateinit var viewModel: LoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login)
 
+        (application as MyApplication).appComponent.inject(this)
+
         val email = findViewById<EditText>(R.id.email)
         val password = findViewById<EditText>(R.id.password)
         val loginButton = findViewById<Button>(R.id.button)
-        viewModel = LoginViewModel(appLocalData, appRemoteData)
 
         loginButton.setOnClickListener {
             log("start login")

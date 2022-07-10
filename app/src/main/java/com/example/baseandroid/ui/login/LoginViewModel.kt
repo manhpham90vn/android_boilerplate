@@ -7,11 +7,12 @@ import com.example.baseandroid.ui.base.BaseViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class LoginViewModel(
-    private val appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface,
-    private val appRemoteDataRepository: AppRemoteDataRepository
-    ): BaseViewModel(), Callback<LoginResponse> {
+class LoginViewModel @Inject constructor(): BaseViewModel(), Callback<LoginResponse> {
+
+    @Inject lateinit var appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface
+    @Inject lateinit var appRemoteDataRepository: AppRemoteDataRepository
 
     private var callback: ((Boolean) -> Unit)? = null
 

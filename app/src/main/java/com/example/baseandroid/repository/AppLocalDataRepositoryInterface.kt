@@ -1,7 +1,8 @@
 package com.example.baseandroid.repository
 
-import com.example.baseandroid.data.Storage
-import com.example.baseandroid.data.StorageConstants
+import com.example.baseandroid.data.local.Storage
+import com.example.baseandroid.data.local.StorageConstants
+import javax.inject.Inject
 
 interface AppLocalDataRepositoryInterface {
     fun isLogin(): Boolean
@@ -15,9 +16,10 @@ interface AppLocalDataRepositoryInterface {
     fun cleanRefreshToken()
 }
 
-class AppLocalDataRepository(private val storage: Storage): AppLocalDataRepositoryInterface {
+class AppLocalDataRepository @Inject constructor(private val storage: Storage): AppLocalDataRepositoryInterface {
     override fun isLogin(): Boolean {
-        return storage.getString(StorageConstants.token).isNotEmpty() && storage.getString(StorageConstants.refreshToken).isNotEmpty()
+        return storage.getString(StorageConstants.token).isNotEmpty() && storage.getString(
+            StorageConstants.refreshToken).isNotEmpty()
     }
 
     override fun getToken(): String {

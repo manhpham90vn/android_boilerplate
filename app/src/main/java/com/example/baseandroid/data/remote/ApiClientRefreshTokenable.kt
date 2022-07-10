@@ -1,14 +1,12 @@
-package com.example.baseandroid.data
+package com.example.baseandroid.data.remote
 
 import com.example.baseandroid.models.LoginResponse
 import com.example.baseandroid.models.PagingResponse
-import com.example.baseandroid.models.RefreshTokenResponse
 import com.example.baseandroid.models.UserResponse
 import retrofit2.Call
 import retrofit2.http.*
 
-interface ApiClient {
-
+interface ApiClientRefreshTokenable {
     @FormUrlEncoded
     @POST("login")
     fun callLogin(
@@ -23,11 +21,4 @@ interface ApiClient {
     fun getList(
         @Query("page") page: Int
     ): Call<PagingResponse>
-
-    @FormUrlEncoded
-    @POST("refreshToken")
-    fun refresh(
-        @Field("token") token: String
-    ): Call<RefreshTokenResponse>
-
 }

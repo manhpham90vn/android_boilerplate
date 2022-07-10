@@ -10,8 +10,12 @@ import com.example.baseandroid.ui.base.BaseViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class HomeViewModel(private val appRemoteDataRepositoryInterface: AppRemoteDataRepositoryInterface, private val appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface): BaseViewModel() {
+class HomeViewModel @Inject constructor(): BaseViewModel() {
+
+    @Inject lateinit var appRemoteDataRepositoryInterface: AppRemoteDataRepositoryInterface
+    @Inject lateinit var appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface
 
     fun callApi() {
         Handler(Looper.getMainLooper()).postDelayed({

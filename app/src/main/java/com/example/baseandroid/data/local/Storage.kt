@@ -1,4 +1,4 @@
-package com.example.baseandroid.data
+package com.example.baseandroid.data.local
 
 object StorageConstants {
     const val token = "token"
