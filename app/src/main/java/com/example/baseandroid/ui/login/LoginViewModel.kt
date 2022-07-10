@@ -1,5 +1,6 @@
 package com.example.baseandroid.ui.login
 
+import androidx.lifecycle.MutableLiveData
 import com.example.baseandroid.models.LoginResponse
 import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
 import com.example.baseandroid.repository.AppRemoteDataRepository
@@ -14,11 +15,16 @@ class LoginViewModel @Inject constructor(): BaseViewModel(), Callback<LoginRespo
     @Inject lateinit var appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface
     @Inject lateinit var appRemoteDataRepository: AppRemoteDataRepository
 
+    val email = MutableLiveData<String>()
+    val password = MutableLiveData<String>()
+
     private var callback: ((Boolean) -> Unit)? = null
 
-    fun login(email: String, password: String, callback: (Boolean) -> Unit) {
+    fun login(callback: (Boolean) -> Unit) {
         this.callback = callback
-        appRemoteDataRepository.callLogin(email, password).enqueue(this)
+        email.value = "admin@admin.com"
+        password.value = "pwd12345"
+        appRemoteDataRepository.callLogin(email.value.orEmpty(), password.value.orEmpty()).enqueue(this)
     }
 
     fun isLogin(): Boolean {
@@ -26,9 +32,15 @@ class LoginViewModel @Inject constructor(): BaseViewModel(), Callback<LoginRespo
     }
 
     override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
-        appLocalDataRepositoryInterface.setToken(response.body()?.token ?: "")
-        appLocalDataRepositoryInterface.setRefreshToken(response.body()?.refreshToken ?: "")
-        callback?.invoke(true)
+        val token = response.body()?.token ?: ""
+        val refreshToken = response.body()?.refreshToken ?: ""
+        if (token.isNotEmpty() && refreshToken.isNotEmpty()) {
+            appLocalDataRepositoryInterface.setToken(token)
+            appLocalDataRepositoryInterface.setRefreshToken(refreshToken)
+            callback?.invoke(true)
+        } else {
+            callback?.invoke(false)
+        }
     }
 
     override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
