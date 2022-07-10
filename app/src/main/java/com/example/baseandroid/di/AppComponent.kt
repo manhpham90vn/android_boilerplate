@@ -6,6 +6,7 @@ import com.example.baseandroid.ui.login.LoginActivity
 import dagger.BindsInstance
 import dagger.Component
 
+@AppScope
 @Component(modules = [AppModule::class, NetworkModule::class])
 interface AppComponent {
 

@@ -7,6 +7,7 @@ import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
+import timber.log.Timber
 import java.util.concurrent.locks.ReentrantLock
 import javax.inject.Inject
 import kotlin.concurrent.withLock
@@ -34,14 +35,11 @@ class RefreshTokenValidator {
 
 class RefreshTokenAuthenticator @Inject constructor(private val appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface, private val apiClient: ApiClient): Authenticator {
 
-    private val lock: ReentrantLock = ReentrantLock(true)
-
-    companion object {
-        val TAG = RefreshTokenAuthenticator::class.java.simpleName
-        fun log(message: String) {
-            Log.d(TAG, message)
-        }
+    init {
+        Timber.d(this.hashCode().toString())
     }
+
+    private val lock: ReentrantLock = ReentrantLock(true)
 
     override fun authenticate(route: Route?, response: Response): Request? {
         lock.withLock {

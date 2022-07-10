@@ -23,17 +23,20 @@ class NetworkModule {
         private const val APP_BASE_URL = "http://localhost.charlesproxy.com:3000/"
     }
 
+    @AppScope
     @Provides
     fun createTokenInterceptor(appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface): TokenInterceptor {
         return TokenInterceptor(appLocalDataRepositoryInterface)
     }
 
+    @AppScope
     @Provides
     fun createRefreshTokenAuthenticator(appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface,
                                         apiClient: ApiClient): RefreshTokenAuthenticator {
         return RefreshTokenAuthenticator(appLocalDataRepositoryInterface, apiClient)
     }
 
+    @AppScope
     @Provides
     fun createHttpLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().apply {
@@ -41,11 +44,13 @@ class NetworkModule {
         }
     }
 
+    @AppScope
     @Provides
     fun createGson(): Gson {
         return GsonBuilder().setLenient().create()
     }
 
+    @AppScope
     @Provides
     @Named("httpClientRefreshable")
     fun createHttpClientRefreshable(tokenInterceptor: TokenInterceptor,
@@ -61,6 +66,7 @@ class NetworkModule {
             .build()
     }
 
+    @AppScope
     @Provides
     @Named("httpClient")
     fun createHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
@@ -81,6 +87,7 @@ class NetworkModule {
             .build()
     }
 
+    @AppScope
     @Provides
     fun provideApiClient(@Named("httpClient") httpClient: OkHttpClient,
                       gson: Gson): ApiClient {
@@ -88,6 +95,7 @@ class NetworkModule {
             .create(ApiClient::class.java)
     }
 
+    @AppScope
     @Provides
     fun provideApiClientRefreshTokenable(@Named("httpClientRefreshable") httpClient: OkHttpClient,
                                    gson: Gson): ApiClientRefreshTokenable {

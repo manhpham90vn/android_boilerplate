@@ -15,7 +15,7 @@ class TokenInterceptor @Inject constructor(private val appLocalDataRepositoryInt
                     newBuilder()
                         .apply {
                             val currentAccessToken = appLocalDataRepositoryInterface.getToken()
-                            if (!currentAccessToken.isNullOrEmpty()) {
+                            if (currentAccessToken.isNotEmpty()) {
                                 removeHeader("authorization")
                                 addHeader("authorization", "Bearer $currentAccessToken")
                             }

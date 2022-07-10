@@ -10,6 +10,7 @@ import com.example.baseandroid.ui.base.BaseViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(): BaseViewModel() {
@@ -25,11 +26,11 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
                     call: Call<UserResponse>,
                     response: Response<UserResponse>
                 ) {
-                    log(response.body()?.email ?: "getUserInfo error")
+                    Timber.d(response.body()?.email ?: "getUserInfo error")
                 }
 
                 override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                    log("refresh onFailure")
+                    Timber.d("refresh onFailure")
                 }
             })
         }, 500)
@@ -41,11 +42,11 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
                     call: Call<UserResponse>,
                     response: Response<UserResponse>
                 ) {
-                    log(response.body()?.email ?: "getUserInfo error")
+                    Timber.d(response.body()?.email ?: "getUserInfo error")
                 }
 
                 override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                    log("refresh onFailure")
+                    Timber.d("refresh onFailure")
                 }
             })
         }, 1000)
@@ -57,11 +58,11 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
                     call: Call<UserResponse>,
                     response: Response<UserResponse>
                 ) {
-                    log(response.body()?.email ?: "getUserInfo error")
+                    Timber.d(response.body()?.email ?: "getUserInfo error")
                 }
 
                 override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                    log("refresh onFailure")
+                    Timber.d("refresh onFailure")
                 }
             })
         }, 1500)
@@ -73,11 +74,11 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
                     call: Call<UserResponse>,
                     response: Response<UserResponse>
                 ) {
-                    log(response.body()?.email ?: "getUserInfo error")
+                    Timber.d(response.body()?.email ?: "getUserInfo error")
                 }
 
                 override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                    log("refresh onFailure")
+                    Timber.d("refresh onFailure")
                 }
             })
         }, 2000)
@@ -89,11 +90,11 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
                     call: Call<UserResponse>,
                     response: Response<UserResponse>
                 ) {
-                    log(response.body()?.email ?: "getUserInfo error")
+                    Timber.d(response.body()?.email ?: "getUserInfo error")
                 }
 
                 override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                    log("refresh onFailure")
+                    Timber.d("refresh onFailure")
                 }
             })
         }, 2500)
@@ -105,11 +106,11 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
                 call: Call<UserResponse>,
                 response: Response<UserResponse>
             ) {
-                log(response.body()?.email ?: "getUserInfo error")
+                Timber.d(response.body()?.email ?: "getUserInfo error")
             }
 
             override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                log("refresh onFailure")
+                Timber.d("refresh onFailure")
             }
         })
 
@@ -119,11 +120,11 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
                 call: Call<UserResponse>,
                 response: Response<UserResponse>
             ) {
-                log(response.body()?.email ?: "getUserInfo error")
+                Timber.d(response.body()?.email ?: "getUserInfo error")
             }
 
             override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                log("refresh onFailure")
+                Timber.d("refresh onFailure")
             }
         })
 
@@ -133,11 +134,11 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
                 call: Call<PagingResponse>,
                 response: Response<PagingResponse>
             ) {
-                log(response.body()?.array?.first()?.name ?: "getList error")
+                Timber.d(response.body()?.array?.first()?.name ?: "getList error")
             }
 
             override fun onFailure(call: Call<PagingResponse>, t: Throwable) {
-                log("getList onFailure")
+                Timber.d("getList onFailure")
             }
         })
 
@@ -147,11 +148,11 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
                 call: Call<PagingResponse>,
                 response: Response<PagingResponse>
             ) {
-                log(response.body()?.array?.first()?.name ?: "getList error")
+                Timber.d(response.body()?.array?.first()?.name ?: "getList error")
             }
 
             override fun onFailure(call: Call<PagingResponse>, t: Throwable) {
-                log("getList onFailure")
+                Timber.d("getList onFailure")
             }
         })
     }

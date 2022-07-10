@@ -8,6 +8,7 @@ import com.example.baseandroid.R
 import com.example.baseandroid.ui.MyApplication
 import com.example.baseandroid.ui.base.BaseActivity
 import com.example.baseandroid.ui.home.HomeActivity
+import timber.log.Timber
 import javax.inject.Inject
 
 class LoginActivity : BaseActivity() {
@@ -25,7 +26,7 @@ class LoginActivity : BaseActivity() {
         val loginButton = findViewById<Button>(R.id.button)
 
         loginButton.setOnClickListener {
-            log("start login")
+            Timber.d("start login")
             viewModel.login(email.text.toString(), password.text.toString()) {
                 if (it) {
                     val intent = Intent(this, HomeActivity::class.java)
