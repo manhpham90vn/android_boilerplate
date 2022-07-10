@@ -47,7 +47,10 @@ class NetworkModule {
     @AppScope
     @Provides
     fun createGson(): Gson {
-        return GsonBuilder().setLenient().create()
+        return GsonBuilder()
+            .setPrettyPrinting()
+            .setLenient()
+            .create()
     }
 
     @AppScope

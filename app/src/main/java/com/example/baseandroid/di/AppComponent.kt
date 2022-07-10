@@ -1,20 +1,23 @@
 package com.example.baseandroid.di
 
 import android.content.Context
-import com.example.baseandroid.ui.home.HomeActivity
-import com.example.baseandroid.ui.login.LoginActivity
+import com.example.baseandroid.ui.MyApplication
 import dagger.BindsInstance
 import dagger.Component
+import dagger.android.AndroidInjector
+import dagger.android.support.AndroidSupportInjectionModule
 
 @AppScope
-@Component(modules = [AppModule::class, NetworkModule::class])
-interface AppComponent {
-
+@Component(modules = [
+    AndroidSupportInjectionModule::class,
+    AppModule::class,
+    NetworkModule::class,
+    ActivityModule::class,
+    FragmentModule::class
+])
+interface AppComponent: AndroidInjector<MyApplication> {
     @Component.Factory
     interface Factory {
         fun create(@BindsInstance context: Context): AppComponent
     }
-
-    fun inject(activity: HomeActivity)
-    fun inject(activity: LoginActivity)
 }

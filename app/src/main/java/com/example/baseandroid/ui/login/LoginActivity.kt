@@ -19,8 +19,6 @@ class LoginActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login)
 
-        (application as MyApplication).appComponent.inject(this)
-
         val email = findViewById<EditText>(R.id.email)
         val password = findViewById<EditText>(R.id.password)
         val loginButton = findViewById<Button>(R.id.button)

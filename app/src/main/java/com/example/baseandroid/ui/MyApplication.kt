@@ -1,16 +1,12 @@
 package com.example.baseandroid.ui
 
-import android.app.Application
 import com.example.baseandroid.BuildConfig
-import com.example.baseandroid.di.AppComponent
 import com.example.baseandroid.di.DaggerAppComponent
+import dagger.android.AndroidInjector
+import dagger.android.DaggerApplication
 import timber.log.Timber
 
-class MyApplication: Application() {
-
-    val appComponent: AppComponent by lazy {
-        DaggerAppComponent.factory().create(applicationContext)
-    }
+class MyApplication: DaggerApplication() {
 
     override fun onCreate() {
         super.onCreate()
@@ -21,6 +17,10 @@ class MyApplication: Application() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
+    }
+
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+        return DaggerAppComponent.factory().create(this)
     }
 
 }

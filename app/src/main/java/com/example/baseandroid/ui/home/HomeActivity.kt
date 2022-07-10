@@ -16,8 +16,6 @@ class HomeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        (application as MyApplication).appComponent.inject(this)
-
         val logout = findViewById<Button>(R.id.logout)
         val refresh = findViewById<Button>(R.id.refresh)
 
