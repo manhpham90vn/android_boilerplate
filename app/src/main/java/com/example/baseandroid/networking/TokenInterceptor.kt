@@ -6,7 +6,6 @@ import okhttp3.Response
 import javax.inject.Inject
 
 class TokenInterceptor @Inject constructor(private val appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface): Interceptor {
-
     override fun intercept(chain: Interceptor.Chain): Response {
         return chain.proceed(
             chain

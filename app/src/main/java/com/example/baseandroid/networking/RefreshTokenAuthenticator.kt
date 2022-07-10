@@ -1,13 +1,11 @@
 package com.example.baseandroid.networking
 
-import android.util.Log
 import com.example.baseandroid.data.remote.ApiClient
 import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
 import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
-import timber.log.Timber
 import java.util.concurrent.locks.ReentrantLock
 import javax.inject.Inject
 import kotlin.concurrent.withLock
@@ -34,10 +32,6 @@ class RefreshTokenValidator {
 }
 
 class RefreshTokenAuthenticator @Inject constructor(private val appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface, private val apiClient: ApiClient): Authenticator {
-
-    init {
-        Timber.d(this.hashCode().toString())
-    }
 
     private val lock: ReentrantLock = ReentrantLock(true)
 
