@@ -27,26 +27,24 @@ class RefreshTokenValidator {
     }
 
     var refreshTokenState: RefreshTokenState = RefreshTokenState.NOT_NEED_REFRESH
+        @Synchronized get
+        @Synchronized set
     var lastFailedDate: Long? = null
 
 }
 
 class RefreshTokenAuthenticator @Inject constructor(private val appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface, private val apiClient: ApiClient): Authenticator {
 
-    private val lock: ReentrantLock = ReentrantLock(true)
-
     override fun authenticate(route: Route?, response: Response): Request? {
-        lock.withLock {
-            val isRefreshTokenRequest = response.request.url.toString().endsWith("refreshToken")
-            if (response.code == 401 && !isRefreshTokenRequest && checkRepeatRefreshToken()) {
-                if (RefreshTokenValidator.getInstance().refreshTokenState != RefreshTokenState.IS_REFRESHING) {
-                    RefreshTokenValidator.getInstance().refreshTokenState = RefreshTokenState.IS_REFRESHING
-                    refreshToken()
-                }
-                return newRequest(response)
+        val isRefreshTokenRequest = response.request.url.toString().endsWith("refreshToken")
+        if (response.code == 401 && !isRefreshTokenRequest && checkRepeatRefreshToken()) {
+            if (RefreshTokenValidator.getInstance().refreshTokenState != RefreshTokenState.IS_REFRESHING) {
+                RefreshTokenValidator.getInstance().refreshTokenState = RefreshTokenState.IS_REFRESHING
+                refreshToken()
             }
-            return null
+            return newRequest(response)
         }
+        return null
     }
 
     private fun checkRepeatRefreshToken(): Boolean {
