@@ -4,6 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.home.HomeActivity">
 
+    <data>
+        <variable
+            name="handle"
+            type="com.example.baseandroid.ui.home.HomeHandler" />
+    </data>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -24,7 +30,8 @@
             android:layout_height="50dp"
             android:text="@string/logout"
             android:layout_marginEnd="10dp"
-            android:layout_gravity="center|right"/>
+            android:layout_gravity="center|right"
+            android:onClick="@{()->handle.didTapLogOut()}"/>
 
         <Button
             android:id="@+id/refresh"
@@ -32,7 +39,8 @@
             android:layout_height="50dp"
             android:text="@string/refresh"
             android:layout_marginStart="10dp"
-            android:layout_gravity="center|left"/>
+            android:layout_gravity="center|left"
+            android:onClick="@{()->handle.didTapRefresh()}"/>
 
     </FrameLayout>
 

@@ -7,6 +7,10 @@
         <variable
             name="viewModel"
             type="com.example.baseandroid.ui.login.LoginViewModel" />
+
+        <variable
+            name="handle"
+            type="com.example.baseandroid.ui.login.LoginHandle" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -49,6 +53,7 @@
             app:layout_constraintTop_toBottomOf="@id/password"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="20dp"
+            android:onClick="@{()->handle.didTapLogin()}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
