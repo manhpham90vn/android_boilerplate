@@ -6,9 +6,7 @@ import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
-import java.util.concurrent.locks.ReentrantLock
 import javax.inject.Inject
-import kotlin.concurrent.withLock
 
 enum class RefreshTokenState {
     NOT_NEED_REFRESH,
