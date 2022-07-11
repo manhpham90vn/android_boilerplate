@@ -1,7 +1,7 @@
 package com.example.baseandroid.di
 
 import com.example.baseandroid.data.remote.ApiClient
-import com.example.baseandroid.data.remote.ApiClientRefreshTokenable
+import com.example.baseandroid.data.remote.ApiClientRefreshable
 import com.example.baseandroid.networking.RefreshTokenAuthenticator
 import com.example.baseandroid.networking.TokenInterceptor
 import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
@@ -93,17 +93,17 @@ class NetworkModule {
     @AppScope
     @Provides
     fun provideApiClient(@Named("httpClient") httpClient: OkHttpClient,
-                      gson: Gson): ApiClient {
+                         gson: Gson): ApiClient {
         return createRetrofit(httpClient, gson)
             .create(ApiClient::class.java)
     }
 
     @AppScope
     @Provides
-    fun provideApiClientRefreshTokenable(@Named("httpClientRefreshable") httpClient: OkHttpClient,
-                                   gson: Gson): ApiClientRefreshTokenable {
+    fun provideApiClientRefreshable(@Named("httpClientRefreshable") httpClient: OkHttpClient,
+                                         gson: Gson): ApiClientRefreshable {
         return createRetrofit(httpClient, gson)
-            .create(ApiClientRefreshTokenable::class.java)
+            .create(ApiClientRefreshable::class.java)
     }
 }
 

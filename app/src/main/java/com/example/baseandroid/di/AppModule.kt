@@ -19,5 +19,5 @@ abstract class AppModule {
     abstract fun provideAppRemoteDataRepositoryInterface(instance: AppRemoteDataRepository): AppRemoteDataRepositoryInterface
 
     @Binds
-    abstract fun provideRefreshTokenRepositoryInterface(instance: AppRemoteDataRefreshTokenableRepository): AppRemoteDataRefreshTokenableRepositoryInterface
+    abstract fun provideAppRemoteDataRefreshableRepositoryInterface(instance: AppRemoteDataRefreshableRepository): AppRemoteDataRefreshableRepositoryInterface
 }

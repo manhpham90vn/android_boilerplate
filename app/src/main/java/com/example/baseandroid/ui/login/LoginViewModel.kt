@@ -3,12 +3,12 @@ package com.example.baseandroid.ui.login
 import androidx.lifecycle.MutableLiveData
 import com.example.baseandroid.models.LoginResponse
 import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
-import com.example.baseandroid.repository.AppRemoteDataRepository
 import com.example.baseandroid.repository.AppRemoteDataRepositoryInterface
 import com.example.baseandroid.ui.base.BaseViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 import javax.inject.Inject
 
 class LoginViewModel @Inject constructor(): BaseViewModel(), Callback<LoginResponse> {
@@ -45,7 +45,8 @@ class LoginViewModel @Inject constructor(): BaseViewModel(), Callback<LoginRespo
     }
 
     override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-        callback?.invoke(true)
+        Timber.d(t.localizedMessage ?: "")
+        callback?.invoke(false)
     }
 
 }

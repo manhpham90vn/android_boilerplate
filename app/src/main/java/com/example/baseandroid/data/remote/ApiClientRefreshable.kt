@@ -5,7 +5,7 @@ import com.example.baseandroid.models.UserResponse
 import retrofit2.Call
 import retrofit2.http.*
 
-interface ApiClientRefreshTokenable {
+interface ApiClientRefreshable {
     @GET("user")
     fun getUserInfo(): Call<UserResponse>
 
