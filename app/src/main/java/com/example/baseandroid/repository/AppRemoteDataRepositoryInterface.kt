@@ -1,28 +1,22 @@
 package com.example.baseandroid.repository
 
+import com.example.baseandroid.data.remote.ApiClient
 import com.example.baseandroid.models.LoginResponse
-import com.example.baseandroid.models.PagingResponse
-import com.example.baseandroid.models.UserResponse
-import com.example.baseandroid.data.remote.ApiClientRefreshTokenable
+import com.example.baseandroid.models.RefreshTokenResponse
 import retrofit2.Call
 import javax.inject.Inject
 
 interface AppRemoteDataRepositoryInterface {
     fun callLogin(email: String, password: String): Call<LoginResponse>
-    fun getUserInfo(): Call<UserResponse>
-    fun getList(page: Int): Call<PagingResponse>
-
+    fun refresh(token: String): Call<RefreshTokenResponse>
 }
-class AppRemoteDataRepository @Inject constructor(private val apiClientRefreshTokenable: ApiClientRefreshTokenable): AppRemoteDataRepositoryInterface {
+
+class AppRemoteDataRepository @Inject constructor(private val apiClient: ApiClient): AppRemoteDataRepositoryInterface {
     override fun callLogin(email: String, password: String): Call<LoginResponse> {
-        return apiClientRefreshTokenable.callLogin(email, password)
+        return apiClient.callLogin(email, password)
     }
 
-    override fun getUserInfo(): Call<UserResponse> {
-        return apiClientRefreshTokenable.getUserInfo()
-    }
-
-    override fun getList(page: Int): Call<PagingResponse> {
-        return apiClientRefreshTokenable.getList(page)
+    override fun refresh(token: String): Call<RefreshTokenResponse> {
+        return apiClient.refresh(token)
     }
 }
