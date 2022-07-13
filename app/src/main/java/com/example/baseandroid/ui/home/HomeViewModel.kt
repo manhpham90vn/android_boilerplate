@@ -1,16 +1,14 @@
 package com.example.baseandroid.ui.home
 
-import android.os.Handler
-import android.os.Looper
 import com.example.baseandroid.models.PagingResponse
 import com.example.baseandroid.models.UserResponse
 import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
 import com.example.baseandroid.repository.AppRemoteDataRefreshableRepositoryInterface
 import com.example.baseandroid.ui.base.BaseViewModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import timber.log.Timber
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.core.Single.timer
+import io.reactivex.rxjava3.kotlin.addTo
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(): BaseViewModel() {
@@ -19,142 +17,78 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
     @Inject lateinit var appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface
 
     fun callApi() {
-        Handler(Looper.getMainLooper()).postDelayed({
-            appRemoteDataRefreshableRepositoryInterface.getUserInfo().enqueue(object:
-                Callback<UserResponse> {
-                override fun onResponse(
-                    call: Call<UserResponse>,
-                    response: Response<UserResponse>
-                ) {
-                    Timber.d(response.body()?.email ?: "getUserInfo error")
-                }
+        timer(500, TimeUnit.MILLISECONDS)
+            .flatMap { appRemoteDataRefreshableRepositoryInterface.getUserInfo() }
+            .onErrorResumeNext {
+                return@onErrorResumeNext Single.just(UserResponse())
+            }
+            .subscribe()
+            .addTo(compositeDisposable)
 
-                override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                    Timber.d("refresh onFailure")
-                }
-            })
-        }, 500)
+        timer(1000, TimeUnit.MILLISECONDS)
+            .flatMap { appRemoteDataRefreshableRepositoryInterface.getUserInfo() }
+            .onErrorResumeNext {
+                return@onErrorResumeNext Single.just(UserResponse())
+            }
+            .subscribe()
+            .addTo(compositeDisposable)
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            appRemoteDataRefreshableRepositoryInterface.getUserInfo().enqueue(object:
-                Callback<UserResponse> {
-                override fun onResponse(
-                    call: Call<UserResponse>,
-                    response: Response<UserResponse>
-                ) {
-                    Timber.d(response.body()?.email ?: "getUserInfo error")
-                }
+        timer(1500, TimeUnit.MILLISECONDS)
+            .flatMap { appRemoteDataRefreshableRepositoryInterface.getUserInfo() }
+            .onErrorResumeNext {
+                return@onErrorResumeNext Single.just(UserResponse())
+            }
+            .subscribe()
+            .addTo(compositeDisposable)
 
-                override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                    Timber.d("refresh onFailure")
-                }
-            })
-        }, 1000)
+        timer(2000, TimeUnit.MILLISECONDS)
+            .flatMap { appRemoteDataRefreshableRepositoryInterface.getUserInfo() }
+            .onErrorResumeNext {
+                return@onErrorResumeNext Single.just(UserResponse())
+            }
+            .subscribe()
+            .addTo(compositeDisposable)
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            appRemoteDataRefreshableRepositoryInterface.getUserInfo().enqueue(object:
-                Callback<UserResponse> {
-                override fun onResponse(
-                    call: Call<UserResponse>,
-                    response: Response<UserResponse>
-                ) {
-                    Timber.d(response.body()?.email ?: "getUserInfo error")
-                }
-
-                override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                    Timber.d("refresh onFailure")
-                }
-            })
-        }, 1500)
-
-        Handler(Looper.getMainLooper()).postDelayed({
-            appRemoteDataRefreshableRepositoryInterface.getUserInfo().enqueue(object:
-                Callback<UserResponse> {
-                override fun onResponse(
-                    call: Call<UserResponse>,
-                    response: Response<UserResponse>
-                ) {
-                    Timber.d(response.body()?.email ?: "getUserInfo error")
-                }
-
-                override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                    Timber.d("refresh onFailure")
-                }
-            })
-        }, 2000)
-
-        Handler(Looper.getMainLooper()).postDelayed({
-            appRemoteDataRefreshableRepositoryInterface.getUserInfo().enqueue(object:
-                Callback<UserResponse> {
-                override fun onResponse(
-                    call: Call<UserResponse>,
-                    response: Response<UserResponse>
-                ) {
-                    Timber.d(response.body()?.email ?: "getUserInfo error")
-                }
-
-                override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                    Timber.d("refresh onFailure")
-                }
-            })
-        }, 2500)
+        timer(2500, TimeUnit.MILLISECONDS)
+            .flatMap { appRemoteDataRefreshableRepositoryInterface.getUserInfo() }
+            .onErrorResumeNext {
+                return@onErrorResumeNext Single.just(UserResponse())
+            }
+            .subscribe()
+            .addTo(compositeDisposable)
 
         // call at the same time
-        appRemoteDataRefreshableRepositoryInterface.getUserInfo().enqueue(object:
-            Callback<UserResponse> {
-            override fun onResponse(
-                call: Call<UserResponse>,
-                response: Response<UserResponse>
-            ) {
-                Timber.d(response.body()?.email ?: "getUserInfo error")
+        appRemoteDataRefreshableRepositoryInterface
+            .getUserInfo()
+            .onErrorResumeNext {
+                return@onErrorResumeNext Single.just(UserResponse())
             }
+            .subscribe()
+            .addTo(compositeDisposable)
 
-            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                Timber.d("refresh onFailure")
+        appRemoteDataRefreshableRepositoryInterface
+            .getUserInfo()
+            .onErrorResumeNext {
+                return@onErrorResumeNext Single.just(UserResponse())
             }
-        })
+            .subscribe()
+            .addTo(compositeDisposable)
 
-        appRemoteDataRefreshableRepositoryInterface.getUserInfo().enqueue(object:
-            Callback<UserResponse> {
-            override fun onResponse(
-                call: Call<UserResponse>,
-                response: Response<UserResponse>
-            ) {
-                Timber.d(response.body()?.email ?: "getUserInfo error")
+        appRemoteDataRefreshableRepositoryInterface
+            .getList(1)
+            .onErrorResumeNext {
+                return@onErrorResumeNext Single.just(PagingResponse())
             }
+            .subscribe()
+            .addTo(compositeDisposable)
 
-            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                Timber.d("refresh onFailure")
+        appRemoteDataRefreshableRepositoryInterface
+            .getList(1)
+            .onErrorResumeNext {
+                return@onErrorResumeNext Single.just(PagingResponse())
             }
-        })
-
-        appRemoteDataRefreshableRepositoryInterface.getList(1).enqueue(object:
-            Callback<PagingResponse> {
-            override fun onResponse(
-                call: Call<PagingResponse>,
-                response: Response<PagingResponse>
-            ) {
-                Timber.d(response.body()?.array?.first()?.name ?: "getList error")
-            }
-
-            override fun onFailure(call: Call<PagingResponse>, t: Throwable) {
-                Timber.d("getList onFailure")
-            }
-        })
-
-        appRemoteDataRefreshableRepositoryInterface.getList(1).enqueue(object:
-            Callback<PagingResponse> {
-            override fun onResponse(
-                call: Call<PagingResponse>,
-                response: Response<PagingResponse>
-            ) {
-                Timber.d(response.body()?.array?.first()?.name ?: "getList error")
-            }
-
-            override fun onFailure(call: Call<PagingResponse>, t: Throwable) {
-                Timber.d("getList onFailure")
-            }
-        })
+            .subscribe()
+            .addTo(compositeDisposable)
     }
 
     fun cleanData() {

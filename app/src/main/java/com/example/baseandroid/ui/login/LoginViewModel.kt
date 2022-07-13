@@ -5,13 +5,11 @@ import com.example.baseandroid.models.LoginResponse
 import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
 import com.example.baseandroid.repository.AppRemoteDataRepositoryInterface
 import com.example.baseandroid.ui.base.BaseViewModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import timber.log.Timber
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.kotlin.addTo
 import javax.inject.Inject
 
-class LoginViewModel @Inject constructor(): BaseViewModel(), Callback<LoginResponse> {
+class LoginViewModel @Inject constructor(): BaseViewModel() {
 
     @Inject lateinit var appRemoteDataRepositoryInterface: AppRemoteDataRepositoryInterface
     @Inject lateinit var appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface
@@ -20,35 +18,28 @@ class LoginViewModel @Inject constructor(): BaseViewModel(), Callback<LoginRespo
     val password = MutableLiveData<String>()
     val welcomeString = MutableLiveData<String>()
 
-    private var callback: ((Boolean) -> Unit)? = null
-
     fun login(callback: (Boolean) -> Unit) {
-        this.callback = callback
         email.value = "admin@admin.com"
         welcomeString.value = "Welcome admin@admin.com"
         password.value = "pwd12345"
-        appRemoteDataRepositoryInterface.callLogin(email.value.orEmpty(), password.value.orEmpty()).enqueue(this)
+        appRemoteDataRepositoryInterface.callLogin(email.value.orEmpty(), password.value.orEmpty())
+            .onErrorResumeNext {
+                return@onErrorResumeNext Single.just(LoginResponse())
+            }
+            .doOnSuccess {
+                if (!it.token.isNullOrEmpty() && !it.refreshToken.isNullOrEmpty()) {
+                    appLocalDataRepositoryInterface.setToken(it.token)
+                    appLocalDataRepositoryInterface.setRefreshToken(it.refreshToken)
+                    callback.invoke(true)
+                } else {
+                    callback.invoke(false)
+                }
+            }
+            .subscribe()
+            .addTo(compositeDisposable)
     }
 
     fun isLogin(): Boolean {
         return appLocalDataRepositoryInterface.isLogin()
     }
-
-    override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
-        val token = response.body()?.token ?: ""
-        val refreshToken = response.body()?.refreshToken ?: ""
-        if (token.isNotEmpty() && refreshToken.isNotEmpty()) {
-            appLocalDataRepositoryInterface.setToken(token)
-            appLocalDataRepositoryInterface.setRefreshToken(refreshToken)
-            callback?.invoke(true)
-        } else {
-            callback?.invoke(false)
-        }
-    }
-
-    override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-        Timber.d(t.localizedMessage ?: "")
-        callback?.invoke(false)
-    }
-
 }

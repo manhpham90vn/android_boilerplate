@@ -15,6 +15,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 
 @Module
 class NetworkModule {
@@ -86,6 +87,7 @@ class NetworkModule {
         return Retrofit.Builder()
             .baseUrl(APP_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .client(httpClient)
             .build()
     }
