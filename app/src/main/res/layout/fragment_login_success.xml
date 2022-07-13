@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.login.fragments.LoginSuccessFragment">
+
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.baseandroid.ui.login.LoginViewModel" />
+
+        <variable
+            name="handle"
+            type="com.example.baseandroid.ui.login.fragments.LoginHandle" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp" >
+
+        <TextView
+            android:id="@+id/loginId"
+            android:text="@{viewModel.welcomeString}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="10dp" />
+
+        <Button
+            android:text="@string/to_home"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:onClick="@{() -> handle.didTapLogin()}"/>
+
+    </LinearLayout>
+
+</layout>

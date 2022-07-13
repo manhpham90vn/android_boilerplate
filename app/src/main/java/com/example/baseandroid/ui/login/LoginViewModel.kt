@@ -18,12 +18,14 @@ class LoginViewModel @Inject constructor(): BaseViewModel(), Callback<LoginRespo
 
     val email = MutableLiveData<String>()
     val password = MutableLiveData<String>()
+    val welcomeString = MutableLiveData<String>()
 
     private var callback: ((Boolean) -> Unit)? = null
 
     fun login(callback: (Boolean) -> Unit) {
         this.callback = callback
         email.value = "admin@admin.com"
+        welcomeString.value = "Welcome admin@admin.com"
         password.value = "pwd12345"
         appRemoteDataRepositoryInterface.callLogin(email.value.orEmpty(), password.value.orEmpty()).enqueue(this)
     }

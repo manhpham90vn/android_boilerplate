@@ -1,59 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.login.LoginActivity">
-    <data>
-        <variable
-            name="viewModel"
-            type="com.example.baseandroid.ui.login.LoginViewModel" />
+    tools:context=".ui.login.LoginActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-        <variable
-            name="handle"
-            type="com.example.baseandroid.ui.login.LoginHandle" />
-    </data>
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <EditText
-            android:id="@+id/email"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:hint="@string/email"
-            android:text="@={viewModel.email}"
-            android:inputType="textEmailAddress"
-            android:autofillHints="" />
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/email"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:hint="@string/password"
-            android:text="@={viewModel.password}"
-            android:inputType="textPassword"
-            android:autofillHints="" />
-        <Button
-            android:id="@+id/button"
-            android:text="@string/login"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/password"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:onClick="@{()->handle.didTapLogin()}"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+        android:layout_height="match_parent" />
+
+</FrameLayout>

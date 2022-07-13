@@ -1,48 +1,53 @@
 package com.example.baseandroid.ui.login
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.example.baseandroid.R
-import com.example.baseandroid.databinding.LoginBinding
 import com.example.baseandroid.di.ViewModelFactory
 import com.example.baseandroid.ui.base.BaseActivity
 import com.example.baseandroid.ui.home.HomeActivity
-import com.wada811.databinding.withBinding
+import com.example.baseandroid.ui.login.fragments.LoginFragment
+import com.example.baseandroid.ui.login.fragments.LoginSuccessFragment
 import javax.inject.Inject
 
-interface LoginHandle {
-    fun didTapLogin()
-}
-
-class LoginActivity : BaseActivity(), LoginHandle {
+class LoginActivity : BaseActivity() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory<LoginViewModel>
     private val viewModel: LoginViewModel by viewModels { viewModelFactory }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        withBinding<LoginBinding> {
-            it.viewModel = viewModel
-            it.handle = this
+    // define navigation
+    companion object {
+        fun toLogin(context: Context) {
+            context.run {
+                startActivity(Intent(context, LoginActivity::class.java))
+            }
         }
-        if (viewModel.isLogin()) {
-            val intent = Intent(this, HomeActivity::class.java)
-            startActivity(intent)
+
+        fun toLoginSuccess(activity: AppCompatActivity) {
+            activity
+                .supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.container, LoginSuccessFragment())
+                .commit()
         }
     }
 
-    override fun didTapLogin() {
-        viewModel.login {
-            if (it) {
-                val intent = Intent(this, HomeActivity::class.java)
-                startActivity(intent)
-            } else {
-                Toast.makeText(this, "Login error", Toast.LENGTH_SHORT).show()
-            }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        if (savedInstanceState == null) {
+            supportFragmentManager
+                .beginTransaction()
+                .add(R.id.container, LoginFragment())
+                .commit()
+        }
+
+        if (viewModel.isLogin()) {
+            HomeActivity.toHome(this)
         }
     }
 
