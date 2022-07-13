@@ -1,11 +1,9 @@
 package com.example.baseandroid.ui.login
 
 import androidx.lifecycle.MutableLiveData
-import com.example.baseandroid.models.LoginResponse
 import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
 import com.example.baseandroid.repository.AppRemoteDataRepositoryInterface
 import com.example.baseandroid.ui.base.BaseViewModel
-import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.kotlin.addTo
 import javax.inject.Inject
 

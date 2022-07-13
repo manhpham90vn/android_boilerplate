@@ -1,11 +1,8 @@
 package com.example.baseandroid.ui.home
 
-import com.example.baseandroid.models.PagingResponse
-import com.example.baseandroid.models.UserResponse
 import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
 import com.example.baseandroid.repository.AppRemoteDataRefreshableRepositoryInterface
 import com.example.baseandroid.ui.base.BaseViewModel
-import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.core.Single.timer
 import io.reactivex.rxjava3.kotlin.addTo
 import java.util.concurrent.TimeUnit
