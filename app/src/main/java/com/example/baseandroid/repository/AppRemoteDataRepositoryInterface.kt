@@ -13,10 +13,10 @@ interface AppRemoteDataRepositoryInterface {
 
 class AppRemoteDataRepository @Inject constructor(private val apiClient: ApiClient): AppRemoteDataRepositoryInterface {
     override fun callLogin(email: String, password: String): Single<LoginResponse> {
-        return apiClient.callLogin(email, password)
+        return apiClient.callLogin(email, password).onErrorResumeNext { return@onErrorResumeNext Single.just(LoginResponse()) }
     }
 
     override fun refresh(token: String): Single<RefreshTokenResponse> {
-        return apiClient.refresh(token)
+        return apiClient.refresh(token).onErrorResumeNext { return@onErrorResumeNext Single.just(RefreshTokenResponse()) }
     }
 }

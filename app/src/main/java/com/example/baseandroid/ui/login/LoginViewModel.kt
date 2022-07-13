@@ -23,9 +23,6 @@ class LoginViewModel @Inject constructor(): BaseViewModel() {
         welcomeString.value = "Welcome admin@admin.com"
         password.value = "pwd12345"
         appRemoteDataRepositoryInterface.callLogin(email.value.orEmpty(), password.value.orEmpty())
-            .onErrorResumeNext {
-                return@onErrorResumeNext Single.just(LoginResponse())
-            }
             .doOnSuccess {
                 if (!it.token.isNullOrEmpty() && !it.refreshToken.isNullOrEmpty()) {
                     appLocalDataRepositoryInterface.setToken(it.token)

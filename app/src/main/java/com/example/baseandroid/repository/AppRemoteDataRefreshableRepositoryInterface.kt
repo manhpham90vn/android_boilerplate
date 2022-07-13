@@ -14,10 +14,10 @@ interface AppRemoteDataRefreshableRepositoryInterface {
 class AppRemoteDataRefreshableRepository @Inject constructor(private val apiClientRefreshable: ApiClientRefreshable): AppRemoteDataRefreshableRepositoryInterface {
 
     override fun getUserInfo(): Single<UserResponse> {
-        return apiClientRefreshable.getUserInfo()
+        return apiClientRefreshable.getUserInfo().onErrorResumeNext { return@onErrorResumeNext Single.just(UserResponse()) }
     }
 
     override fun getList(page: Int): Single<PagingResponse> {
-        return apiClientRefreshable.getList(page)
+        return apiClientRefreshable.getList(page).onErrorResumeNext { return@onErrorResumeNext Single.just(PagingResponse()) }
     }
 }

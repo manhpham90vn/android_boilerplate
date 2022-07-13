@@ -92,9 +92,6 @@ class RefreshTokenAuthenticator @Inject constructor(private val appLocalDataRepo
         if (refreshToken.isNotEmpty()) {
             apiClient
                 .refresh(refreshToken)
-                .onErrorResumeNext {
-                    return@onErrorResumeNext Single.just(RefreshTokenResponse())
-                }
                 .doOnSuccess {
                     if (!it.token.isNullOrEmpty()) {
                         appLocalDataRepositoryInterface.setToken(it.token)

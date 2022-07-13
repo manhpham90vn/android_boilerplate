@@ -19,74 +19,47 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
     fun callApi() {
         timer(500, TimeUnit.MILLISECONDS)
             .flatMap { appRemoteDataRefreshableRepositoryInterface.getUserInfo() }
-            .onErrorResumeNext {
-                return@onErrorResumeNext Single.just(UserResponse())
-            }
             .subscribe()
             .addTo(compositeDisposable)
 
         timer(1000, TimeUnit.MILLISECONDS)
             .flatMap { appRemoteDataRefreshableRepositoryInterface.getUserInfo() }
-            .onErrorResumeNext {
-                return@onErrorResumeNext Single.just(UserResponse())
-            }
             .subscribe()
             .addTo(compositeDisposable)
 
         timer(1500, TimeUnit.MILLISECONDS)
             .flatMap { appRemoteDataRefreshableRepositoryInterface.getUserInfo() }
-            .onErrorResumeNext {
-                return@onErrorResumeNext Single.just(UserResponse())
-            }
             .subscribe()
             .addTo(compositeDisposable)
 
         timer(2000, TimeUnit.MILLISECONDS)
             .flatMap { appRemoteDataRefreshableRepositoryInterface.getUserInfo() }
-            .onErrorResumeNext {
-                return@onErrorResumeNext Single.just(UserResponse())
-            }
             .subscribe()
             .addTo(compositeDisposable)
 
         timer(2500, TimeUnit.MILLISECONDS)
             .flatMap { appRemoteDataRefreshableRepositoryInterface.getUserInfo() }
-            .onErrorResumeNext {
-                return@onErrorResumeNext Single.just(UserResponse())
-            }
             .subscribe()
             .addTo(compositeDisposable)
 
         // call at the same time
         appRemoteDataRefreshableRepositoryInterface
             .getUserInfo()
-            .onErrorResumeNext {
-                return@onErrorResumeNext Single.just(UserResponse())
-            }
             .subscribe()
             .addTo(compositeDisposable)
 
         appRemoteDataRefreshableRepositoryInterface
             .getUserInfo()
-            .onErrorResumeNext {
-                return@onErrorResumeNext Single.just(UserResponse())
-            }
             .subscribe()
             .addTo(compositeDisposable)
 
         appRemoteDataRefreshableRepositoryInterface
             .getList(1)
-            .onErrorResumeNext {
-                return@onErrorResumeNext Single.just(PagingResponse())
-            }
             .subscribe()
             .addTo(compositeDisposable)
 
         appRemoteDataRefreshableRepositoryInterface
             .getList(1)
-            .onErrorResumeNext {
-                return@onErrorResumeNext Single.just(PagingResponse())
-            }
             .subscribe()
             .addTo(compositeDisposable)
     }
