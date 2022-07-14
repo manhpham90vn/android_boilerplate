@@ -1,9 +1,7 @@
 package com.example.baseandroid.networking
 
-import com.example.baseandroid.data.remote.ApiClient
-import com.example.baseandroid.models.RefreshTokenResponse
 import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
-import io.reactivex.rxjava3.core.Single
+import com.example.baseandroid.repository.AppRemoteDataRepositoryInterface
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.addTo
 import okhttp3.Authenticator
@@ -35,7 +33,7 @@ class RefreshTokenValidator {
 
 }
 
-class RefreshTokenAuthenticator @Inject constructor(private val appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface, private val apiClient: ApiClient): Authenticator {
+class RefreshTokenAuthenticator @Inject constructor(private val appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface, private val appRemoteDataRepositoryInterface: AppRemoteDataRepositoryInterface): Authenticator {
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -90,7 +88,7 @@ class RefreshTokenAuthenticator @Inject constructor(private val appLocalDataRepo
     private fun refreshToken() {
         val refreshToken = appLocalDataRepositoryInterface.getRefreshToken()
         if (refreshToken.isNotEmpty()) {
-            apiClient
+            appRemoteDataRepositoryInterface
                 .refresh(refreshToken)
                 .doOnSuccess {
                     if (!it.token.isNullOrEmpty()) {

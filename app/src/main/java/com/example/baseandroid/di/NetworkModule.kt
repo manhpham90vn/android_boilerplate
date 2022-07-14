@@ -5,6 +5,7 @@ import com.example.baseandroid.data.remote.ApiClientRefreshable
 import com.example.baseandroid.networking.RefreshTokenAuthenticator
 import com.example.baseandroid.networking.TokenInterceptor
 import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
+import com.example.baseandroid.repository.AppRemoteDataRepositoryInterface
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -33,8 +34,8 @@ class NetworkModule {
     @AppScope
     @Provides
     fun createRefreshTokenAuthenticator(appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface,
-                                        apiClient: ApiClient): RefreshTokenAuthenticator {
-        return RefreshTokenAuthenticator(appLocalDataRepositoryInterface, apiClient)
+                                        appRemoteDataRepositoryInterface: AppRemoteDataRepositoryInterface): RefreshTokenAuthenticator {
+        return RefreshTokenAuthenticator(appLocalDataRepositoryInterface, appRemoteDataRepositoryInterface)
     }
 
     @AppScope
@@ -103,7 +104,7 @@ class NetworkModule {
     @AppScope
     @Provides
     fun provideApiClientRefreshable(@Named("httpClientRefreshable") httpClient: OkHttpClient,
-                                         gson: Gson): ApiClientRefreshable {
+                                    gson: Gson): ApiClientRefreshable {
         return createRetrofit(httpClient, gson)
             .create(ApiClientRefreshable::class.java)
     }

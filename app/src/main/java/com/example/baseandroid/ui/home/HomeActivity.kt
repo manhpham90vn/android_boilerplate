@@ -40,6 +40,11 @@ class HomeActivity : BaseActivity(), HomeHandler {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.callApi()
+    }
+
     override fun didTapLogOut() {
         Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show()
         viewModel.cleanData()
