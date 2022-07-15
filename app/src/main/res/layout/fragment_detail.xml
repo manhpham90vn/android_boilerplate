@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.detail.fragments.DetailFragment">
+
+    <data>
+        <variable
+            name="handle"
+            type="com.example.baseandroid.ui.detail.DetailHandle" />
+
+        <variable
+            name="viewModel"
+            type="com.example.baseandroid.ui.detail.DetailViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:height="50dp"
+            android:text="@{viewModel.text}"
+            android:onClick="@{() -> handle.didTapClose()}"
+            android:id="@+id/buttonCloseWebview"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <WebView
+            android:id="@+id/webview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/buttonCloseWebview" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

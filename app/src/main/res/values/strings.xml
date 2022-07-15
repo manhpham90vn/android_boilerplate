@@ -7,4 +7,6 @@
     <string name="logout">Logout</string>
     <string name="refresh">Refresh</string>
     <string name="to_home">to Home</string>
+    <string name="close">Close</string>
+    <string name="toWebview">Open WebView</string>
 </resources>

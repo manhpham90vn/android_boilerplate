@@ -20,8 +20,9 @@ class LoginViewModel @Inject constructor(): BaseViewModel() {
         email.value = "admin@admin.com"
         welcomeString.value = "Welcome admin@admin.com"
         password.value = "pwd12345"
-        appRemoteDataRepositoryInterface.callLogin(email.value.orEmpty(), password.value.orEmpty())
-            .doOnSuccess {
+        appRemoteDataRepositoryInterface
+            .callLogin(email.value.orEmpty(), password.value.orEmpty())
+            .subscribe({
                 if (!it.token.isNullOrEmpty() && !it.refreshToken.isNullOrEmpty()) {
                     appLocalDataRepositoryInterface.setToken(it.token)
                     appLocalDataRepositoryInterface.setRefreshToken(it.refreshToken)
@@ -29,8 +30,9 @@ class LoginViewModel @Inject constructor(): BaseViewModel() {
                 } else {
                     callback.invoke(false)
                 }
-            }
-            .subscribe()
+            }, {
+                callback.invoke(false)
+            })
             .addTo(compositeDisposable)
     }
 

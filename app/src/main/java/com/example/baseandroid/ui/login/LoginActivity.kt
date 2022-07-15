@@ -52,7 +52,7 @@ class LoginActivity : BaseActivity() {
     }
 
     override fun layoutId(): Int {
-        return R.layout.login
+        return R.layout.activity_login
     }
 
 }

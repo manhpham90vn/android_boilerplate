@@ -9,6 +9,7 @@ import com.example.baseandroid.R
 import com.example.baseandroid.databinding.ActivityHomeBinding
 import com.example.baseandroid.di.ViewModelFactory
 import com.example.baseandroid.ui.base.BaseActivity
+import com.example.baseandroid.ui.detail.DetailActivity
 import com.example.baseandroid.ui.login.LoginActivity
 import com.wada811.databinding.withBinding
 import javax.inject.Inject
@@ -16,6 +17,7 @@ import javax.inject.Inject
 interface HomeHandler {
     fun didTapLogOut()
     fun didTapRefresh()
+    fun didTapWebview()
 }
 
 class HomeActivity : BaseActivity(), HomeHandler {
@@ -54,6 +56,10 @@ class HomeActivity : BaseActivity(), HomeHandler {
     override fun didTapRefresh() {
         Toast.makeText(this, "Refresh", Toast.LENGTH_SHORT).show()
         viewModel.callApi()
+    }
+
+    override fun didTapWebview() {
+        DetailActivity.toDetail(this)
     }
 
     override fun layoutId(): Int {

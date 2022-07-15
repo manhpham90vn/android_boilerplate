@@ -8,40 +8,49 @@
         <variable
             name="handle"
             type="com.example.baseandroid.ui.home.HomeHandler" />
+
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:orientation="horizontal">
+        android:layout_height="match_parent" >
 
         <TextView
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
             android:gravity="center"
-            android:text="@string/home" />
+            android:text="@string/home"
+            android:id="@+id/textview" />
 
-        <Button
-            android:id="@+id/logout"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="@string/logout"
-            android:layout_marginEnd="10dp"
-            android:layout_gravity="center|right"
-            android:onClick="@{()->handle.didTapLogOut()}"/>
-
-        <Button
-            android:id="@+id/refresh"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="@string/refresh"
-            android:layout_marginStart="10dp"
-            android:layout_gravity="center|left"
-            android:onClick="@{()->handle.didTapRefresh()}"/>
-
-    </FrameLayout>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textview">
+            <Button
+                android:id="@+id/logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/logout"
+                android:onClick="@{()->handle.didTapLogOut()}"/>
+            <Button
+                android:id="@+id/openwebview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{()->handle.didTapWebview()}"
+                android:text="@string/toWebview" />
+            <Button
+                android:id="@+id/refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{()->handle.didTapRefresh()}"
+                android:text="@string/refresh" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
