@@ -4,11 +4,7 @@
 # Server: https://github.com/manhpham90vn/refresh-Token-Demo
 
 # TODO
-
-[x] handle error 
-
-[ ] create loading helper
-
-[ ] update home screen with base paging
-
-[ ] add firebase push notification
+- [x] handle error 
+- [ ] create loading helper
+- [ ] update home screen with base paging
+- [ ] add firebase push notification
