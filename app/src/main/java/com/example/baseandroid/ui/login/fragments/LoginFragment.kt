@@ -5,13 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.example.baseandroid.R
 import com.example.baseandroid.databinding.FragmentLoginBinding
 import com.example.baseandroid.di.ViewModelFactory
 import com.example.baseandroid.ui.base.BaseFragment
-import com.example.baseandroid.ui.home.HomeActivity
+import com.example.baseandroid.ui.login.LoginActivity
 import com.example.baseandroid.ui.login.LoginResult
 import com.example.baseandroid.ui.login.LoginViewModel
 import com.wada811.databinding.withBinding
@@ -45,7 +46,7 @@ class LoginFragment : BaseFragment(), LoginHandle {
             when (it) {
                 is LoginResult.LoginSuccess -> {
                     Toast.makeText(requireActivity(), "Login success", Toast.LENGTH_SHORT).show()
-                    HomeActivity.toHome(requireActivity())
+                    LoginActivity.toLoginSuccess(requireActivity() as AppCompatActivity)
                 }
                 is LoginResult.LoginError -> {
                     Toast.makeText(requireActivity(), "Login error: ${it.message}", Toast.LENGTH_SHORT).show()

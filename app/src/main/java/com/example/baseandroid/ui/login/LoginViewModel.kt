@@ -12,8 +12,6 @@ sealed class LoginResult {
     data class LoginError(val message: String): LoginResult()
 }
 
-
-
 class LoginViewModel @Inject constructor(): BaseViewModel() {
 
     @Inject lateinit var appRemoteDataRepositoryInterface: AppRemoteDataRepositoryInterface
@@ -27,7 +25,7 @@ class LoginViewModel @Inject constructor(): BaseViewModel() {
     fun login() {
         email.value = "admin@admin.com"
         welcomeString.value = "Welcome admin@admin.com"
-        password.value = "pwd12345+"
+        password.value = "pwd12345"
 
         appRemoteDataRepositoryInterface
             .callLogin(email.value.orEmpty(), password.value.orEmpty())
