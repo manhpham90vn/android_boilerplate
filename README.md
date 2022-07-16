@@ -7,3 +7,4 @@ TODO:
 - create base response class to handle message from server (case HttpException, ConnectException)
 - create loading helper
 - update home screen with base paging
+- add firebase push notification
