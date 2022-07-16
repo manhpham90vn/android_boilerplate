@@ -12,7 +12,6 @@ import com.example.baseandroid.R
 import com.example.baseandroid.databinding.FragmentLoginBinding
 import com.example.baseandroid.di.ViewModelFactory
 import com.example.baseandroid.ui.base.BaseFragment
-import com.example.baseandroid.ui.dialog.LoadingProgress
 import com.example.baseandroid.ui.login.LoginActivity
 import com.example.baseandroid.ui.login.LoginResult
 import com.example.baseandroid.ui.login.LoginViewModel

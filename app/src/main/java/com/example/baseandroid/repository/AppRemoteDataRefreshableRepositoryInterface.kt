@@ -1,8 +1,8 @@
 package com.example.baseandroid.repository
 
+import com.example.baseandroid.data.remote.ApiClientRefreshable
 import com.example.baseandroid.models.PagingResponse
 import com.example.baseandroid.models.UserResponse
-import com.example.baseandroid.data.remote.ApiClientRefreshable
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
