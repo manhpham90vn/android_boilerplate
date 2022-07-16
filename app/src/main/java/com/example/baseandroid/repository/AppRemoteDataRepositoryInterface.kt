@@ -16,7 +16,6 @@ interface AppRemoteDataRepositoryInterface {
 class AppRemoteDataRepository @Inject constructor(private val apiClient: ApiClient): AppRemoteDataRepositoryInterface {
     override fun callLogin(email: String, password: String): Single<LoginResponse> {
         return apiClient.callLogin(email, password)
-            .onErrorResumeNext { return@onErrorResumeNext Single.just(LoginResponse()) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

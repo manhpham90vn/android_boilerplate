@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import com.example.baseandroid.R
 import com.example.baseandroid.databinding.FragmentLoginBinding
 import com.example.baseandroid.di.ViewModelFactory
 import com.example.baseandroid.ui.base.BaseFragment
-import com.example.baseandroid.ui.login.LoginActivity
+import com.example.baseandroid.ui.home.HomeActivity
+import com.example.baseandroid.ui.login.LoginResult
 import com.example.baseandroid.ui.login.LoginViewModel
 import com.wada811.databinding.withBinding
 import javax.inject.Inject
@@ -38,16 +40,22 @@ class LoginFragment : BaseFragment(), LoginHandle {
             it.viewModel = viewModel
             it.handle = this
         }
+
+        viewModel.loginResult.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is LoginResult.LoginSuccess -> {
+                    Toast.makeText(requireActivity(), "Login success", Toast.LENGTH_SHORT).show()
+                    HomeActivity.toHome(requireActivity())
+                }
+                is LoginResult.LoginError -> {
+                    Toast.makeText(requireActivity(), "Login error: ${it.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
     }
 
     override fun didTapLogin() {
-        viewModel.login {
-            if (it) {
-                LoginActivity.toLoginSuccess(requireActivity() as LoginActivity)
-            } else {
-                Toast.makeText(requireActivity(), "Login error", Toast.LENGTH_SHORT).show()
-            }
-        }
+        viewModel.login()
     }
 
 }
