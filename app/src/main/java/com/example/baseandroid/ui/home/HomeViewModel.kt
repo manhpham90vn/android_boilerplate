@@ -14,6 +14,7 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
     @Inject lateinit var appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface
 
     fun callApi() {
+        isLoading.value = true
         timer(500, TimeUnit.MILLISECONDS)
             .flatMap { appRemoteDataRefreshableRepositoryInterface.getUserInfo() }
             .subscribe()
@@ -36,6 +37,9 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
 
         timer(2500, TimeUnit.MILLISECONDS)
             .flatMap { appRemoteDataRefreshableRepositoryInterface.getUserInfo() }
+            .doOnSuccess {
+                isLoading.value = false
+            }
             .subscribe()
             .addTo(compositeDisposable)
 

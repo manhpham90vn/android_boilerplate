@@ -26,6 +26,7 @@ class LoginViewModel @Inject constructor(): BaseViewModel() {
         email.value = "admin@admin.com"
         welcomeString.value = "Welcome admin@admin.com"
         password.value = "pwd12345"
+        isLoading.value = true
 
         appRemoteDataRepositoryInterface
             .callLogin(email.value.orEmpty(), password.value.orEmpty())
@@ -37,8 +38,9 @@ class LoginViewModel @Inject constructor(): BaseViewModel() {
                 } else {
                     loginResult.value = LoginResult.LoginError(it.message ?: "Server error")
                 }
+                isLoading.value = false
             }, {
-
+                isLoading.value = false
             })
             .addTo(compositeDisposable)
     }

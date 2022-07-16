@@ -46,6 +46,14 @@ class DetailFragment : BaseFragment(), DetailHandle {
             it.webview.webViewClient = createWebViewClient()
             it.webview.loadUrl("https://zingnews.vn/")
         }
+
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            if (it) {
+                progress.showLoadingProgress(this)
+            } else {
+                progress.stopLoading()
+            }
+        }
     }
 
     private fun createWebViewClient(): WebViewClient {
@@ -54,6 +62,7 @@ class DetailFragment : BaseFragment(), DetailHandle {
                 super.onPageStarted(view, url, favicon)
                 withBinding<FragmentDetailBinding> {
                     it.buttonCloseWebview.text = "Start Loading"
+                    it.viewModel?.isLoading?.value = true
                 }
             }
 
@@ -61,15 +70,9 @@ class DetailFragment : BaseFragment(), DetailHandle {
                 super.onPageFinished(view, url)
                 withBinding<FragmentDetailBinding> {
                     it.buttonCloseWebview.text = "End Loading"
+                    it.viewModel?.isLoading?.value = false
                 }
             }
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        withBinding<FragmentDetailBinding> {
-            it.buttonCloseWebview.text = "Destroy"
         }
     }
 

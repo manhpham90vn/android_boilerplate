@@ -40,6 +40,14 @@ class HomeActivity : BaseActivity(), HomeHandler {
         withBinding<ActivityHomeBinding> {
             it.handle = this
         }
+
+        viewModel.isLoading.observe(this) {
+            if (it) {
+                progress.showLoadingProgress(this)
+            } else {
+                progress.stopLoading()
+            }
+        }
     }
 
     override fun onResume() {
@@ -48,13 +56,11 @@ class HomeActivity : BaseActivity(), HomeHandler {
     }
 
     override fun didTapLogOut() {
-        Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show()
         viewModel.cleanData()
         LoginActivity.toLogin(this)
     }
 
     override fun didTapRefresh() {
-        Toast.makeText(this, "Refresh", Toast.LENGTH_SHORT).show()
         viewModel.callApi()
     }
 

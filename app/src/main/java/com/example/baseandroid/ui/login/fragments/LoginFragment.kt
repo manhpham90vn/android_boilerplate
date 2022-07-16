@@ -12,6 +12,7 @@ import com.example.baseandroid.R
 import com.example.baseandroid.databinding.FragmentLoginBinding
 import com.example.baseandroid.di.ViewModelFactory
 import com.example.baseandroid.ui.base.BaseFragment
+import com.example.baseandroid.ui.dialog.LoadingProgress
 import com.example.baseandroid.ui.login.LoginActivity
 import com.example.baseandroid.ui.login.LoginResult
 import com.example.baseandroid.ui.login.LoginViewModel
@@ -53,6 +54,14 @@ class LoginFragment : BaseFragment(), LoginHandle {
                 }
             }
         })
+
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            if (it) {
+                progress.showLoadingProgress(this)
+            } else {
+                progress.stopLoading()
+            }
+        }
     }
 
     override fun didTapLogin() {

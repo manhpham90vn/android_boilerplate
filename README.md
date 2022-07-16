@@ -7,7 +7,7 @@
 
 [x] handle error 
 
-[ ] create loading helper
+[x] create loading helper
 
 [ ] update home screen with base paging
 

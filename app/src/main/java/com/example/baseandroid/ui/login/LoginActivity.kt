@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.baseandroid.R
 import com.example.baseandroid.di.ViewModelFactory
 import com.example.baseandroid.ui.base.BaseActivity
+import com.example.baseandroid.ui.dialog.LoadingProgress
 import com.example.baseandroid.ui.home.HomeActivity
 import com.example.baseandroid.ui.login.fragments.LoginFragment
 import com.example.baseandroid.ui.login.fragments.LoginSuccessFragment
