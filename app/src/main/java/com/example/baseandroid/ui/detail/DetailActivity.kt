@@ -3,9 +3,13 @@ package com.example.baseandroid.ui.detail
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import com.example.baseandroid.R
+import com.example.baseandroid.di.ViewModelFactory
+import com.example.baseandroid.models.PagingUserResponse
 import com.example.baseandroid.ui.base.BaseActivity
 import com.example.baseandroid.ui.detail.fragments.DetailFragment
+import javax.inject.Inject
 
 interface DetailHandle {
     fun didTapClose()
@@ -13,10 +17,18 @@ interface DetailHandle {
 
 class DetailActivity : BaseActivity() {
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory<DetailViewModel>
+    private val viewModel: DetailViewModel by viewModels { viewModelFactory }
+
     companion object {
-        fun toDetail(context: Context) {
+        private const val KEY_WEBSITE = "KEY_WEBSITE"
+
+        fun toDetail(context: Context, item: PagingUserResponse) {
             context.run {
-                startActivity(Intent(context, DetailActivity::class.java))
+                val intent = Intent(context, DetailActivity::class.java)
+                intent.putExtra(KEY_WEBSITE, item.website)
+                startActivity(intent)
             }
         }
     }
@@ -29,6 +41,8 @@ class DetailActivity : BaseActivity() {
                 .add(R.id.webviewContainer, DetailFragment())
                 .commit()
         }
+        val data = intent.extras?.getString(KEY_WEBSITE)
+        viewModel.url = data
     }
 
     override fun layoutId(): Int {

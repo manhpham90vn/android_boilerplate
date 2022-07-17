@@ -7,7 +7,7 @@ import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import com.example.baseandroid.R
 import com.example.baseandroid.databinding.FragmentDetailBinding
 import com.example.baseandroid.di.ViewModelFactory
@@ -21,7 +21,7 @@ class DetailFragment : BaseFragment(), DetailHandle {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory<DetailViewModel>
-    private val viewModel: DetailViewModel by viewModels { viewModelFactory }
+    private val viewModel: DetailViewModel by activityViewModels { viewModelFactory }
 
     override fun layoutId(): Int {
         return R.layout.fragment_detail
@@ -39,7 +39,9 @@ class DetailFragment : BaseFragment(), DetailHandle {
             it.webview.settings.cacheMode = WebSettings.LOAD_NO_CACHE
             it.webview.webChromeClient = WebChromeClient()
             it.webview.webViewClient = createWebViewClient()
-            it.webview.loadUrl("https://zingnews.vn/")
+            viewModel.url?.let { url ->
+                it.webview.loadUrl(url)
+            }
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) {

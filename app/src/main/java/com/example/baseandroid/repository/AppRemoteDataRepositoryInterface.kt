@@ -1,12 +1,14 @@
 package com.example.baseandroid.repository
 
 import com.example.baseandroid.data.remote.ApiClient
+import com.example.baseandroid.data.remote.ApiClientRefreshtor
 import com.example.baseandroid.models.LoginResponse
 import com.example.baseandroid.models.RefreshTokenResponse
 import com.google.gson.Gson
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
+import retrofit2.Call
 import retrofit2.HttpException
 import java.io.IOException
 import java.net.ConnectException
@@ -14,10 +16,10 @@ import javax.inject.Inject
 
 interface AppRemoteDataRepositoryInterface {
     fun callLogin(email: String, password: String): Single<LoginResponse>
-    fun refresh(token: String): Single<RefreshTokenResponse>
+    fun refresh(token: String): Call<RefreshTokenResponse>
 }
 
-class AppRemoteDataRepository @Inject constructor(private val apiClient: ApiClient): AppRemoteDataRepositoryInterface {
+class AppRemoteDataRepository @Inject constructor(private val apiClient: ApiClient, private val apiClientRefreshtor: ApiClientRefreshtor): AppRemoteDataRepositoryInterface {
 
     @Inject lateinit var gson: Gson
 
@@ -52,10 +54,7 @@ class AppRemoteDataRepository @Inject constructor(private val apiClient: ApiClie
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    override fun refresh(token: String): Single<RefreshTokenResponse> {
-        return apiClient.refresh(token)
-            .onErrorResumeNext { return@onErrorResumeNext Single.just(RefreshTokenResponse()) }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+    override fun refresh(token: String): Call<RefreshTokenResponse> {
+        return apiClientRefreshtor.refresh(token)
     }
 }

@@ -39,9 +39,7 @@ class LoginViewModel @Inject constructor(): BaseViewModel() {
                     loginResult.value = LoginResult.LoginError(it.message ?: "Server error")
                 }
                 isLoading.value = false
-            }, {
-                isLoading.value = false
-            })
+            }, {})
             .addTo(compositeDisposable)
     }
 

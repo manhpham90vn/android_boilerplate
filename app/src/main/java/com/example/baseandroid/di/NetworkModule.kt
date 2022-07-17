@@ -2,6 +2,7 @@ package com.example.baseandroid.di
 
 import com.example.baseandroid.data.remote.ApiClient
 import com.example.baseandroid.data.remote.ApiClientRefreshable
+import com.example.baseandroid.data.remote.ApiClientRefreshtor
 import com.example.baseandroid.networking.RefreshTokenAuthenticator
 import com.example.baseandroid.networking.TokenInterceptor
 import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
@@ -105,6 +106,18 @@ class NetworkModule {
 
     @AppScope
     @Provides
+    @Named("retrofitRefreshtor")
+    fun createRetrofitRefreshtor(@Named("httpClient") httpClient: OkHttpClient,
+                       gson: Gson): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(APP_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .client(httpClient)
+            .build()
+    }
+
+    @AppScope
+    @Provides
     @Named("retrofitRefreshable")
     fun createRetrofitRefreshable(@Named("httpClientRefreshable") httpClient: OkHttpClient,
                                   gson: Gson,
@@ -127,6 +140,12 @@ class NetworkModule {
     @Provides
     fun provideApiClientRefreshable(@Named("retrofitRefreshable") retrofit: Retrofit): ApiClientRefreshable {
         return retrofit.create(ApiClientRefreshable::class.java)
+    }
+
+    @AppScope
+    @Provides
+    fun provideApiClientRefreshtor(@Named("retrofitRefreshtor") retrofit: Retrofit): ApiClientRefreshtor {
+        return retrofit.create(ApiClientRefreshtor::class.java)
     }
 }
 

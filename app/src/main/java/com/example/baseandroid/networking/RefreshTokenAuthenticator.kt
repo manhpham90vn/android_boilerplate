@@ -2,12 +2,11 @@ package com.example.baseandroid.networking
 
 import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
 import com.example.baseandroid.repository.AppRemoteDataRepositoryInterface
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.kotlin.addTo
 import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
+import java.io.IOException
 import javax.inject.Inject
 
 enum class RefreshTokenState {
@@ -33,10 +32,11 @@ class RefreshTokenValidator {
 
 }
 
+class RefreshTokenException: IOException()
+
 class RefreshTokenAuthenticator @Inject constructor(private val appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface, private val appRemoteDataRepositoryInterface: AppRemoteDataRepositoryInterface): Authenticator {
 
-    private val compositeDisposable = CompositeDisposable()
-
+    @Throws(IOException::class)
     override fun authenticate(route: Route?, response: Response): Request? {
         val isRefreshTokenRequest = response.request.url.toString().endsWith("refreshToken")
         if (response.code == 401 && !isRefreshTokenRequest && checkRepeatRefreshToken()) {
@@ -87,24 +87,21 @@ class RefreshTokenAuthenticator @Inject constructor(private val appLocalDataRepo
 
     private fun refreshToken() {
         val refreshToken = appLocalDataRepositoryInterface.getRefreshToken()
-        if (refreshToken.isNotEmpty()) {
-            appRemoteDataRepositoryInterface
-                .refresh(refreshToken)
-                .doOnSuccess {
-                    if (!it.token.isNullOrEmpty()) {
-                        appLocalDataRepositoryInterface.setToken(it.token)
-                        RefreshTokenValidator.getInstance().refreshTokenState = RefreshTokenState.REFRESH_SUCCESS
-                        RefreshTokenValidator.getInstance().lastFailedDate = null
-                    } else {
-                        RefreshTokenValidator.getInstance().refreshTokenState = RefreshTokenState.REFRESH_ERROR
-                        RefreshTokenValidator.getInstance().lastFailedDate = System.currentTimeMillis()
-                    }
+        appRemoteDataRepositoryInterface
+            .refresh(refreshToken)
+            .execute()
+            .let {
+                val token = it.body()?.token
+                if (!token.isNullOrEmpty()) {
+                    appLocalDataRepositoryInterface.setToken(token)
+                    RefreshTokenValidator.getInstance().refreshTokenState = RefreshTokenState.REFRESH_SUCCESS
+                    RefreshTokenValidator.getInstance().lastFailedDate = null
+                } else {
+                    RefreshTokenValidator.getInstance().refreshTokenState = RefreshTokenState.REFRESH_ERROR
+                    RefreshTokenValidator.getInstance().lastFailedDate = System.currentTimeMillis()
+                    throw RefreshTokenException()
                 }
-                .subscribe()
-                .addTo(compositeDisposable)
-        } else {
-            RefreshTokenValidator.getInstance().refreshTokenState = RefreshTokenState.REFRESH_ERROR
-        }
+            }
     }
 
 }

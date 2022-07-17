@@ -3,6 +3,7 @@ package com.example.baseandroid.repository
 import com.example.baseandroid.data.remote.ApiClientRefreshable
 import com.example.baseandroid.models.PagingResponse
 import com.example.baseandroid.models.UserResponse
+import com.example.baseandroid.networking.RefreshTokenException
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -17,14 +18,24 @@ class AppRemoteDataRefreshableRepository @Inject constructor(private val apiClie
 
     override fun getUserInfo(): Single<UserResponse> {
         return apiClientRefreshable.getUserInfo()
-            .onErrorResumeNext { return@onErrorResumeNext Single.just(UserResponse()) }
+            .onErrorResumeNext {
+                when (it) {
+                    is RefreshTokenException -> throw it
+                    else -> return@onErrorResumeNext Single.just(UserResponse())
+                }
+            }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
     override fun getList(page: Int): Single<PagingResponse> {
         return apiClientRefreshable.getList(page)
-            .onErrorResumeNext { return@onErrorResumeNext Single.just(PagingResponse()) }
+            .onErrorResumeNext {
+                when (it) {
+                    is RefreshTokenException -> throw it
+                    else -> return@onErrorResumeNext Single.just(PagingResponse())
+                }
+            }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

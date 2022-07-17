@@ -12,6 +12,10 @@ class PagingResponse {
 
 class PagingUserResponse {
 
+    @SerializedName("id")
+    @Expose
+    val id: Int? = null
+
     @SerializedName("name")
     @Expose
     val name: String? = null
@@ -19,5 +23,9 @@ class PagingUserResponse {
     @SerializedName("age")
     @Expose
     val age: Int? = null
+
+    @SerializedName("website")
+    @Expose
+    val website: String? = null
 
 }

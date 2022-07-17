@@ -4,19 +4,18 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.baseandroid.R
 import com.example.baseandroid.databinding.ActivityHomeBinding
 import com.example.baseandroid.di.ViewModelFactory
 import com.example.baseandroid.ui.base.BaseActivity
 import com.example.baseandroid.ui.detail.DetailActivity
-import com.example.baseandroid.ui.login.LoginActivity
 import com.wada811.databinding.withBinding
 import javax.inject.Inject
 
 interface HomeHandler {
     fun didTapLogOut()
     fun didTapRefresh()
-    fun didTapWebview()
 }
 
 class HomeActivity : BaseActivity(), HomeHandler {
@@ -36,8 +35,17 @@ class HomeActivity : BaseActivity(), HomeHandler {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        withBinding<ActivityHomeBinding> {
-            it.handle = this
+        withBinding<ActivityHomeBinding> { binding ->
+            binding.handle = this
+            val adapter = HomeAdapter()
+            adapter.listener = {
+                DetailActivity.toDetail(this, it)
+            }
+            binding.recyclerView.adapter = adapter
+            binding.recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+            viewModel.listItem.observe(this) {
+                adapter.set(it)
+            }
         }
 
         viewModel.isLoading.observe(this) {
@@ -46,6 +54,11 @@ class HomeActivity : BaseActivity(), HomeHandler {
             } else {
                 progress.stopLoading()
             }
+        }
+
+        viewModel.error.observe(this) {
+            viewModel.cleanData()
+            finish()
         }
     }
 
@@ -56,15 +69,11 @@ class HomeActivity : BaseActivity(), HomeHandler {
 
     override fun didTapLogOut() {
         viewModel.cleanData()
-        LoginActivity.toLogin(this)
+        finish()
     }
 
     override fun didTapRefresh() {
         viewModel.callApi()
-    }
-
-    override fun didTapWebview() {
-        DetailActivity.toDetail(this)
     }
 
     override fun layoutId(): Int {
