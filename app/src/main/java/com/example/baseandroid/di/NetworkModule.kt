@@ -63,6 +63,18 @@ class NetworkModule {
 
     @AppScope
     @Provides
+    @Named("httpClient")
+    fun createHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+        return OkHttpClient.Builder()
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .addNetworkInterceptor(httpLoggingInterceptor)
+            .retryOnConnectionFailure(false)
+            .build()
+    }
+
+    @AppScope
+    @Provides
     @Named("httpClientRefreshable")
     fun createHttpClientRefreshable(tokenInterceptor: TokenInterceptor,
                                     refreshTokenAuthenticator: RefreshTokenAuthenticator,
@@ -79,19 +91,10 @@ class NetworkModule {
 
     @AppScope
     @Provides
-    @Named("httpClient")
-    fun createHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
-        return OkHttpClient.Builder()
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .addNetworkInterceptor(httpLoggingInterceptor)
-            .retryOnConnectionFailure(false)
-            .build()
-    }
-
-    private fun createRetrofit(httpClient: OkHttpClient,
-                               gson: Gson,
-                               rxJava3CallAdapterFactory: RxJava3CallAdapterFactory): Retrofit {
+    @Named("retrofit")
+    fun createRetrofit(@Named("httpClient") httpClient: OkHttpClient,
+                       gson: Gson,
+                       rxJava3CallAdapterFactory: RxJava3CallAdapterFactory): Retrofit {
         return Retrofit.Builder()
             .baseUrl(APP_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
@@ -102,20 +105,28 @@ class NetworkModule {
 
     @AppScope
     @Provides
-    fun provideApiClient(@Named("httpClient") httpClient: OkHttpClient,
-                         gson: Gson,
-                         rxJava3CallAdapterFactory: RxJava3CallAdapterFactory): ApiClient {
-        return createRetrofit(httpClient, gson, rxJava3CallAdapterFactory)
-            .create(ApiClient::class.java)
+    @Named("retrofitRefreshable")
+    fun createRetrofitRefreshable(@Named("httpClientRefreshable") httpClient: OkHttpClient,
+                                  gson: Gson,
+                                  rxJava3CallAdapterFactory: RxJava3CallAdapterFactory): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(APP_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addCallAdapterFactory(rxJava3CallAdapterFactory)
+            .client(httpClient)
+            .build()
     }
 
     @AppScope
     @Provides
-    fun provideApiClientRefreshable(@Named("httpClientRefreshable") httpClient: OkHttpClient,
-                                    gson: Gson,
-                                    rxJava3CallAdapterFactory: RxJava3CallAdapterFactory): ApiClientRefreshable {
-        return createRetrofit(httpClient, gson, rxJava3CallAdapterFactory)
-            .create(ApiClientRefreshable::class.java)
+    fun provideApiClient(@Named("retrofit") retrofit: Retrofit): ApiClient {
+        return retrofit.create(ApiClient::class.java)
+    }
+
+    @AppScope
+    @Provides
+    fun provideApiClientRefreshable(@Named("retrofitRefreshable") retrofit: Retrofit): ApiClientRefreshable {
+        return retrofit.create(ApiClientRefreshable::class.java)
     }
 }
 
