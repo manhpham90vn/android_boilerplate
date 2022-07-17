@@ -1,4 +1,4 @@
-package com.example.baseandroid.ui
+package com.example.baseandroid.ui.application
 
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner

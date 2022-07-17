@@ -1,7 +1,7 @@
 package com.example.baseandroid.di
 
 import android.content.Context
-import com.example.baseandroid.ui.MyApplication
+import com.example.baseandroid.ui.application.MyApplication
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -11,6 +11,7 @@ import dagger.android.support.AndroidSupportInjectionModule
 @Component(modules = [
     AndroidSupportInjectionModule::class,
     AppModule::class,
+    ServiceModule::class,
     NetworkModule::class,
     ActivityModule::class,
     FragmentModule::class

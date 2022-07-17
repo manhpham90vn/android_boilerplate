@@ -3,6 +3,7 @@ package com.example.baseandroid.data.local
 object StorageConstants {
     const val token = "token"
     const val refreshToken = "refreshToken"
+    const val fcmToken = "fcmToken"
 }
 
 interface Storage {
