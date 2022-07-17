@@ -14,15 +14,15 @@
 
 - [x] add viewmodel, view binding, data binding [Lifecycle](https://developer.android.com/jetpack/androidx/releases/lifecycle) [View Binding](https://developer.android.com/topic/libraries/view-binding) [Data Binding](https://developer.android.com/topic/libraries/data-binding/start)
 
-- [x] add rxjava3
+- [x] add [rxjava3](https://github.com/ReactiveX/RxJava)
 
-- [x] add firebase push and crashlytics
+- [x] add firebase [push](https://firebase.google.com/docs/cloud-messaging) and [crashlytics](https://firebase.google.com/docs/crashlytics)
 
 - [x] handle error api
 
 - [x] create loading helper
 
-- [ ] update home screen with base paging
+- [ ] update home screen with base [paging](https://developer.android.com/topic/libraries/architecture/paging/v3-overview)
 
 - [ ] custom single operator for common handle error api
 
