@@ -2,9 +2,7 @@ package com.example.baseandroid.ui.detail.fragments
 
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
@@ -25,11 +23,8 @@ class DetailFragment : BaseFragment(), DetailHandle {
     lateinit var viewModelFactory: ViewModelFactory<DetailViewModel>
     private val viewModel: DetailViewModel by viewModels { viewModelFactory }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_detail, container, false)
+    override fun layoutId(): Int {
+        return R.layout.fragment_detail
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

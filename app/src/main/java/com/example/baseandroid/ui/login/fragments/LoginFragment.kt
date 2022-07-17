@@ -1,9 +1,7 @@
 package com.example.baseandroid.ui.login.fragments
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
@@ -28,11 +26,8 @@ class LoginFragment : BaseFragment(), LoginHandle {
     lateinit var viewModelFactory: ViewModelFactory<LoginViewModel>
     private val viewModel: LoginViewModel by activityViewModels { viewModelFactory }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_login, container, false)
+    override fun layoutId(): Int {
+        return R.layout.fragment_login
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
