@@ -9,6 +9,8 @@
 
 - [x] create loading helper
 
+- [x] add firebase push notification
+
 - [ ] update home screen with base paging
 
-- [ ] add firebase push notification
+- [ ] custom single operator
