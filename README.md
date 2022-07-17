@@ -5,10 +5,10 @@
 
 # TODO
 
-[x] handle error 
+- [x] handle error 
 
-[x] create loading helper
+- [x] create loading helper
 
-[ ] update home screen with base paging
+- [ ] update home screen with base paging
 
-[ ] add firebase push notification
+- [ ] add firebase push notification
