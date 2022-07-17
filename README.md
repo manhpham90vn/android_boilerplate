@@ -29,3 +29,5 @@
 - [ ] load image with [picasso](https://github.com/square/picasso)
 
 - [ ] [navigation](https://developer.android.com/guide/navigation/navigation-principles)
+
+- [ ] [Configure build variants](https://developer.android.com/studio/build/build-variants)
