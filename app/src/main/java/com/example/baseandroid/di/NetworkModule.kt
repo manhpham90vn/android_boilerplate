@@ -57,6 +57,12 @@ class NetworkModule {
 
     @AppScope
     @Provides
+    fun createRxJava3CallAdapterFactory(): RxJava3CallAdapterFactory {
+        return RxJava3CallAdapterFactory.create()
+    }
+
+    @AppScope
+    @Provides
     @Named("httpClientRefreshable")
     fun createHttpClientRefreshable(tokenInterceptor: TokenInterceptor,
                                     refreshTokenAuthenticator: RefreshTokenAuthenticator,
@@ -84,11 +90,12 @@ class NetworkModule {
     }
 
     private fun createRetrofit(httpClient: OkHttpClient,
-                               gson: Gson): Retrofit {
+                               gson: Gson,
+                               rxJava3CallAdapterFactory: RxJava3CallAdapterFactory): Retrofit {
         return Retrofit.Builder()
             .baseUrl(APP_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+            .addCallAdapterFactory(rxJava3CallAdapterFactory)
             .client(httpClient)
             .build()
     }
@@ -96,16 +103,18 @@ class NetworkModule {
     @AppScope
     @Provides
     fun provideApiClient(@Named("httpClient") httpClient: OkHttpClient,
-                         gson: Gson): ApiClient {
-        return createRetrofit(httpClient, gson)
+                         gson: Gson,
+                         rxJava3CallAdapterFactory: RxJava3CallAdapterFactory): ApiClient {
+        return createRetrofit(httpClient, gson, rxJava3CallAdapterFactory)
             .create(ApiClient::class.java)
     }
 
     @AppScope
     @Provides
     fun provideApiClientRefreshable(@Named("httpClientRefreshable") httpClient: OkHttpClient,
-                                    gson: Gson): ApiClientRefreshable {
-        return createRetrofit(httpClient, gson)
+                                    gson: Gson,
+                                    rxJava3CallAdapterFactory: RxJava3CallAdapterFactory): ApiClientRefreshable {
+        return createRetrofit(httpClient, gson, rxJava3CallAdapterFactory)
             .create(ApiClientRefreshable::class.java)
     }
 }
