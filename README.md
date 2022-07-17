@@ -1,16 +1,29 @@
 # BaseAndroid
-### Handle refresh token (When multiple requests hit 401 (HTTP_UNAUTHORIZED), only single Refresh token request will be executed). and retry all request 401
 
 # Server: https://github.com/manhpham90vn/refresh-Token-Demo
 
 # TODO
 
-- [x] handle error 
+- [x] add [dagger](https://github.com/google/dagger)
+
+- [x] add network module
+
+- [x] handle refresh token
+
+- [x] add viewmodel
+
+- [x] add view binding, data binding
+
+- [x] add rxjava3
+
+- [x] add firebase push and crashlytics
+
+- [x] handle error api
 
 - [x] create loading helper
 
-- [x] add firebase push notification
-
 - [ ] update home screen with base paging
 
-- [ ] custom single operator
+- [ ] custom single operator for common handle error api
+
+- [ ] load image with [picasso](https://github.com/square/picasso)
