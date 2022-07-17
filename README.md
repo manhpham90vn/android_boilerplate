@@ -18,7 +18,7 @@
 
 - [x] add firebase [push](https://firebase.google.com/docs/cloud-messaging) and [crashlytics](https://firebase.google.com/docs/crashlytics)
 
-- [x] handle error api
+- [x] handle error api case network, case message from server
 
 - [x] create loading helper
 
