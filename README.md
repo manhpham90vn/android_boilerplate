@@ -1,5 +1,7 @@
 # BaseAndroid
 
+[![android ci](https://github.com/manhpham90vn/BaseAndroid/actions/workflows/android.yml/badge.svg)](https://github.com/manhpham90vn/BaseAndroid/actions/workflows/android.yml)
+
 # Server: https://github.com/manhpham90vn/refresh-Token-Demo
 
 # TODO
