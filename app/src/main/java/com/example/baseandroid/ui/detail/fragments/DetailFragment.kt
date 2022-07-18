@@ -76,5 +76,4 @@ class DetailFragment : BaseFragment(), DetailHandle {
     override fun didTapClose() {
         requireActivity().finish()
     }
-
 }

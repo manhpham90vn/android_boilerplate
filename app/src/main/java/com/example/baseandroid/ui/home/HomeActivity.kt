@@ -79,5 +79,4 @@ class HomeActivity : BaseActivity(), HomeHandler {
     override fun layoutId(): Int {
         return R.layout.activity_home
     }
-
 }

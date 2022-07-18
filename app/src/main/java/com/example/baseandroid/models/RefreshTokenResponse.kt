@@ -8,5 +8,4 @@ class RefreshTokenResponse {
     @SerializedName("token")
     @Expose
     val token: String? = null
-
 }

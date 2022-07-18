@@ -12,5 +12,4 @@ class UserResponse {
     @SerializedName("name")
     @Expose
     val name: String? = null
-
 }

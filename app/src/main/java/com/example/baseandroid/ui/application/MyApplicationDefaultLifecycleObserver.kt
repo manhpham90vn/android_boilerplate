@@ -4,7 +4,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import timber.log.Timber
 
-class MyApplicationDefaultLifecycleObserver: DefaultLifecycleObserver {
+class MyApplicationDefaultLifecycleObserver : DefaultLifecycleObserver {
 
     override fun onCreate(owner: LifecycleOwner) {
         super.onCreate(owner)
@@ -35,5 +35,4 @@ class MyApplicationDefaultLifecycleObserver: DefaultLifecycleObserver {
         super.onDestroy(owner)
         Timber.d("onDestroy")
     }
-
 }

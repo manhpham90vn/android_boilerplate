@@ -2,7 +2,7 @@ package com.example.baseandroid.di
 
 import com.example.baseandroid.data.local.SharedPreferencesStorage
 import com.example.baseandroid.data.local.Storage
-import com.example.baseandroid.repository.*
+import com.example.baseandroid.repository.* // ktlint-disable no-wildcard-imports
 import dagger.Binds
 import dagger.Module
 

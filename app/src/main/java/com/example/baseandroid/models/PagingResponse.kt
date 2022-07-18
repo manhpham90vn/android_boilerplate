@@ -27,5 +27,4 @@ class PagingUserResponse {
     @SerializedName("website")
     @Expose
     val website: String? = null
-
 }

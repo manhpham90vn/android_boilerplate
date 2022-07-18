@@ -8,13 +8,14 @@ import io.reactivex.rxjava3.kotlin.addTo
 import javax.inject.Inject
 
 sealed class LoginResult {
-    object LoginSuccess: LoginResult()
-    data class LoginError(val message: String): LoginResult()
+    object LoginSuccess : LoginResult()
+    data class LoginError(val message: String) : LoginResult()
 }
 
-class LoginViewModel @Inject constructor(): BaseViewModel() {
+class LoginViewModel @Inject constructor() : BaseViewModel() {
 
     @Inject lateinit var appRemoteDataRepositoryInterface: AppRemoteDataRepositoryInterface
+
     @Inject lateinit var appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface
 
     val email = MutableLiveData<String>()

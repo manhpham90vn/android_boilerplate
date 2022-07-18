@@ -34,8 +34,10 @@ class NetworkModule {
 
     @AppScope
     @Provides
-    fun createRefreshTokenAuthenticator(appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface,
-                                        appRemoteDataRepositoryInterface: AppRemoteDataRepositoryInterface): RefreshTokenAuthenticator {
+    fun createRefreshTokenAuthenticator(
+        appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface,
+        appRemoteDataRepositoryInterface: AppRemoteDataRepositoryInterface
+    ): RefreshTokenAuthenticator {
         return RefreshTokenAuthenticator(appLocalDataRepositoryInterface, appRemoteDataRepositoryInterface)
     }
 
@@ -77,9 +79,11 @@ class NetworkModule {
     @AppScope
     @Provides
     @Named("httpClientRefreshable")
-    fun createHttpClientRefreshable(tokenInterceptor: TokenInterceptor,
-                                    refreshTokenAuthenticator: RefreshTokenAuthenticator,
-                                    httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+    fun createHttpClientRefreshable(
+        tokenInterceptor: TokenInterceptor,
+        refreshTokenAuthenticator: RefreshTokenAuthenticator,
+        httpLoggingInterceptor: HttpLoggingInterceptor
+    ): OkHttpClient {
         return OkHttpClient.Builder()
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
@@ -93,9 +97,11 @@ class NetworkModule {
     @AppScope
     @Provides
     @Named("retrofit")
-    fun createRetrofit(@Named("httpClient") httpClient: OkHttpClient,
-                       gson: Gson,
-                       rxJava3CallAdapterFactory: RxJava3CallAdapterFactory): Retrofit {
+    fun createRetrofit(
+        @Named("httpClient") httpClient: OkHttpClient,
+        gson: Gson,
+        rxJava3CallAdapterFactory: RxJava3CallAdapterFactory
+    ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(APP_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
@@ -107,8 +113,10 @@ class NetworkModule {
     @AppScope
     @Provides
     @Named("retrofitRefreshtor")
-    fun createRetrofitRefreshtor(@Named("httpClient") httpClient: OkHttpClient,
-                       gson: Gson): Retrofit {
+    fun createRetrofitRefreshtor(
+        @Named("httpClient") httpClient: OkHttpClient,
+        gson: Gson
+    ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(APP_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
@@ -119,9 +127,11 @@ class NetworkModule {
     @AppScope
     @Provides
     @Named("retrofitRefreshable")
-    fun createRetrofitRefreshable(@Named("httpClientRefreshable") httpClient: OkHttpClient,
-                                  gson: Gson,
-                                  rxJava3CallAdapterFactory: RxJava3CallAdapterFactory): Retrofit {
+    fun createRetrofitRefreshable(
+        @Named("httpClientRefreshable") httpClient: OkHttpClient,
+        gson: Gson,
+        rxJava3CallAdapterFactory: RxJava3CallAdapterFactory
+    ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(APP_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
@@ -148,6 +158,3 @@ class NetworkModule {
         return retrofit.create(ApiClientRefreshtor::class.java)
     }
 }
-
-
-

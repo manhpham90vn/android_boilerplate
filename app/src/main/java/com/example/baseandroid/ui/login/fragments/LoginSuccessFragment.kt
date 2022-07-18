@@ -34,5 +34,4 @@ class LoginSuccessFragment : BaseFragment(), LoginHandle {
     override fun didTapLogin() {
         HomeActivity.toHome(requireActivity())
     }
-
 }

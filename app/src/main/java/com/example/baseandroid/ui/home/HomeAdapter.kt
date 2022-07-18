@@ -10,7 +10,7 @@ typealias HomeItemListener = (PagingUserResponse) -> Unit
 
 class HomeAdapter : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
 
-    class HomeViewHolder(val binding: HomeItemBinding): RecyclerView.ViewHolder(binding.root)
+    class HomeViewHolder(val binding: HomeItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     private var items: MutableList<PagingUserResponse> = mutableListOf()
     var listener: HomeItemListener? = null
@@ -40,5 +40,4 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
         items.addAll(item)
         notifyDataSetChanged()
     }
-
 }

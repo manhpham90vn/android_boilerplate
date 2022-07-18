@@ -3,7 +3,7 @@ package com.example.baseandroid.models
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class LoginResponse: ErrorResponse() {
+class LoginResponse : ErrorResponse() {
 
     @SerializedName("token")
     @Expose
@@ -12,5 +12,4 @@ class LoginResponse: ErrorResponse() {
     @SerializedName("refreshToken")
     @Expose
     val refreshToken: String? = null
-
 }

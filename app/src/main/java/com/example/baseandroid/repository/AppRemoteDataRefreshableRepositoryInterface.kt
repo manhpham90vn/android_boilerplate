@@ -12,9 +12,8 @@ import javax.inject.Inject
 interface AppRemoteDataRefreshableRepositoryInterface {
     fun getUserInfo(): Single<UserResponse>
     fun getList(page: Int): Single<PagingResponse>
-
 }
-class AppRemoteDataRefreshableRepository @Inject constructor(private val apiClientRefreshable: ApiClientRefreshable): AppRemoteDataRefreshableRepositoryInterface {
+class AppRemoteDataRefreshableRepository @Inject constructor(private val apiClientRefreshable: ApiClientRefreshable) : AppRemoteDataRefreshableRepositoryInterface {
 
     override fun getUserInfo(): Single<UserResponse> {
         return apiClientRefreshable.getUserInfo()

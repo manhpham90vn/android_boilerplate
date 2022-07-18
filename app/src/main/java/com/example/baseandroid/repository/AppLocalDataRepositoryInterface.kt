@@ -20,10 +20,11 @@ interface AppLocalDataRepositoryInterface {
     fun cleanFCMToken()
 }
 
-class AppLocalDataRepository @Inject constructor(private val storage: Storage): AppLocalDataRepositoryInterface {
+class AppLocalDataRepository @Inject constructor(private val storage: Storage) : AppLocalDataRepositoryInterface {
     override fun isLogin(): Boolean {
         return storage.getString(StorageConstants.token).isNotEmpty() && storage.getString(
-            StorageConstants.refreshToken).isNotEmpty()
+            StorageConstants.refreshToken
+        ).isNotEmpty()
     }
 
     override fun getToken(): String {
@@ -52,7 +53,6 @@ class AppLocalDataRepository @Inject constructor(private val storage: Storage): 
 
     override fun getFCMToken(): String {
         return storage.getString(StorageConstants.fcmToken)
-
     }
 
     override fun setFCMToken(token: String) {
@@ -62,5 +62,4 @@ class AppLocalDataRepository @Inject constructor(private val storage: Storage): 
     override fun cleanFCMToken() {
         storage.clearString(StorageConstants.fcmToken)
     }
-
 }

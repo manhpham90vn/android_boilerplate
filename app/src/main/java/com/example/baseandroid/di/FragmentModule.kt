@@ -17,5 +17,4 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     abstract fun contributeDetailFragment(): DetailFragment
-
 }

@@ -37,17 +37,20 @@ class LoginFragment : BaseFragment(), LoginHandle {
             it.handle = this
         }
 
-        viewModel.loginResult.observe(viewLifecycleOwner, Observer {
-            when (it) {
-                is LoginResult.LoginSuccess -> {
-                    Toast.makeText(requireActivity(), "Login success", Toast.LENGTH_SHORT).show()
-                    LoginActivity.toLoginSuccess(requireActivity() as AppCompatActivity)
-                }
-                is LoginResult.LoginError -> {
-                    Toast.makeText(requireActivity(), "Login error: ${it.message}", Toast.LENGTH_SHORT).show()
+        viewModel.loginResult.observe(
+            viewLifecycleOwner,
+            Observer {
+                when (it) {
+                    is LoginResult.LoginSuccess -> {
+                        Toast.makeText(requireActivity(), "Login success", Toast.LENGTH_SHORT).show()
+                        LoginActivity.toLoginSuccess(requireActivity() as AppCompatActivity)
+                    }
+                    is LoginResult.LoginError -> {
+                        Toast.makeText(requireActivity(), "Login error: ${it.message}", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
-        })
+        )
 
         viewModel.isLoading.observe(viewLifecycleOwner) {
             if (it) {
@@ -61,5 +64,4 @@ class LoginFragment : BaseFragment(), LoginHandle {
     override fun didTapLogin() {
         viewModel.login()
     }
-
 }

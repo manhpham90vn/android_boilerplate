@@ -10,9 +10,10 @@ import io.reactivex.rxjava3.kotlin.addTo
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class HomeViewModel @Inject constructor(): BaseViewModel() {
+class HomeViewModel @Inject constructor() : BaseViewModel() {
 
     @Inject lateinit var appRemoteDataRefreshableRepositoryInterface: AppRemoteDataRefreshableRepositoryInterface
+
     @Inject lateinit var appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface
 
     val listItem = MutableLiveData<MutableList<PagingUserResponse>>()
@@ -23,7 +24,6 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
         timer(500, TimeUnit.MILLISECONDS)
             .flatMap { appRemoteDataRefreshableRepositoryInterface.getUserInfo() }
             .subscribe({
-
             }, {
                 error.value = it
             })
@@ -32,7 +32,6 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
         timer(1000, TimeUnit.MILLISECONDS)
             .flatMap { appRemoteDataRefreshableRepositoryInterface.getUserInfo() }
             .subscribe({
-
             }, {
                 error.value = it
             })
@@ -41,7 +40,6 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
         timer(1500, TimeUnit.MILLISECONDS)
             .flatMap { appRemoteDataRefreshableRepositoryInterface.getUserInfo() }
             .subscribe({
-
             }, {
                 error.value = it
             })
@@ -50,7 +48,6 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
         timer(2000, TimeUnit.MILLISECONDS)
             .flatMap { appRemoteDataRefreshableRepositoryInterface.getUserInfo() }
             .subscribe({
-
             }, {
                 error.value = it
             })
@@ -70,7 +67,6 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
         appRemoteDataRefreshableRepositoryInterface
             .getUserInfo()
             .subscribe({
-
             }, {
                 error.value = it
             })
@@ -79,7 +75,6 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
         appRemoteDataRefreshableRepositoryInterface
             .getUserInfo()
             .subscribe({
-
             }, {
                 error.value = it
             })
@@ -88,7 +83,6 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
         appRemoteDataRefreshableRepositoryInterface
             .getList(1)
             .subscribe({
-
             }, {
                 error.value = it
             })
@@ -112,5 +106,4 @@ class HomeViewModel @Inject constructor(): BaseViewModel() {
         appLocalDataRepositoryInterface.cleanRefreshToken()
         appLocalDataRepositoryInterface.cleanToken()
     }
-
 }

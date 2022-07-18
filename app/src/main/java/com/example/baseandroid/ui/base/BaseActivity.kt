@@ -4,7 +4,7 @@ import android.os.Bundle
 import com.example.baseandroid.ui.dialog.LoadingProgress
 import dagger.android.support.DaggerAppCompatActivity
 
-abstract class BaseActivity: DaggerAppCompatActivity() {
+abstract class BaseActivity : DaggerAppCompatActivity() {
 
     val progress: LoadingProgress by lazy { LoadingProgress() }
 
@@ -14,5 +14,4 @@ abstract class BaseActivity: DaggerAppCompatActivity() {
     }
 
     abstract fun layoutId(): Int
-
 }

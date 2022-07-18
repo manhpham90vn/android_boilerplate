@@ -17,5 +17,4 @@ abstract class ActivityModule {
 
     @ContributesAndroidInjector
     abstract fun contributeDetailActivity(): DetailActivity
-
 }

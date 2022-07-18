@@ -20,21 +20,21 @@ class RefreshTokenValidator {
 
     companion object {
         @Volatile private var INSTANCE: RefreshTokenValidator? = null
-        fun getInstance(): RefreshTokenValidator =  INSTANCE ?: synchronized(this) {
+        fun getInstance(): RefreshTokenValidator = INSTANCE ?: synchronized(this) {
             INSTANCE ?: RefreshTokenValidator().also { INSTANCE = it }
         }
     }
 
     var refreshTokenState: RefreshTokenState = RefreshTokenState.NOT_NEED_REFRESH
         @Synchronized get
+
         @Synchronized set
     var lastFailedDate: Long? = null
-
 }
 
-class RefreshTokenException: IOException()
+class RefreshTokenException : IOException()
 
-class RefreshTokenAuthenticator @Inject constructor(private val appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface, private val appRemoteDataRepositoryInterface: AppRemoteDataRepositoryInterface): Authenticator {
+class RefreshTokenAuthenticator @Inject constructor(private val appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface, private val appRemoteDataRepositoryInterface: AppRemoteDataRepositoryInterface) : Authenticator {
 
     @Throws(IOException::class)
     override fun authenticate(route: Route?, response: Response): Request? {
@@ -103,5 +103,4 @@ class RefreshTokenAuthenticator @Inject constructor(private val appLocalDataRepo
                 }
             }
     }
-
 }

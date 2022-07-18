@@ -19,7 +19,7 @@ interface AppRemoteDataRepositoryInterface {
     fun refresh(token: String): Call<RefreshTokenResponse>
 }
 
-class AppRemoteDataRepository @Inject constructor(private val apiClient: ApiClient, private val apiClientRefreshtor: ApiClientRefreshtor): AppRemoteDataRepositoryInterface {
+class AppRemoteDataRepository @Inject constructor(private val apiClient: ApiClient, private val apiClientRefreshtor: ApiClientRefreshtor) : AppRemoteDataRepositoryInterface {
 
     @Inject lateinit var gson: Gson
 
@@ -33,20 +33,26 @@ class AppRemoteDataRepository @Inject constructor(private val apiClient: ApiClie
                             val json = adapter.fromJson(it.response()?.errorBody()?.string())
                             return@onErrorResumeNext Single.just(json)
                         } catch (error: IOException) {
-                            return@onErrorResumeNext Single.just(LoginResponse().apply {
-                                message = "Can not parser json"
-                            })
+                            return@onErrorResumeNext Single.just(
+                                LoginResponse().apply {
+                                    message = "Can not parser json"
+                                }
+                            )
                         }
                     }
                     is ConnectException -> {
-                        return@onErrorResumeNext Single.just(LoginResponse().apply {
-                            message = "Network error"
-                        })
+                        return@onErrorResumeNext Single.just(
+                            LoginResponse().apply {
+                                message = "Network error"
+                            }
+                        )
                     }
                     else -> {
-                        return@onErrorResumeNext Single.just(LoginResponse().apply {
-                            message = "Unknown error"
-                        })
+                        return@onErrorResumeNext Single.just(
+                            LoginResponse().apply {
+                                message = "Unknown error"
+                            }
+                        )
                     }
                 }
             }

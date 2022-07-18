@@ -12,5 +12,4 @@ abstract class ErrorResponse {
     @SerializedName("message")
     @Expose
     var message: String? = null
-
 }
