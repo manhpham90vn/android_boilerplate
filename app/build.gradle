@@ -38,6 +38,10 @@ android {
     buildFeatures {
         dataBinding true
     }
+
+    lintOptions {
+        disable "JvmStaticProvidesInObjectDetector", "FieldSiteTargetOnQualifierAnnotation", "ModuleCompanionObjects", "ModuleCompanionObjectsNotInModuleParent"
+    }
 }
 
 dependencies {
