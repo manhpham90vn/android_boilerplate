@@ -55,7 +55,7 @@ dependencies {
 
     // networking
     def retrofit_version = "2.9.0"
-    def okhttp3_version = "5.0.0-alpha.7"
+    def okhttp3_version = "5.0.0-alpha.10"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.okhttp3:okhttp:$okhttp3_version"
