@@ -3,7 +3,7 @@ package com.example.baseandroid.models
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class LoginResponse : ErrorResponse() {
+class LoginResponse {
 
     @SerializedName("token")
     @Expose

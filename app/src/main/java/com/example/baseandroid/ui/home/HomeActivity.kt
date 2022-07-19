@@ -10,6 +10,7 @@ import com.example.baseandroid.databinding.ActivityHomeBinding
 import com.example.baseandroid.di.ViewModelFactory
 import com.example.baseandroid.ui.base.BaseActivity
 import com.example.baseandroid.ui.detail.DetailActivity
+import com.example.baseandroid.ui.login.LoginActivity
 import com.wada811.databinding.withBinding
 import javax.inject.Inject
 
@@ -58,7 +59,7 @@ class HomeActivity : BaseActivity(), HomeHandler {
 
         viewModel.error.observe(this) {
             viewModel.cleanData()
-            finish()
+            LoginActivity.toLogin(this)
         }
     }
 
@@ -69,7 +70,7 @@ class HomeActivity : BaseActivity(), HomeHandler {
 
     override fun didTapLogOut() {
         viewModel.cleanData()
-        finish()
+        LoginActivity.toLogin(this)
     }
 
     override fun didTapRefresh() {

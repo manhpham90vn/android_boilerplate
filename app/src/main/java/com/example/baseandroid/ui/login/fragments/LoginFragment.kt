@@ -5,7 +5,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import com.example.baseandroid.R
 import com.example.baseandroid.databinding.FragmentLoginBinding
 import com.example.baseandroid.di.ViewModelFactory
@@ -38,19 +37,22 @@ class LoginFragment : BaseFragment(), LoginHandle {
         }
 
         viewModel.loginResult.observe(
-            viewLifecycleOwner,
-            Observer {
-                when (it) {
-                    is LoginResult.LoginSuccess -> {
-                        Toast.makeText(requireActivity(), "Login success", Toast.LENGTH_SHORT).show()
-                        LoginActivity.toLoginSuccess(requireActivity() as AppCompatActivity)
-                    }
-                    is LoginResult.LoginError -> {
-                        Toast.makeText(requireActivity(), "Login error: ${it.message}", Toast.LENGTH_SHORT).show()
-                    }
+            viewLifecycleOwner
+        ) {
+            when (it) {
+                is LoginResult.LoginSuccess -> {
+                    Toast.makeText(requireActivity(), "Login success", Toast.LENGTH_SHORT).show()
+                    LoginActivity.toLoginSuccess(requireActivity() as AppCompatActivity)
+                }
+                is LoginResult.LoginError -> {
+                    Toast.makeText(
+                        requireActivity(),
+                        "Login error: ${it.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
-        )
+        }
 
         viewModel.isLoading.observe(viewLifecycleOwner) {
             if (it) {

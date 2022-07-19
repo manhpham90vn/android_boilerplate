@@ -1,6 +1,7 @@
 package com.example.baseandroid.ui.login
 
 import androidx.lifecycle.MutableLiveData
+import com.example.baseandroid.networking.ApiException
 import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
 import com.example.baseandroid.repository.AppRemoteDataRepositoryInterface
 import com.example.baseandroid.ui.base.BaseViewModel
@@ -37,10 +38,16 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
                     appLocalDataRepositoryInterface.setRefreshToken(it.refreshToken)
                     loginResult.value = LoginResult.LoginSuccess
                 } else {
-                    loginResult.value = LoginResult.LoginError(it.message ?: "Server error")
+                    loginResult.value = LoginResult.LoginError("Can not get token")
                 }
                 isLoading.value = false
-            }, {})
+            }, {
+                isLoading.value = false
+                when (it) {
+                    is ApiException.ServerErrorException -> loginResult.value = LoginResult.LoginError(it.message)
+                    else -> loginResult.value = LoginResult.LoginError("Server error")
+                }
+            })
             .addTo(compositeDisposable)
     }
 
