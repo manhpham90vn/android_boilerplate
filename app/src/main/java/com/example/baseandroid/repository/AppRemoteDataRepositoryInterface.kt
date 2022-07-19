@@ -12,6 +12,7 @@ import retrofit2.Call
 import retrofit2.HttpException
 import java.io.IOException
 import java.net.ConnectException
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 interface AppRemoteDataRepositoryInterface {
@@ -35,7 +36,7 @@ class AppRemoteDataRepository @Inject constructor(private val apiClient: ApiClie
                         } catch (error: IOException) {
                             return@onErrorResumeNext Single.just(
                                 LoginResponse().apply {
-                                    message = "Can not parser json"
+                                    message = "IOException"
                                 }
                             )
                         }
@@ -43,7 +44,14 @@ class AppRemoteDataRepository @Inject constructor(private val apiClient: ApiClie
                     is ConnectException -> {
                         return@onErrorResumeNext Single.just(
                             LoginResponse().apply {
-                                message = "Network error"
+                                message = "ConnectException"
+                            }
+                        )
+                    }
+                    is UnknownHostException -> {
+                        return@onErrorResumeNext Single.just(
+                            LoginResponse().apply {
+                                message = "UnknownHostException"
                             }
                         )
                     }
