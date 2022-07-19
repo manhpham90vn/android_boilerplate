@@ -16,9 +16,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: set up JDK
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
-          java-version: 11
+          distribution: 'zulu'
+          java-version: '11'
       - name: Unit tests
         run: bash ./gradlew test --stacktrace
       - name: Unit tests results
@@ -34,9 +35,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: set up JDK
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
-          java-version: 11
+          distribution: 'zulu'
+          java-version: '11'
       - name: Lint debug flavor
         run: bash ./gradlew lintDebug --stacktrace
       - name: Lint results
@@ -52,9 +54,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: set up JDK
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
-          java-version: 11
+          distribution: 'zulu'
+          java-version: '11'
       - name: Build debug APK
         run: bash ./gradlew assembleDebug --stacktrace
       - name: Upload APK
