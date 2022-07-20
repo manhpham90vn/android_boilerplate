@@ -27,7 +27,7 @@
 
 - [ ] update home screen with base [paging](https://developer.android.com/topic/libraries/architecture/paging/v3-overview)
 
-- [ ] custom single operator for common handle error api
+- [x] custom single operator for common handle error api
 
 - [ ] load image with [picasso](https://github.com/square/picasso)
 
