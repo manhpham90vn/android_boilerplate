@@ -1,11 +1,14 @@
 package com.example.baseandroid.di
 
-import com.example.baseandroid.ui.application.MyApplicationFirebaseMessagingService
+import android.content.Context
+import com.example.baseandroid.networking.ApiErrorHandler
 import dagger.Module
-import dagger.android.ContributesAndroidInjector
+import dagger.Provides
 
 @Module
-abstract class ServiceModule {
-    @ContributesAndroidInjector
-    abstract fun contributeMyApplicationFirebaseMessagingService(): MyApplicationFirebaseMessagingService
+class ServiceModule {
+    @Provides
+    fun apiErrorHandler(context: Context): ApiErrorHandler {
+        return ApiErrorHandler(context)
+    }
 }

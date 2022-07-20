@@ -6,7 +6,6 @@ import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
-import java.io.IOException
 import javax.inject.Inject
 
 enum class RefreshTokenState {
@@ -32,11 +31,9 @@ class RefreshTokenValidator {
     var lastFailedDate: Long? = null
 }
 
-class RefreshTokenException : IOException()
-
 class RefreshTokenAuthenticator @Inject constructor(private val appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface, private val appRemoteDataRepositoryInterface: AppRemoteDataRepositoryInterface) : Authenticator {
 
-    @Throws(IOException::class)
+    @Throws(ApiException.RefreshTokenException::class)
     override fun authenticate(route: Route?, response: Response): Request? {
         val isRefreshTokenRequest = response.request.url.toString().endsWith("refreshToken")
         if (response.code == 401 && !isRefreshTokenRequest && checkRepeatRefreshToken()) {
@@ -91,15 +88,14 @@ class RefreshTokenAuthenticator @Inject constructor(private val appLocalDataRepo
             .refresh(refreshToken)
             .execute()
             .let {
-                val token = it.body()?.token
-                if (!token.isNullOrEmpty()) {
-                    appLocalDataRepositoryInterface.setToken(token)
+                if (it.isSuccessful && it.code() == 200) {
+                    appLocalDataRepositoryInterface.setToken(it.body()?.token ?: "")
                     RefreshTokenValidator.getInstance().refreshTokenState = RefreshTokenState.REFRESH_SUCCESS
                     RefreshTokenValidator.getInstance().lastFailedDate = null
                 } else {
                     RefreshTokenValidator.getInstance().refreshTokenState = RefreshTokenState.REFRESH_ERROR
                     RefreshTokenValidator.getInstance().lastFailedDate = System.currentTimeMillis()
-                    throw RefreshTokenException()
+                    throw ApiException.RefreshTokenException
                 }
             }
     }

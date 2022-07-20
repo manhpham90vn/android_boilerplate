@@ -21,10 +21,22 @@ class LoginActivity : BaseActivity() {
 
     // define navigation
     companion object {
-        fun toLogin(context: Context) {
+        fun toLoginRefreshToken(context: Context) {
             context.run {
-                startActivity(Intent(context, LoginActivity::class.java))
+                startActivity(
+                    Intent(context, LoginActivity::class.java).apply {
+                        this.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    }
+                )
             }
+        }
+
+        fun toLogin(activity: AppCompatActivity) {
+            activity
+                .supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.container, LoginFragment())
+                .commit()
         }
 
         fun toLoginSuccess(activity: AppCompatActivity) {
@@ -45,9 +57,15 @@ class LoginActivity : BaseActivity() {
                 .add(R.id.container, LoginFragment())
                 .commit()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         if (viewModel.isLogin()) {
             HomeActivity.toHome(this)
+        } else {
+            toLogin(this)
         }
     }
 

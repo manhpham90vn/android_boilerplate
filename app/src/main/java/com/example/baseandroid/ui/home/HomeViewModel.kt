@@ -2,6 +2,7 @@ package com.example.baseandroid.ui.home
 
 import androidx.lifecycle.MutableLiveData
 import com.example.baseandroid.models.PagingUserResponse
+import com.example.baseandroid.networking.RefreshTokenValidator
 import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
 import com.example.baseandroid.repository.AppRemoteDataRefreshableRepositoryInterface
 import com.example.baseandroid.ui.base.BaseViewModel
@@ -17,7 +18,6 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
     @Inject lateinit var appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface
 
     val listItem = MutableLiveData<MutableList<PagingUserResponse>>()
-    val error = MutableLiveData<Throwable>()
 
     fun callApi() {
         isLoading.value = true
@@ -25,7 +25,7 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
             .flatMap { appRemoteDataRefreshableRepositoryInterface.getUserInfo() }
             .subscribe({
             }, {
-                error.value = it
+                singleLiveError.postValue(it)
             })
             .addTo(compositeDisposable)
 
@@ -33,7 +33,7 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
             .flatMap { appRemoteDataRefreshableRepositoryInterface.getUserInfo() }
             .subscribe({
             }, {
-                error.value = it
+                singleLiveError.postValue(it)
             })
             .addTo(compositeDisposable)
 
@@ -41,7 +41,7 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
             .flatMap { appRemoteDataRefreshableRepositoryInterface.getUserInfo() }
             .subscribe({
             }, {
-                error.value = it
+                singleLiveError.postValue(it)
             })
             .addTo(compositeDisposable)
 
@@ -49,7 +49,7 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
             .flatMap { appRemoteDataRefreshableRepositoryInterface.getUserInfo() }
             .subscribe({
             }, {
-                error.value = it
+                singleLiveError.postValue(it)
             })
             .addTo(compositeDisposable)
 
@@ -59,7 +59,7 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
                 isLoading.value = false
             }, {
                 isLoading.value = false
-                error.value = it
+                singleLiveError.postValue(it)
             })
             .addTo(compositeDisposable)
 
@@ -68,7 +68,7 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
             .getUserInfo()
             .subscribe({
             }, {
-                error.value = it
+                singleLiveError.postValue(it)
             })
             .addTo(compositeDisposable)
 
@@ -76,7 +76,7 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
             .getUserInfo()
             .subscribe({
             }, {
-                error.value = it
+                singleLiveError.postValue(it)
             })
             .addTo(compositeDisposable)
 
@@ -84,7 +84,7 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
             .getList(1)
             .subscribe({
             }, {
-                error.value = it
+                singleLiveError.postValue(it)
             })
             .addTo(compositeDisposable)
 
@@ -97,7 +97,7 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
                     listItem.value = mutableListOf()
                 }
             }, {
-                error.value = it
+                singleLiveError.postValue(it)
             })
             .addTo(compositeDisposable)
     }
@@ -105,5 +105,6 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
     fun cleanData() {
         appLocalDataRepositoryInterface.cleanRefreshToken()
         appLocalDataRepositoryInterface.cleanToken()
+        RefreshTokenValidator.getInstance().lastFailedDate = null
     }
 }
