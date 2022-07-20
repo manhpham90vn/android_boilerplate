@@ -2,6 +2,7 @@ package com.example.baseandroid.repository
 
 import com.example.baseandroid.common.ConnectivityService
 import com.example.baseandroid.common.SchedulerProvider
+import com.example.baseandroid.data.remote.Api
 import com.example.baseandroid.data.remote.ApiClient
 import com.example.baseandroid.data.remote.ApiClientRefreshtor
 import com.example.baseandroid.models.LoginResponse
@@ -27,7 +28,7 @@ class AppRemoteDataRepository @Inject constructor(
 
     override fun callLogin(email: String, password: String): Single<LoginResponse> {
         return apiClient.callLogin(email, password)
-            .makeRequest(schedulerProvider, connectivityService, gson)
+            .makeRequest(schedulerProvider, connectivityService, gson, Api.Login)
     }
 
     override fun refresh(token: String): Call<RefreshTokenResponse> {

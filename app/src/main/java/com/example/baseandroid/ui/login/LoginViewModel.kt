@@ -1,10 +1,11 @@
 package com.example.baseandroid.ui.login
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.baseandroid.networking.ApiException
 import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
 import com.example.baseandroid.repository.AppRemoteDataRepositoryInterface
 import com.example.baseandroid.ui.base.BaseViewModel
+import com.example.baseandroid.utils.SingleLiveEvent
 import io.reactivex.rxjava3.kotlin.addTo
 import javax.inject.Inject
 
@@ -22,7 +23,9 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
     val email = MutableLiveData<String>()
     val password = MutableLiveData<String>()
     val welcomeString = MutableLiveData<String>()
-    val loginResult = MutableLiveData<LoginResult>()
+
+    private val _loginResult = SingleLiveEvent<LoginResult>()
+    val loginResult: LiveData<LoginResult> = _loginResult
 
     fun login() {
         email.value = "admin@admin.com"
@@ -36,22 +39,24 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
                 if (!it.token.isNullOrEmpty() && !it.refreshToken.isNullOrEmpty()) {
                     appLocalDataRepositoryInterface.setToken(it.token)
                     appLocalDataRepositoryInterface.setRefreshToken(it.refreshToken)
-                    loginResult.value = LoginResult.LoginSuccess
+                    _loginResult.postValue(LoginResult.LoginSuccess)
                 } else {
-                    loginResult.value = LoginResult.LoginError("Can not get token")
+                    _loginResult.postValue(LoginResult.LoginError("Can not get token"))
                 }
                 isLoading.value = false
             }, {
                 isLoading.value = false
-                when (it) {
-                    is ApiException.ServerErrorException -> loginResult.value = LoginResult.LoginError(it.message)
-                    else -> loginResult.value = LoginResult.LoginError("Server error")
-                }
+                singleLiveError.postValue(it)
             })
             .addTo(compositeDisposable)
     }
 
     fun isLogin(): Boolean {
         return appLocalDataRepositoryInterface.isLogin()
+    }
+
+    fun cleanData() {
+        email.value = ""
+        password.value = ""
     }
 }

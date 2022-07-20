@@ -7,8 +7,10 @@ import com.example.baseandroid.common.SchedulerProvider
 import com.example.baseandroid.data.local.SharedPreferencesStorage
 import com.example.baseandroid.data.local.Storage
 import com.example.baseandroid.repository.* // ktlint-disable no-wildcard-imports
+import com.example.baseandroid.ui.application.MyApplicationFirebaseMessagingService
 import dagger.Binds
 import dagger.Module
+import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class AppModule {
@@ -30,4 +32,7 @@ abstract class AppModule {
 
     @Binds
     abstract fun provideAppRemoteDataRefreshableRepositoryInterface(instance: AppRemoteDataRefreshableRepository): AppRemoteDataRefreshableRepositoryInterface
+
+    @ContributesAndroidInjector
+    abstract fun contributeMyApplicationFirebaseMessagingService(): MyApplicationFirebaseMessagingService
 }

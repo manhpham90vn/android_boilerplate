@@ -8,6 +8,7 @@ import androidx.fragment.app.activityViewModels
 import com.example.baseandroid.R
 import com.example.baseandroid.databinding.FragmentLoginBinding
 import com.example.baseandroid.di.ViewModelFactory
+import com.example.baseandroid.networking.ApiErrorHandler
 import com.example.baseandroid.ui.base.BaseFragment
 import com.example.baseandroid.ui.login.LoginActivity
 import com.example.baseandroid.ui.login.LoginResult
@@ -24,6 +25,8 @@ class LoginFragment : BaseFragment(), LoginHandle {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory<LoginViewModel>
     private val viewModel: LoginViewModel by activityViewModels { viewModelFactory }
+
+    @Inject lateinit var errorHandler: ApiErrorHandler
 
     override fun layoutId(): Int {
         return R.layout.fragment_login
@@ -43,6 +46,7 @@ class LoginFragment : BaseFragment(), LoginHandle {
                 is LoginResult.LoginSuccess -> {
                     Toast.makeText(requireActivity(), "Login success", Toast.LENGTH_SHORT).show()
                     LoginActivity.toLoginSuccess(requireActivity() as AppCompatActivity)
+                    viewModel.cleanData()
                 }
                 is LoginResult.LoginError -> {
                     Toast.makeText(
@@ -52,6 +56,10 @@ class LoginFragment : BaseFragment(), LoginHandle {
                     ).show()
                 }
             }
+        }
+
+        viewModel.error.observe(viewLifecycleOwner) {
+            errorHandler.handleError(it)
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) {

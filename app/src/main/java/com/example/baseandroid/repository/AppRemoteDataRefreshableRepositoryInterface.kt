@@ -2,6 +2,7 @@ package com.example.baseandroid.repository
 
 import com.example.baseandroid.common.ConnectivityService
 import com.example.baseandroid.common.SchedulerProvider
+import com.example.baseandroid.data.remote.Api
 import com.example.baseandroid.data.remote.ApiClientRefreshable
 import com.example.baseandroid.models.PagingResponse
 import com.example.baseandroid.models.UserResponse
@@ -23,11 +24,11 @@ class AppRemoteDataRefreshableRepository @Inject constructor(
 
     override fun getUserInfo(): Single<UserResponse> {
         return apiClientRefreshable.getUserInfo()
-            .makeRequest(schedulerProvider, connectivityService, gson)
+            .makeRequest(schedulerProvider, connectivityService, gson, Api.GetUser)
     }
 
     override fun getList(page: Int): Single<PagingResponse> {
         return apiClientRefreshable.getList(page)
-            .makeRequest(schedulerProvider, connectivityService, gson)
+            .makeRequest(schedulerProvider, connectivityService, gson, Api.Paging)
     }
 }
