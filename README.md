@@ -43,4 +43,5 @@
 
 - [ ] base pagging with retrofit adapter factory use live data
 
+- [ ] update base viewmodel, base activity, base fragment with reuqest permission and more ...
 
