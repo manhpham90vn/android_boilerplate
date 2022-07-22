@@ -54,7 +54,7 @@ class MyApplicationFirebaseMessagingService : FirebaseMessagingService() {
             val channel = NotificationChannel(channelId, channelId, NotificationManager.IMPORTANCE_HIGH)
             notificationManager.createNotificationChannel(channel)
         }
-        val udid = UUID.randomUUID().hashCode()
-        notificationManager.notify(udid, notificationBuilder.build())
+        val uuid = UUID.randomUUID().hashCode()
+        notificationManager.notify(uuid, notificationBuilder.build())
     }
 }
