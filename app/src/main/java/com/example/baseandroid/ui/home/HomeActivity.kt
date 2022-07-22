@@ -19,6 +19,7 @@ import javax.inject.Inject
 interface HomeHandler {
     fun didTapLogOut()
     fun didTapRefresh()
+    fun didTapSort()
 }
 
 class HomeActivity : BaseActivity(), HomeHandler {
@@ -48,7 +49,7 @@ class HomeActivity : BaseActivity(), HomeHandler {
             }
             binding.recyclerView.adapter = adapter
             binding.recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-            viewModel.listItem.observe(this) {
+            viewModel.list.observe(this) {
                 adapter.set(it)
             }
         }
@@ -81,6 +82,10 @@ class HomeActivity : BaseActivity(), HomeHandler {
 
     override fun didTapRefresh() {
         viewModel.callApi()
+    }
+
+    override fun didTapSort() {
+        viewModel.sort()
     }
 
     override fun layoutId(): Int {

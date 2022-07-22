@@ -11,6 +11,7 @@ import io.reactivex.rxjava3.core.Single
 import retrofit2.HttpException
 import java.io.IOException
 import java.net.ConnectException
+import java.net.SocketTimeoutException
 import java.util.concurrent.TimeoutException
 
 fun <T> Single<T>.makeRequest(
@@ -34,6 +35,7 @@ fun <T> Single<T>.makeRequest(
                 }
                 is ConnectException -> throw ApiException.NoInternetConnectionException(api)
                 is TimeoutException -> throw ApiException.TimeOutException(api)
+                is SocketTimeoutException -> throw ApiException.TimeOutException(api)
                 else -> throw ApiException.UnknownException(api)
             }
         }
@@ -59,6 +61,7 @@ fun Completable.makeRequest(
                 }
                 is ConnectException -> throw ApiException.NoInternetConnectionException(api)
                 is TimeoutException -> throw ApiException.TimeOutException(api)
+                is SocketTimeoutException -> throw ApiException.TimeOutException(api)
                 else -> throw ApiException.UnknownException(api)
             }
         }

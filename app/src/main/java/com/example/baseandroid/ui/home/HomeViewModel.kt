@@ -1,5 +1,6 @@
 package com.example.baseandroid.ui.home
 
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.baseandroid.models.PagingUserResponse
 import com.example.baseandroid.networking.RefreshTokenValidator
@@ -17,7 +18,24 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
 
     @Inject lateinit var appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface
 
-    val listItem = MutableLiveData<MutableList<PagingUserResponse>>()
+    private val listItem1 = MutableLiveData<MutableList<PagingUserResponse>>()
+    private val listItem2 = MutableLiveData<MutableList<PagingUserResponse>>()
+    private var page = 1
+    val list = MediatorLiveData<MutableList<PagingUserResponse>>()
+
+    init {
+        list.addSource(listItem1) {
+            if (page == 1) {
+                it.let { list.value = it }
+            }
+        }
+
+        list.addSource(listItem2) {
+            if (page == 2) {
+                it.let { list.value = it }
+            }
+        }
+    }
 
     fun callApi() {
         isLoading.value = true
@@ -83,23 +101,37 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
         appRemoteDataRefreshableRepositoryInterface
             .getList(1)
             .subscribe({
+                if (!it.array.isNullOrEmpty()) {
+                    listItem1.value = it.array.toMutableList()
+                } else {
+                    listItem1.value = mutableListOf()
+                }
             }, {
                 singleLiveError.postValue(it)
             })
             .addTo(compositeDisposable)
 
         appRemoteDataRefreshableRepositoryInterface
-            .getList(1)
+            .getList(2)
             .subscribe({
                 if (!it.array.isNullOrEmpty()) {
-                    listItem.value = it.array.toMutableList()
+                    listItem2.value = it.array.toMutableList()
                 } else {
-                    listItem.value = mutableListOf()
+                    listItem2.value = mutableListOf()
                 }
             }, {
                 singleLiveError.postValue(it)
             })
             .addTo(compositeDisposable)
+    }
+
+    fun sort() {
+        page = if (page == 1) {
+            2
+        } else {
+            1
+        }
+        callApi()
     }
 
     fun cleanData() {

@@ -27,7 +27,7 @@
 
 - [x] custom single operator for common handle error api
 
-- [ ] learning about live data, MediatorLiveData
+- [x] learning about live data, MediatorLiveData
 
 - [ ] use use case
 

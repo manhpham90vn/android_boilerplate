@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_gravity="center"
+            android:layout_margin="10dp"
             android:id="@+id/header">
 
             <Button
@@ -36,14 +37,22 @@
                 android:layout_height="wrap_content"
                 android:text="@string/logout"
                 android:onClick="@{()->handle.didTapLogOut()}"
-                android:layout_marginRight="10dp"/>
+                android:layout_marginEnd="10dp"/>
 
             <Button
                 android:id="@+id/refresh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="@{()->handle.didTapRefresh()}"
-                android:text="@string/refresh" />
+                android:text="@string/refresh"
+                android:layout_marginEnd="10dp"/>
+
+            <Button
+                android:id="@+id/sort"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{()->handle.didTapSort()}"
+                android:text="@string/sort" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
