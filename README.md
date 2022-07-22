@@ -25,12 +25,22 @@
 
 - [x] create loading helper
 
-- [ ] update home screen with base [paging](https://developer.android.com/topic/libraries/architecture/paging/v3-overview)
-
 - [x] custom single operator for common handle error api
 
-- [ ] load image with [picasso](https://github.com/square/picasso)
+- [ ] learning about live data, MediatorLiveData
+
+- [ ] update home screen with base [paging](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) with viewmodel
+
+- [ ] load image with [glide](https://github.com/bumptech/glide)
+
+- [ ] binding adapter load image
 
 - [ ] [navigation](https://developer.android.com/guide/navigation/navigation-principles)
 
 - [ ] [Configure build variants](https://developer.android.com/studio/build/build-variants)
+
+- [ ] handle error with retrofit adapter factory
+
+- [ ] base pagging with retrofit adapter factory use live data
+
+
