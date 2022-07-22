@@ -12,6 +12,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import dagger.android.AndroidInjection
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
 class MyApplicationFirebaseMessagingService : FirebaseMessagingService() {
@@ -53,6 +54,7 @@ class MyApplicationFirebaseMessagingService : FirebaseMessagingService() {
             val channel = NotificationChannel(channelId, channelId, NotificationManager.IMPORTANCE_HIGH)
             notificationManager.createNotificationChannel(channel)
         }
-        notificationManager.notify(0, notificationBuilder.build())
+        val udid = UUID.randomUUID().hashCode()
+        notificationManager.notify(udid, notificationBuilder.build())
     }
 }
