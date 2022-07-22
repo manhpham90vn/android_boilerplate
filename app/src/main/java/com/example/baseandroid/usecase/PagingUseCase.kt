@@ -2,7 +2,6 @@ package com.example.baseandroid.usecase
 
 import com.example.baseandroid.common.ConnectivityService
 import com.example.baseandroid.common.SchedulerProvider
-import com.example.baseandroid.data.remote.Api
 import com.example.baseandroid.models.PagingResponse
 import com.example.baseandroid.repository.AppRemoteDataRefreshableRepository
 import com.google.gson.Gson
@@ -17,9 +16,5 @@ class PagingUseCase @Inject constructor(
 ) : SingleUseCase<Int, PagingResponse>(schedulerProvider, connectivityService, gson) {
     override fun buildUseCase(params: Int): Single<PagingResponse> {
         return refreshableRepository.getList(params)
-    }
-
-    override fun getApiName(): Api {
-        return Api.Paging
     }
 }

@@ -38,33 +38,33 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
         isLoading.value = true
 
         val params = LoginUseCaseParams(email.value.orEmpty(), password.value.orEmpty())
-        loginUseCase.execute(params, compositeDisposable)
-        loginUseCase
-            .succeeded
-            .subscribe {
-                if (!it.token.isNullOrEmpty() && !it.refreshToken.isNullOrEmpty()) {
-                    appLocalDataRepositoryInterface.setToken(it.token)
-                    appLocalDataRepositoryInterface.setRefreshToken(it.refreshToken)
-                    _loginResult.postValue(LoginResult.LoginSuccess)
-                } else {
-                    _loginResult.postValue(LoginResult.LoginError("Can not get token"))
+
+        loginUseCase.apply {
+            execute(params, compositeDisposable)
+            succeeded
+                .subscribe {
+                    if (!it.token.isNullOrEmpty() && !it.refreshToken.isNullOrEmpty()) {
+                        appLocalDataRepositoryInterface.setToken(it.token)
+                        appLocalDataRepositoryInterface.setRefreshToken(it.refreshToken)
+                        _loginResult.postValue(LoginResult.LoginSuccess)
+                    } else {
+                        _loginResult.postValue(LoginResult.LoginError("Can not get token"))
+                    }
                 }
-            }
-            .addTo(compositeDisposable)
+                .addTo(compositeDisposable)
 
-        loginUseCase
-            .failed
-            .subscribe {
-                singleLiveError.postValue(it)
-            }
-            .addTo(compositeDisposable)
+            failed
+                .subscribe {
+                    singleLiveError.postValue(it)
+                }
+                .addTo(compositeDisposable)
 
-        loginUseCase
-            .processing
-            .subscribe {
-                isLoading.value = it
-            }
-            .addTo(compositeDisposable)
+            processing
+                .subscribe {
+                    isLoading.value = it
+                }
+                .addTo(compositeDisposable)
+        }
     }
 
     fun isLogin(): Boolean {

@@ -1,9 +1,11 @@
 package com.example.baseandroid.repository
 
+import com.example.baseandroid.data.remote.Api
 import com.example.baseandroid.data.remote.ApiClient
 import com.example.baseandroid.data.remote.ApiClientRefreshtor
 import com.example.baseandroid.models.LoginResponse
 import com.example.baseandroid.models.RefreshTokenResponse
+import com.example.baseandroid.networking.AppError
 import io.reactivex.rxjava3.core.Single
 import retrofit2.Call
 import javax.inject.Inject
@@ -20,6 +22,9 @@ class AppRemoteDataRepository @Inject constructor(
 
     override fun callLogin(email: String, password: String): Single<LoginResponse> {
         return apiClient.callLogin(email, password)
+            .onErrorResumeNext {
+                return@onErrorResumeNext Single.error(AppError(Api.Login, it))
+            }
     }
 
     override fun refresh(token: String): Call<RefreshTokenResponse> {

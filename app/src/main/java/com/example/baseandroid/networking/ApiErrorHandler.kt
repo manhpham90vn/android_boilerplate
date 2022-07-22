@@ -39,5 +39,6 @@ class ApiErrorHandler @Inject constructor(val context: Context, private val loca
     private fun cleanLocalData() {
         localDataRepositoryInterface.cleanToken()
         localDataRepositoryInterface.cleanRefreshToken()
+        RefreshTokenValidator.getInstance().lastFailedDate = null
     }
 }

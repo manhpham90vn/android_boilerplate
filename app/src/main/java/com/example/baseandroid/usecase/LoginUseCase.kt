@@ -2,7 +2,6 @@ package com.example.baseandroid.usecase
 
 import com.example.baseandroid.common.ConnectivityService
 import com.example.baseandroid.common.SchedulerProvider
-import com.example.baseandroid.data.remote.Api
 import com.example.baseandroid.models.LoginResponse
 import com.example.baseandroid.repository.AppRemoteDataRepositoryInterface
 import com.google.gson.Gson
@@ -20,6 +19,4 @@ class LoginUseCase @Inject constructor(
     override fun buildUseCase(params: LoginUseCaseParams): Single<LoginResponse> {
         return appRemoteDataRepositoryInterface.callLogin(params.email, params.password)
     }
-
-    override fun getApiName(): Api = Api.Login
 }

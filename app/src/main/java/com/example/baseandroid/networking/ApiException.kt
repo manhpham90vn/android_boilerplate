@@ -4,8 +4,8 @@ import com.example.baseandroid.data.remote.Api
 import java.io.IOException
 
 sealed class ApiException(open val api: Api, override val message: String) : Exception(message) {
-    class NoInternetConnectionException(override val api: Api) : ApiException(api, "no internet connection")
-    class ActionAlreadyPerformingException(override val api: Api) : ApiException(api, "use case is running")
+    object NoInternetConnectionException : ApiException(Api.None, "no internet connection")
+    object ActionAlreadyPerformingException : ApiException(Api.None, "use case is running")
 
     class TimeOutException(override val api: Api) : ApiException(api, "api time out")
     class ParseJSONException(override val api: Api) : ApiException(api, "parser json error")
@@ -14,3 +14,5 @@ sealed class ApiException(open val api: Api, override val message: String) : Exc
 
     object RefreshTokenException : IOException("refresh token error")
 }
+
+data class AppError(val api: Api, val throwable: Throwable) : RuntimeException(throwable)

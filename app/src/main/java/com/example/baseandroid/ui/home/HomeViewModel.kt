@@ -41,49 +41,49 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
     }
 
     fun callApi() {
-        getUserInfoUseCase.execute(Unit, compositeDisposable)
+        getUserInfoUseCase.apply {
+            succeeded
+                .subscribe {
+                    Timber.d(it.email)
+                }
+                .addTo(compositeDisposable)
 
-        getUserInfoUseCase
-            .succeeded
-            .subscribe {
-                Timber.d(it.email)
-            }
-            .addTo(compositeDisposable)
+            failed
+                .subscribe {
+                    singleLiveError.postValue(it)
+                }
+                .addTo(compositeDisposable)
 
-        getUserInfoUseCase
-            .failed
-            .subscribe {
-                singleLiveError.postValue(it)
-            }
-            .addTo(compositeDisposable)
+            execute(Unit, compositeDisposable)
+        }
 
-        pagingUseCase.execute(page, compositeDisposable)
-
-        pagingUseCase
-            .succeeded
-            .subscribe {
-                if (page == 1) {
-                    if (!it.array.isNullOrEmpty()) {
-                        listItem1.value = it.array.toMutableList()
-                    } else {
-                        listItem1.value = mutableListOf()
-                    }
-                } else if (page == 2) {
-                    if (!it.array.isNullOrEmpty()) {
-                        listItem2.value = it.array.toMutableList()
-                    } else {
-                        listItem2.value = mutableListOf()
+        pagingUseCase.apply {
+            succeeded
+                .subscribe {
+                    if (page == 1) {
+                        if (!it.array.isNullOrEmpty()) {
+                            listItem1.value = it.array.toMutableList()
+                        } else {
+                            listItem1.value = mutableListOf()
+                        }
+                    } else if (page == 2) {
+                        if (!it.array.isNullOrEmpty()) {
+                            listItem2.value = it.array.toMutableList()
+                        } else {
+                            listItem2.value = mutableListOf()
+                        }
                     }
                 }
-            }
-            .addTo(compositeDisposable)
+                .addTo(compositeDisposable)
 
-        pagingUseCase
-            .failed
-            .subscribe {
-                singleLiveError.postValue(it)
-            }
-            .addTo(compositeDisposable)
+            failed
+                .subscribe {
+                    singleLiveError.postValue(it)
+                }
+                .addTo(compositeDisposable)
+
+            execute(page, compositeDisposable)
+        }
 
         Observables.combineLatest(getUserInfoUseCase.processing, pagingUseCase.processing)
             .map {
