@@ -9,11 +9,9 @@ import com.example.baseandroid.R
 import com.example.baseandroid.databinding.ActivityHomeBinding
 import com.example.baseandroid.di.ViewModelFactory
 import com.example.baseandroid.networking.ApiErrorHandler
-import com.example.baseandroid.networking.ApiException
 import com.example.baseandroid.ui.base.BaseActivity
 import com.example.baseandroid.ui.detail.DetailActivity
 import com.wada811.databinding.withBinding
-import io.reactivex.rxjava3.exceptions.CompositeException
 import javax.inject.Inject
 
 interface HomeHandler {
@@ -63,9 +61,6 @@ class HomeActivity : BaseActivity(), HomeHandler {
         }
 
         viewModel.error.observe(this) {
-            if (it is CompositeException && it.exceptions.contains(ApiException.RefreshTokenException)) {
-                viewModel.cleanData()
-            }
             errorHandler.handleError(it)
         }
     }

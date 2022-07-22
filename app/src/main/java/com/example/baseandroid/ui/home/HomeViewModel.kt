@@ -5,18 +5,21 @@ import androidx.lifecycle.MutableLiveData
 import com.example.baseandroid.models.PagingUserResponse
 import com.example.baseandroid.networking.RefreshTokenValidator
 import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
-import com.example.baseandroid.repository.AppRemoteDataRefreshableRepositoryInterface
 import com.example.baseandroid.ui.base.BaseViewModel
-import io.reactivex.rxjava3.core.Single.timer
+import com.example.baseandroid.usecase.GetUserInfoUseCase
+import com.example.baseandroid.usecase.PagingUseCase
+import io.reactivex.rxjava3.kotlin.Observables
 import io.reactivex.rxjava3.kotlin.addTo
-import java.util.concurrent.TimeUnit
+import timber.log.Timber
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor() : BaseViewModel() {
 
-    @Inject lateinit var appRemoteDataRefreshableRepositoryInterface: AppRemoteDataRefreshableRepositoryInterface
+    @Inject lateinit var getUserInfoUseCase: GetUserInfoUseCase
 
-    @Inject lateinit var appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface
+    @Inject lateinit var pagingUseCase: PagingUseCase
+
+    @Inject lateinit var localDataRepositoryInterface: AppLocalDataRepositoryInterface
 
     private val listItem1 = MutableLiveData<MutableList<PagingUserResponse>>()
     private val listItem2 = MutableLiveData<MutableList<PagingUserResponse>>()
@@ -38,90 +41,57 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
     }
 
     fun callApi() {
-        isLoading.value = true
-        timer(500, TimeUnit.MILLISECONDS)
-            .flatMap { appRemoteDataRefreshableRepositoryInterface.getUserInfo() }
-            .subscribe({
-            }, {
-                singleLiveError.postValue(it)
-            })
+        getUserInfoUseCase.execute(Unit, compositeDisposable)
+
+        getUserInfoUseCase
+            .succeeded
+            .subscribe {
+                Timber.d(it.email)
+            }
             .addTo(compositeDisposable)
 
-        timer(1000, TimeUnit.MILLISECONDS)
-            .flatMap { appRemoteDataRefreshableRepositoryInterface.getUserInfo() }
-            .subscribe({
-            }, {
+        getUserInfoUseCase
+            .failed
+            .subscribe {
                 singleLiveError.postValue(it)
-            })
+            }
             .addTo(compositeDisposable)
 
-        timer(1500, TimeUnit.MILLISECONDS)
-            .flatMap { appRemoteDataRefreshableRepositoryInterface.getUserInfo() }
-            .subscribe({
-            }, {
-                singleLiveError.postValue(it)
-            })
-            .addTo(compositeDisposable)
+        pagingUseCase.execute(page, compositeDisposable)
 
-        timer(2000, TimeUnit.MILLISECONDS)
-            .flatMap { appRemoteDataRefreshableRepositoryInterface.getUserInfo() }
-            .subscribe({
-            }, {
-                singleLiveError.postValue(it)
-            })
-            .addTo(compositeDisposable)
-
-        timer(2500, TimeUnit.MILLISECONDS)
-            .flatMap { appRemoteDataRefreshableRepositoryInterface.getUserInfo() }
-            .subscribe({
-                isLoading.value = false
-            }, {
-                isLoading.value = false
-                singleLiveError.postValue(it)
-            })
-            .addTo(compositeDisposable)
-
-        // call at the same time
-        appRemoteDataRefreshableRepositoryInterface
-            .getUserInfo()
-            .subscribe({
-            }, {
-                singleLiveError.postValue(it)
-            })
-            .addTo(compositeDisposable)
-
-        appRemoteDataRefreshableRepositoryInterface
-            .getUserInfo()
-            .subscribe({
-            }, {
-                singleLiveError.postValue(it)
-            })
-            .addTo(compositeDisposable)
-
-        appRemoteDataRefreshableRepositoryInterface
-            .getList(1)
-            .subscribe({
-                if (!it.array.isNullOrEmpty()) {
-                    listItem1.value = it.array.toMutableList()
-                } else {
-                    listItem1.value = mutableListOf()
+        pagingUseCase
+            .succeeded
+            .subscribe {
+                if (page == 1) {
+                    if (!it.array.isNullOrEmpty()) {
+                        listItem1.value = it.array.toMutableList()
+                    } else {
+                        listItem1.value = mutableListOf()
+                    }
+                } else if (page == 2) {
+                    if (!it.array.isNullOrEmpty()) {
+                        listItem2.value = it.array.toMutableList()
+                    } else {
+                        listItem2.value = mutableListOf()
+                    }
                 }
-            }, {
-                singleLiveError.postValue(it)
-            })
+            }
             .addTo(compositeDisposable)
 
-        appRemoteDataRefreshableRepositoryInterface
-            .getList(2)
-            .subscribe({
-                if (!it.array.isNullOrEmpty()) {
-                    listItem2.value = it.array.toMutableList()
-                } else {
-                    listItem2.value = mutableListOf()
-                }
-            }, {
+        pagingUseCase
+            .failed
+            .subscribe {
                 singleLiveError.postValue(it)
-            })
+            }
+            .addTo(compositeDisposable)
+
+        Observables.combineLatest(getUserInfoUseCase.processing, pagingUseCase.processing)
+            .map {
+                return@map it.first || it.second
+            }
+            .subscribe {
+                isLoading.value = it
+            }
             .addTo(compositeDisposable)
     }
 
@@ -135,8 +105,8 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
     }
 
     fun cleanData() {
-        appLocalDataRepositoryInterface.cleanRefreshToken()
-        appLocalDataRepositoryInterface.cleanToken()
+        localDataRepositoryInterface.cleanRefreshToken()
+        localDataRepositoryInterface.cleanToken()
         RefreshTokenValidator.getInstance().lastFailedDate = null
     }
 }

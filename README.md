@@ -29,7 +29,7 @@
 
 - [x] learning about live data, MediatorLiveData
 
-- [ ] use use case
+- [x] use use case
 
 - [ ] update home screen with base [paging](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) with viewmodel
 
@@ -40,8 +40,6 @@
 - [ ] [navigation](https://developer.android.com/guide/navigation/navigation-principles)
 
 - [ ] [Configure build variants](https://developer.android.com/studio/build/build-variants)
-
-- [ ] handle error with retrofit adapter factory
 
 - [ ] base pagging with retrofit adapter factory use live data
 
