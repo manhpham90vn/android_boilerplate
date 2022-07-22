@@ -39,7 +39,7 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
         val params = LoginUseCaseParams(email.value.orEmpty(), password.value.orEmpty())
 
         loginUseCase.apply {
-            execute(params, compositeDisposable)
+            execute(params)
             succeeded
                 .subscribe {
                     if (!it.token.isNullOrEmpty() && !it.refreshToken.isNullOrEmpty()) {
@@ -73,5 +73,10 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
     fun cleanData() {
         email.value = ""
         password.value = ""
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        loginUseCase.onCleared()
     }
 }

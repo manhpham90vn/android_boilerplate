@@ -54,7 +54,7 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
                 }
                 .addTo(compositeDisposable)
 
-            execute(Unit, compositeDisposable)
+            execute(Unit)
         }
 
         pagingUseCase.apply {
@@ -82,7 +82,7 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
                 }
                 .addTo(compositeDisposable)
 
-            execute(page, compositeDisposable)
+            execute(page)
         }
 
         Observables.combineLatest(getUserInfoUseCase.processing, pagingUseCase.processing)
@@ -108,5 +108,11 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
         localDataRepositoryInterface.cleanRefreshToken()
         localDataRepositoryInterface.cleanToken()
         RefreshTokenValidator.getInstance().lastFailedDate = null
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        getUserInfoUseCase.onCleared()
+        pagingUseCase.onCleared()
     }
 }

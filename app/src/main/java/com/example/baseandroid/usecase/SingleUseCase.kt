@@ -34,9 +34,11 @@ abstract class SingleUseCase<P, R> constructor(
     private val _failed = PublishSubject.create<Throwable>()
     val failed: Observable<Throwable> = _failed
 
+    val compositeDisposable = CompositeDisposable()
+
     abstract fun buildUseCase(params: P): Single<R>
 
-    fun execute(params: P, compositeDisposable: CompositeDisposable) {
+    fun execute(params: P) {
         singleObserverIfNotPerformed()?.let {
             buildUseCase(params)
                 .subscribeOn(schedulerProvider.io())
@@ -44,6 +46,10 @@ abstract class SingleUseCase<P, R> constructor(
                 .subscribeWith(it)
                 .addTo(compositeDisposable)
         }
+    }
+
+    fun onCleared() {
+        compositeDisposable.clear()
     }
 
     private fun singleObserverIfNotPerformed(): DisposableSingleObserver<R>? {
