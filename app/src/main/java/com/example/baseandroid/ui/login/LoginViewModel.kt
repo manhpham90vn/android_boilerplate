@@ -31,7 +31,7 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
     fun login() {
         email.value = "admin@admin.com"
         welcomeString.value = "Welcome admin@admin.com"
-        password.value = "pwd12345"
+        password.value = "pwd123451"
 
         val params = LoginUseCaseParams(email.value.orEmpty(), password.value.orEmpty())
 

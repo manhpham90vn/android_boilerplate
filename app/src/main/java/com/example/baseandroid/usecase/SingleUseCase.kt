@@ -23,7 +23,7 @@ abstract class SingleUseCase<P, R : Any> constructor(
     open val schedulerProvider: SchedulerProvider,
     open val connectivityService: ConnectivityService,
     open val gson: Gson
-) {
+) : UseCase<P, Single<R>>() {
 
     private val _processing = BehaviorSubject.create<Boolean>()
     val processing: Observable<Boolean> = _processing
@@ -36,9 +36,9 @@ abstract class SingleUseCase<P, R : Any> constructor(
 
     val compositeDisposable = CompositeDisposable()
 
-    abstract fun buildUseCase(params: P): Single<R>
+    abstract override fun buildUseCase(params: P): Single<R>
 
-    fun execute(params: P) {
+    override fun execute(params: P) {
         singleObserverIfNotPerformed()?.let {
             buildUseCase(params)
                 .subscribeOn(schedulerProvider.io())
@@ -50,6 +50,10 @@ abstract class SingleUseCase<P, R : Any> constructor(
 
     fun onCleared() {
         compositeDisposable.clear()
+    }
+
+    open fun getErrorClassType(): Class<*> {
+        return ErrorResponse::class.java
     }
 
     private fun singleObserverIfNotPerformed(): DisposableSingleObserver<R>? {
@@ -72,12 +76,16 @@ abstract class SingleUseCase<P, R : Any> constructor(
                 val appError = e as AppError
                 when (appError.throwable) {
                     is HttpException -> {
-                        val adapter = gson.getAdapter(ErrorResponse::class.java)
-                        try {
-                            val json = adapter.fromJson(appError.throwable.response()?.errorBody()?.string())
-                            _failed.onNext(ApiException.ServerErrorException(json.code ?: "-1", json.message ?: "unknown error", appError.api))
-                        } catch (error: IOException) {
-                            _failed.onNext(ApiException.ParseJSONException(appError.api))
+                        when (getErrorClassType()) {
+                            ErrorResponse::class.java -> {
+                                val adapter = gson.getAdapter(getErrorClassType())
+                                try {
+                                    val json = adapter.fromJson(appError.throwable.response()?.errorBody()?.string()) as ErrorResponse
+                                    _failed.onNext(ApiException.ServerErrorException(json.code ?: "-1", json.message ?: "unknown error", appError.api))
+                                } catch (error: IOException) {
+                                    _failed.onNext(ApiException.ParseJSONException(appError.api))
+                                }
+                            }
                         }
                     }
                     is ConnectException -> _failed.onNext(ApiException.NoInternetConnectionException)

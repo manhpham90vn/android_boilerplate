@@ -2,6 +2,7 @@ package com.example.baseandroid.usecase
 
 import com.example.baseandroid.common.ConnectivityService
 import com.example.baseandroid.common.SchedulerProvider
+import com.example.baseandroid.models.ErrorResponse
 import com.example.baseandroid.models.UserResponse
 import com.example.baseandroid.repository.AppRemoteDataRefreshableRepositoryInterface
 import com.google.gson.Gson
