@@ -3,7 +3,6 @@ package com.example.baseandroid.ui.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
-import com.example.baseandroid.repository.AppRemoteDataRepositoryInterface
 import com.example.baseandroid.ui.base.BaseViewModel
 import com.example.baseandroid.usecase.LoginUseCase
 import com.example.baseandroid.usecase.LoginUseCaseParams
@@ -17,8 +16,6 @@ sealed class LoginResult {
 }
 
 class LoginViewModel @Inject constructor() : BaseViewModel() {
-
-    @Inject lateinit var appRemoteDataRepositoryInterface: AppRemoteDataRepositoryInterface
 
     @Inject lateinit var appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface
 
@@ -60,7 +57,7 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
 
             processing
                 .subscribe {
-                    isLoading.value = it
+                    isLoadingSingleLive.postValue(it)
                 }
                 .addTo(compositeDisposable)
         }

@@ -41,6 +41,18 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
     }
 
     fun callApi() {
+        getUserInfoUseCase.execute(Unit)
+        pagingUseCase.execute(page)
+
+        Observables.combineLatest(getUserInfoUseCase.processing, pagingUseCase.processing)
+            .map {
+                return@map it.first || it.second
+            }
+            .subscribe {
+                isLoadingSingleLive.postValue(it)
+            }
+            .addTo(compositeDisposable)
+
         getUserInfoUseCase.apply {
             succeeded
                 .subscribe {
@@ -53,8 +65,6 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
                     singleLiveError.postValue(it)
                 }
                 .addTo(compositeDisposable)
-
-            execute(Unit)
         }
 
         pagingUseCase.apply {
@@ -81,18 +91,7 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
                     singleLiveError.postValue(it)
                 }
                 .addTo(compositeDisposable)
-
-            execute(page)
         }
-
-        Observables.combineLatest(getUserInfoUseCase.processing, pagingUseCase.processing)
-            .map {
-                return@map it.first || it.second
-            }
-            .subscribe {
-                isLoading.value = it
-            }
-            .addTo(compositeDisposable)
     }
 
     fun sort() {

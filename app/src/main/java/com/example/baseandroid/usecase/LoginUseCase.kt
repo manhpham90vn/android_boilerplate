@@ -11,7 +11,7 @@ import javax.inject.Inject
 data class LoginUseCaseParams(val email: String, val password: String)
 
 class LoginUseCase @Inject constructor(
-    val appRemoteDataRepositoryInterface: AppRemoteDataRepositoryInterface,
+    private val appRemoteDataRepositoryInterface: AppRemoteDataRepositoryInterface,
     schedulerProvider: SchedulerProvider,
     connectivityService: ConnectivityService,
     gson: Gson

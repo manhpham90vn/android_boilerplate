@@ -59,7 +59,7 @@ class DetailFragment : BaseFragment(), DetailHandle {
                 super.onPageStarted(view, url, favicon)
                 withBinding<FragmentDetailBinding> {
                     it.buttonCloseWebview.text = "Start Loading"
-                    it.viewModel?.isLoading?.value = true
+                    it.viewModel?.isLoadingSingleLive?.postValue(true)
                 }
             }
 
@@ -67,7 +67,7 @@ class DetailFragment : BaseFragment(), DetailHandle {
                 super.onPageFinished(view, url)
                 withBinding<FragmentDetailBinding> {
                     it.buttonCloseWebview.text = "End Loading"
-                    it.viewModel?.isLoading?.value = false
+                    it.viewModel?.isLoadingSingleLive?.postValue(false)
                 }
             }
         }

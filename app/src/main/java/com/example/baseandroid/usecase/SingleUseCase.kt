@@ -19,7 +19,7 @@ import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.util.concurrent.TimeoutException
 
-abstract class SingleUseCase<P, R> constructor(
+abstract class SingleUseCase<P, R : Any> constructor(
     open val schedulerProvider: SchedulerProvider,
     open val connectivityService: ConnectivityService,
     open val gson: Gson
