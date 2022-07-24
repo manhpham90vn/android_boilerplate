@@ -28,6 +28,8 @@ class HomeActivity : BaseActivity(), HomeHandler {
 
     @Inject lateinit var errorHandler: ApiErrorHandler
 
+    val adapter = HomeAdapter()
+
     companion object {
         fun toHome(context: Context) {
             context.run {
@@ -41,14 +43,17 @@ class HomeActivity : BaseActivity(), HomeHandler {
 
         withBinding<ActivityHomeBinding> { binding ->
             binding.handle = this
-            val adapter = HomeAdapter()
             adapter.listener = {
                 DetailActivity.toDetail(this, it)
             }
             binding.recyclerView.adapter = adapter
             binding.recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-            viewModel.list.observe(this) {
-                adapter.set(it)
+            binding.swipeRefresh.setOnRefreshListener {
+                adapter.refresh()
+            }
+            viewModel.listItem.observe(this) {
+                binding.swipeRefresh.isRefreshing = false
+                adapter.submitData(lifecycle, it)
             }
         }
 

@@ -1,4 +1,4 @@
-package com.example.baseandroid.usecase
+package com.example.baseandroid.usecase.base
 
 import com.example.baseandroid.common.ConnectivityService
 import com.example.baseandroid.common.SchedulerProvider
@@ -34,7 +34,7 @@ abstract class SingleUseCase<P, R : Any> constructor(
     private val _failed = PublishSubject.create<Throwable>()
     val failed: Observable<Throwable> = _failed
 
-    val compositeDisposable = CompositeDisposable()
+    private val compositeDisposable = CompositeDisposable()
 
     abstract override fun buildUseCase(params: P): Single<R>
 

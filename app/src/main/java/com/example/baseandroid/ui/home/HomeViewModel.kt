@@ -1,7 +1,7 @@
 package com.example.baseandroid.ui.home
 
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.PagingData
 import com.example.baseandroid.models.PagingUserResponse
 import com.example.baseandroid.networking.RefreshTokenValidator
 import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
@@ -18,24 +18,9 @@ class HomeViewModel @Inject constructor(
     private val pagingUseCase: PagingUseCase
 ) : BaseViewModel() {
 
-    private val listItem1 = MutableLiveData<MutableList<PagingUserResponse>>()
-    private val listItem2 = MutableLiveData<MutableList<PagingUserResponse>>()
-    private var page = 1
-    val list = MediatorLiveData<MutableList<PagingUserResponse>>()
+    val listItem = MutableLiveData<PagingData<PagingUserResponse>>()
 
     init {
-        list.addSource(listItem1) {
-            if (page == 1) {
-                it.let { list.value = it }
-            }
-        }
-
-        list.addSource(listItem2) {
-            if (page == 2) {
-                it.let { list.value = it }
-            }
-        }
-
         Observables.combineLatest(getUserInfoUseCase.processing, pagingUseCase.processing)
             .map {
                 return@map it.first || it.second
@@ -61,19 +46,7 @@ class HomeViewModel @Inject constructor(
         pagingUseCase.apply {
             succeeded
                 .subscribe {
-                    if (page == 1) {
-                        if (!it.array.isNullOrEmpty()) {
-                            listItem1.value = it.array.toMutableList()
-                        } else {
-                            listItem1.value = mutableListOf()
-                        }
-                    } else if (page == 2) {
-                        if (!it.array.isNullOrEmpty()) {
-                            listItem2.value = it.array.toMutableList()
-                        } else {
-                            listItem2.value = mutableListOf()
-                        }
-                    }
+                    listItem.value = it
                 }
                 .addTo(compositeDisposable)
 
@@ -87,15 +60,10 @@ class HomeViewModel @Inject constructor(
 
     fun callApi() {
         getUserInfoUseCase.execute(Unit)
-        pagingUseCase.execute(page)
+        pagingUseCase.execute(Unit)
     }
 
     fun sort() {
-        page = if (page == 1) {
-            2
-        } else {
-            1
-        }
         callApi()
     }
 

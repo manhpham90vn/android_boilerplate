@@ -4,6 +4,7 @@ import com.example.baseandroid.common.ConnectivityService
 import com.example.baseandroid.common.SchedulerProvider
 import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
 import com.example.baseandroid.repository.AppRemoteDataRepositoryInterface
+import com.example.baseandroid.usecase.base.SingleUseCase
 import com.google.gson.Gson
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject

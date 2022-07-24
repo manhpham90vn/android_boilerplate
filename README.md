@@ -31,7 +31,7 @@
 
 - [x] use use case
 
-- [ ] update home screen with base [paging](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) with viewmodel
+- [x] update home screen with base [paging](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) with viewmodel
 
 - [ ] load image with [glide](https://github.com/bumptech/glide)
 

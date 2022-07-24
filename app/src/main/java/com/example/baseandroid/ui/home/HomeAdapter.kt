@@ -2,18 +2,37 @@ package com.example.baseandroid.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.baseandroid.databinding.HomeItemBinding
 import com.example.baseandroid.models.PagingUserResponse
 
 typealias HomeItemListener = (PagingUserResponse) -> Unit
 
-class HomeAdapter : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
+class HomeAdapter : PagingDataAdapter<PagingUserResponse, HomeAdapter.HomeViewHolder>(diffCallback) {
 
     class HomeViewHolder(val binding: HomeItemBinding) : RecyclerView.ViewHolder(binding.root)
 
-    private var items: MutableList<PagingUserResponse> = mutableListOf()
     var listener: HomeItemListener? = null
+
+    companion object {
+        val diffCallback = object : DiffUtil.ItemCallback<PagingUserResponse>() {
+            override fun areItemsTheSame(
+                oldItem: PagingUserResponse,
+                newItem: PagingUserResponse
+            ): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(
+                oldItem: PagingUserResponse,
+                newItem: PagingUserResponse
+            ): Boolean {
+                return oldItem.id == newItem.id
+            }
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -22,22 +41,12 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
-        val item = items[position]
+        val item = getItem(position)!!
         with(holder.binding) {
             this.homeText.text = item.name
             this.homeText.setOnClickListener {
                 listener?.invoke(item)
             }
         }
-    }
-
-    override fun getItemCount(): Int {
-        return items.size
-    }
-
-    fun set(item: MutableList<PagingUserResponse>) {
-        items.clear()
-        items.addAll(item)
-        notifyDataSetChanged()
     }
 }
