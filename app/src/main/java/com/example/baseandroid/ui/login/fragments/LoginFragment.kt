@@ -14,7 +14,6 @@ import com.example.baseandroid.ui.login.LoginActivity
 import com.example.baseandroid.ui.login.LoginResult
 import com.example.baseandroid.ui.login.LoginViewModel
 import com.wada811.databinding.withBinding
-import timber.log.Timber
 import javax.inject.Inject
 
 interface LoginHandle {
@@ -65,7 +64,6 @@ class LoginFragment : BaseFragment(), LoginHandle {
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) {
-            Timber.d("${this.hashCode()} $it")
             if (it) {
                 progress.showLoadingProgress(this)
             } else {

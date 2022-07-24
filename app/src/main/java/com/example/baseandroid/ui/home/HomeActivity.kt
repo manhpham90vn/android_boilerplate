@@ -12,7 +12,6 @@ import com.example.baseandroid.networking.ApiErrorHandler
 import com.example.baseandroid.ui.base.BaseActivity
 import com.example.baseandroid.ui.detail.DetailActivity
 import com.wada811.databinding.withBinding
-import timber.log.Timber
 import javax.inject.Inject
 
 interface HomeHandler {
@@ -54,7 +53,6 @@ class HomeActivity : BaseActivity(), HomeHandler {
         }
 
         viewModel.isLoading.observe(this) {
-            Timber.d("${this.hashCode()} $it")
             if (it) {
                 progress.showLoadingProgress(this)
             } else {

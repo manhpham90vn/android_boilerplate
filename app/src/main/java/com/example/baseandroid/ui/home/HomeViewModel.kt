@@ -10,7 +10,6 @@ import com.example.baseandroid.usecase.GetUserInfoUseCase
 import com.example.baseandroid.usecase.PagingUseCase
 import io.reactivex.rxjava3.kotlin.Observables
 import io.reactivex.rxjava3.kotlin.addTo
-import timber.log.Timber
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
@@ -49,7 +48,6 @@ class HomeViewModel @Inject constructor(
         getUserInfoUseCase.apply {
             succeeded
                 .subscribe {
-                    Timber.d(it.email)
                 }
                 .addTo(compositeDisposable)
 

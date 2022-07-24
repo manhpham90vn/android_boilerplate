@@ -22,7 +22,7 @@ class ApiErrorHandler @Inject constructor(
                 Toast.makeText(context, "NoInternetConnectionException", Toast.LENGTH_SHORT).show()
             }
             is ApiException.ActionAlreadyPerformingException -> {
-                Toast.makeText(context, "NoInternetConnectionException", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "ActionAlreadyPerformingException", Toast.LENGTH_SHORT).show()
             }
             is ApiException.TimeOutException -> {
                 Toast.makeText(context, "TimeOutException api:${throwable.api}", Toast.LENGTH_SHORT).show()

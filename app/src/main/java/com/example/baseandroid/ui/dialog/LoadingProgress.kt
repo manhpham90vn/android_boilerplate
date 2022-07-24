@@ -28,18 +28,18 @@ class LoadingProgress : DialogFragment() {
 
     fun showLoadingProgress(activity: AppCompatActivity) {
         activity.run {
-            startLoading(supportFragmentManager)
+            startLoading(this.supportFragmentManager)
         }
     }
 
     fun showLoadingProgress(fragment: Fragment) {
         fragment.run {
-            startLoading(childFragmentManager)
+            startLoading(this.parentFragmentManager)
         }
     }
 
     private fun startLoading(fragmentManager: FragmentManager) {
-        if (isAdded) {
+        if (isAdded || fragmentManager.isStateSaved || fragmentManager.isDestroyed) {
             return
         }
         show(fragmentManager, this::class.java.name)
@@ -47,8 +47,10 @@ class LoadingProgress : DialogFragment() {
     }
 
     fun stopLoading() {
-        if (isAdded) {
-            dismissAllowingStateLoss()
+        parentFragmentManager.fragments.forEach {
+            if (it is LoadingProgress && it.isAdded) {
+                it.dismissAllowingStateLoss()
+            }
         }
     }
 }
