@@ -38,6 +38,18 @@ class LoadingProgress : DialogFragment() {
         }
     }
 
+    fun hideLoadingProgress(activity: AppCompatActivity) {
+        activity.run {
+            stopLoading(this.supportFragmentManager)
+        }
+    }
+
+    fun hideLoadingProgress(fragment: Fragment) {
+        fragment.run {
+            stopLoading(this.parentFragmentManager)
+        }
+    }
+
     private fun startLoading(fragmentManager: FragmentManager) {
         if (isAdded || fragmentManager.isStateSaved || fragmentManager.isDestroyed) {
             return
@@ -46,10 +58,10 @@ class LoadingProgress : DialogFragment() {
         fragmentManager.executePendingTransactions()
     }
 
-    fun stopLoading() {
-        parentFragmentManager.fragments.forEach {
-            if (it is LoadingProgress && it.isAdded) {
-                it.dismissAllowingStateLoss()
+    private fun stopLoading(fragmentManager: FragmentManager) {
+        fragmentManager.fragments.forEach {
+            if (it is LoadingProgress) {
+                it.dismiss()
             }
         }
     }

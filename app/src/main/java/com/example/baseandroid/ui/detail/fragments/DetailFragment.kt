@@ -48,7 +48,7 @@ class DetailFragment : BaseFragment(), DetailHandle {
             if (it) {
                 progress.showLoadingProgress(this)
             } else {
-                progress.stopLoading()
+                progress.hideLoadingProgress(this)
             }
         }
     }

@@ -56,7 +56,7 @@ class HomeActivity : BaseActivity(), HomeHandler {
             if (it) {
                 progress.showLoadingProgress(this)
             } else {
-                progress.stopLoading()
+                progress.hideLoadingProgress(this)
             }
         }
 
