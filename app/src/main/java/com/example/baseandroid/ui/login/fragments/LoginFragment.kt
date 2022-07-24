@@ -37,6 +37,7 @@ class LoginFragment : BaseFragment(), LoginHandle {
         super.onViewCreated(view, savedInstanceState)
         withBinding<FragmentLoginBinding> {
             it.viewModel = viewModel
+            it.lifecycleOwner = this
             it.handle = this
         }
 
@@ -52,7 +53,7 @@ class LoginFragment : BaseFragment(), LoginHandle {
                 is LoginResult.LoginError -> {
                     Toast.makeText(
                         requireActivity(),
-                        "Login error: ${it.message}",
+                        it.message,
                         Toast.LENGTH_SHORT
                     ).show()
                 }
