@@ -15,11 +15,10 @@ sealed class LoginResult {
     data class LoginError(val message: String) : LoginResult()
 }
 
-class LoginViewModel @Inject constructor() : BaseViewModel() {
-
-    @Inject lateinit var appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface
-
-    @Inject lateinit var loginUseCase: LoginUseCase
+class LoginViewModel @Inject constructor(
+    private val appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface,
+    private val loginUseCase: LoginUseCase
+) : BaseViewModel() {
 
     val email = MutableLiveData<String>()
     val password = MutableLiveData<String>()
@@ -28,20 +27,11 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
     private val _loginResult = SingleLiveEvent<LoginResult>()
     val loginResult: LiveData<LoginResult> = _loginResult
 
-    fun login() {
-        email.value = "admin@admin.com"
-        welcomeString.value = "Welcome admin@admin.com"
-        password.value = "pwd12345"
-
-        val params = LoginUseCaseParams(email.value.orEmpty(), password.value.orEmpty())
-
+    init {
         loginUseCase.apply {
-            execute(params)
             succeeded
                 .subscribe {
-                    if (!it.token.isNullOrEmpty() && !it.refreshToken.isNullOrEmpty()) {
-                        appLocalDataRepositoryInterface.setToken(it.token)
-                        appLocalDataRepositoryInterface.setRefreshToken(it.refreshToken)
+                    if (it) {
                         _loginResult.postValue(LoginResult.LoginSuccess)
                     } else {
                         _loginResult.postValue(LoginResult.LoginError("Can not get token"))
@@ -61,6 +51,14 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
                 }
                 .addTo(compositeDisposable)
         }
+    }
+
+    fun login() {
+        email.value = "admin@admin.com"
+        welcomeString.value = "Welcome admin@admin.com"
+        password.value = "pwd12345"
+        val params = LoginUseCaseParams(email.value.orEmpty(), password.value.orEmpty())
+        loginUseCase.execute(params)
     }
 
     fun isLogin(): Boolean {

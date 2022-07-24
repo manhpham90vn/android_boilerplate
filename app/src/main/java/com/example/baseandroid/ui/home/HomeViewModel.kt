@@ -13,13 +13,11 @@ import io.reactivex.rxjava3.kotlin.addTo
 import timber.log.Timber
 import javax.inject.Inject
 
-class HomeViewModel @Inject constructor() : BaseViewModel() {
-
-    @Inject lateinit var getUserInfoUseCase: GetUserInfoUseCase
-
-    @Inject lateinit var pagingUseCase: PagingUseCase
-
-    @Inject lateinit var localDataRepositoryInterface: AppLocalDataRepositoryInterface
+class HomeViewModel @Inject constructor(
+    private val localDataRepositoryInterface: AppLocalDataRepositoryInterface,
+    private val getUserInfoUseCase: GetUserInfoUseCase,
+    private val pagingUseCase: PagingUseCase
+) : BaseViewModel() {
 
     private val listItem1 = MutableLiveData<MutableList<PagingUserResponse>>()
     private val listItem2 = MutableLiveData<MutableList<PagingUserResponse>>()
@@ -38,11 +36,6 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
                 it.let { list.value = it }
             }
         }
-    }
-
-    fun callApi() {
-        getUserInfoUseCase.execute(Unit)
-        pagingUseCase.execute(page)
 
         Observables.combineLatest(getUserInfoUseCase.processing, pagingUseCase.processing)
             .map {
@@ -92,6 +85,11 @@ class HomeViewModel @Inject constructor() : BaseViewModel() {
                 }
                 .addTo(compositeDisposable)
         }
+    }
+
+    fun callApi() {
+        getUserInfoUseCase.execute(Unit)
+        pagingUseCase.execute(page)
     }
 
     fun sort() {

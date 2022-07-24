@@ -6,7 +6,10 @@ import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
 import com.example.baseandroid.ui.login.LoginActivity
 import javax.inject.Inject
 
-class ApiErrorHandler @Inject constructor(val context: Context, private val localDataRepositoryInterface: AppLocalDataRepositoryInterface) {
+class ApiErrorHandler @Inject constructor(
+    val context: Context,
+    private val localDataRepositoryInterface: AppLocalDataRepositoryInterface
+) {
 
     fun handleError(throwable: Throwable) {
         when (throwable) {
@@ -16,22 +19,22 @@ class ApiErrorHandler @Inject constructor(val context: Context, private val loca
                 LoginActivity.toLoginRefreshToken(context)
             }
             is ApiException.NoInternetConnectionException -> {
-                Toast.makeText(context, "NoInternetConnectionException ${throwable.api}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "NoInternetConnectionException", Toast.LENGTH_SHORT).show()
             }
             is ApiException.ActionAlreadyPerformingException -> {
-                Toast.makeText(context, "NoInternetConnectionException ${throwable.api}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "NoInternetConnectionException", Toast.LENGTH_SHORT).show()
             }
             is ApiException.TimeOutException -> {
-                Toast.makeText(context, "TimeOutException ${throwable.api}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "TimeOutException api:${throwable.api}", Toast.LENGTH_SHORT).show()
             }
             is ApiException.ParseJSONException -> {
-                Toast.makeText(context, "ParseJSONException ${throwable.api}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "ParseJSONException api:${throwable.api}", Toast.LENGTH_SHORT).show()
             }
             is ApiException.UnknownException -> {
-                Toast.makeText(context, "UnknownException ${throwable.api}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "UnknownException api:${throwable.api}", Toast.LENGTH_SHORT).show()
             }
             is ApiException.ServerErrorException -> {
-                Toast.makeText(context, "${throwable.message} ${throwable.api}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "message:${throwable.message} api:${throwable.api}", Toast.LENGTH_SHORT).show()
             }
         }
     }
