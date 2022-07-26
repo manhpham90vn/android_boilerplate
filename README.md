@@ -33,6 +33,8 @@
 
 - [x] update home screen with base [paging](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) with viewmodel
 
+- [x] base pagging handle sort
+
 - [ ] load image with [glide](https://github.com/bumptech/glide)
 
 - [ ] binding adapter load image
@@ -40,8 +42,6 @@
 - [ ] [navigation](https://developer.android.com/guide/navigation/navigation-principles)
 
 - [ ] [Configure build variants](https://developer.android.com/studio/build/build-variants)
-
-- [ ] base pagging with retrofit adapter factory use live data
 
 - [ ] update base viewmodel, base activity, base fragment with reuqest permission and more ...
 
