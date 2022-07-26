@@ -7,14 +7,36 @@ import com.example.baseandroid.repository.AppRemoteDataRefreshableRepositoryInte
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
-class HomePagingSource @Inject constructor(private val appRemoteDataRefreshableRepositoryInterface: AppRemoteDataRefreshableRepositoryInterface) : RxPagingSource<Int, PagingUserResponse>() {
+class HomePagingSourceAscending @Inject constructor(private val appRemoteDataRefreshableRepositoryInterface: AppRemoteDataRefreshableRepositoryInterface) : RxPagingSource<Int, PagingUserResponse>() {
     override fun getRefreshKey(state: PagingState<Int, PagingUserResponse>): Int {
         return 1
     }
 
     override fun loadSingle(params: LoadParams<Int>): Single<LoadResult<Int, PagingUserResponse>> {
         val page = params.key ?: 1
-        return appRemoteDataRefreshableRepositoryInterface.getList(page)
+        return appRemoteDataRefreshableRepositoryInterface.getList(page, "ascending")
+            .map { it.array.orEmpty() }
+            .map<LoadResult<Int, PagingUserResponse>> {
+                return@map LoadResult.Page(
+                    it,
+                    prevKey = null,
+                    nextKey = if (it.isEmpty()) null else page + 1
+                )
+            }
+            .onErrorReturn { e ->
+                return@onErrorReturn LoadResult.Error(e)
+            }
+    }
+}
+
+class HomePagingSourceDescending @Inject constructor(private val appRemoteDataRefreshableRepositoryInterface: AppRemoteDataRefreshableRepositoryInterface) : RxPagingSource<Int, PagingUserResponse>() {
+    override fun getRefreshKey(state: PagingState<Int, PagingUserResponse>): Int {
+        return 1
+    }
+
+    override fun loadSingle(params: LoadParams<Int>): Single<LoadResult<Int, PagingUserResponse>> {
+        val page = params.key ?: 1
+        return appRemoteDataRefreshableRepositoryInterface.getList(page, "descending")
             .map { it.array.orEmpty() }
             .map<LoadResult<Int, PagingUserResponse>> {
                 return@map LoadResult.Page(
