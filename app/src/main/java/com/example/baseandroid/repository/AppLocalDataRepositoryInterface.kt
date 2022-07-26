@@ -22,9 +22,7 @@ interface AppLocalDataRepositoryInterface {
 
 class AppLocalDataRepository @Inject constructor(private val storage: Storage) : AppLocalDataRepositoryInterface {
     override fun isLogin(): Boolean {
-        return storage.getString(StorageConstants.token).isNotEmpty() && storage.getString(
-            StorageConstants.refreshToken
-        ).isNotEmpty()
+        return storage.getString(StorageConstants.token).isNotEmpty() && storage.getString(StorageConstants.refreshToken).isNotEmpty()
     }
 
     override fun getToken(): String {

@@ -2,7 +2,7 @@ package com.example.baseandroid.usecase.base
 
 import com.example.baseandroid.common.ConnectivityService
 import com.example.baseandroid.common.SchedulerProvider
-import com.example.baseandroid.models.ErrorResponse
+import com.example.baseandroid.data.remote.Api
 import com.example.baseandroid.networking.ApiException
 import com.example.baseandroid.networking.AppError
 import com.google.gson.Gson
@@ -13,11 +13,6 @@ import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import io.reactivex.rxjava3.subjects.PublishSubject
-import retrofit2.HttpException
-import java.io.IOException
-import java.net.ConnectException
-import java.net.SocketTimeoutException
-import java.util.concurrent.TimeoutException
 
 abstract class SingleUseCase<P, R : Any> constructor(
     open val schedulerProvider: SchedulerProvider,
@@ -48,56 +43,28 @@ abstract class SingleUseCase<P, R : Any> constructor(
         }
     }
 
-    open fun getErrorClassType(): Class<*> {
-        return ErrorResponse::class.java
-    }
-
-    open fun handleServerError(e: Throwable) {
-        val appError = e as AppError
-        val throwable = appError.throwable as HttpException
-        if (getErrorClassType() == ErrorResponse::class.java) {
-            val adapter = gson.getAdapter(getErrorClassType())
-            try {
-                val json = adapter.fromJson(throwable.response()?.errorBody()?.string()) as ErrorResponse
-                _failed.onNext(ApiException.ServerErrorException(json.code ?: "-1", json.message ?: "unknown error", appError.api))
-            } catch (error: IOException) {
-                _failed.onNext(ApiException.ParseJSONException(appError.api))
-            }
-        }
-    }
-
     fun onCleared() {
         compositeDisposable.clear()
     }
 
     private fun performedIfNeeded(): DisposableSingleObserver<R>? {
         if (_processing.value == true) {
-            _failed.onNext(ApiException.ActionAlreadyPerformingException)
+            _failed.onNext(AppError(Api.None, ApiException.ActionAlreadyPerformingException))
             return null
         }
         if (!connectivityService.isNetworkConnection) {
-            _failed.onNext(ApiException.NoInternetConnectionException)
+            _failed.onNext(AppError(Api.None, ApiException.NoInternetConnectionException))
             return null
         }
         _processing.onNext(true)
         return object : DisposableSingleObserver<R>() {
             override fun onSuccess(t: R) {
-                _processing.onNext(false)
                 _succeeded.onNext(t)
+                _processing.onNext(false)
             }
 
             override fun onError(e: Throwable) {
-                val appError = e as AppError
-                when (appError.throwable) {
-                    is HttpException -> {
-                        handleServerError(appError)
-                    }
-                    is ConnectException -> _failed.onNext(ApiException.NoInternetConnectionException)
-                    is TimeoutException -> _failed.onNext(ApiException.TimeOutException(appError.api))
-                    is SocketTimeoutException -> _failed.onNext(ApiException.TimeOutException(appError.api))
-                    is ApiException.RefreshTokenException -> _failed.onNext(ApiException.RefreshTokenException)
-                    else -> _failed.onNext(ApiException.UnknownException(appError.api))
-                }
+                _failed.onNext(e)
                 _processing.onNext(false)
             }
         }
