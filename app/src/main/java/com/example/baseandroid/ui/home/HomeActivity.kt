@@ -55,6 +55,7 @@ class HomeActivity : BaseActivity(), HomeHandler {
                 val isLoading = it.source.refresh is LoadState.Loading ||
                     it.source.append is LoadState.Loading ||
                     it.source.prepend is LoadState.Loading ||
+                    it.refresh is LoadState.Loading ||
                     it.append is LoadState.Loading ||
                     it.prepend is LoadState.Loading
 

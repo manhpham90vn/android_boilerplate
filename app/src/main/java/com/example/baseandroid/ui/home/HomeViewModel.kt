@@ -60,7 +60,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun callApi() {
-//        getUserInfoUseCase.execute(Unit)
+        getUserInfoUseCase.execute(Unit)
         pagingUseCase.execute(Unit)
     }
 
