@@ -27,4 +27,12 @@ class PagingUserResponse {
     @SerializedName("website")
     @Expose
     val website: String? = null
+
+    @SerializedName("type")
+    @Expose
+    val type: String? = null
+
+    @SerializedName("img")
+    @Expose
+    val img: String? = null
 }

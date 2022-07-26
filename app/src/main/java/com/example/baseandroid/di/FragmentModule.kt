@@ -1,6 +1,7 @@
 package com.example.baseandroid.di
 
-import com.example.baseandroid.ui.detail.fragments.DetailFragment
+import com.example.baseandroid.ui.detail.fragments.DetailImageFragment
+import com.example.baseandroid.ui.detail.fragments.DetailWebFragment
 import com.example.baseandroid.ui.login.fragments.LoginFragment
 import com.example.baseandroid.ui.login.fragments.LoginSuccessFragment
 import dagger.Module
@@ -16,5 +17,8 @@ abstract class FragmentModule {
     abstract fun contributeLoginSuccessFragment(): LoginSuccessFragment
 
     @ContributesAndroidInjector
-    abstract fun contributeDetailFragment(): DetailFragment
+    abstract fun contributeDetailFragment(): DetailWebFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeDetailImageFragment(): DetailImageFragment
 }
