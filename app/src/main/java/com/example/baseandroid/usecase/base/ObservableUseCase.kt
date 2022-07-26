@@ -38,15 +38,11 @@ abstract class ObservableUseCase<P, R : Any> constructor(
 
     abstract override fun buildUseCase(params: P): Observable<R>
 
-    override fun getUseCase(params: P): Observable<R> {
-        return buildUseCase(params)
-            .subscribeOn(schedulerProvider.io())
-            .observeOn(schedulerProvider.ui())
-    }
-
     override fun execute(params: P) {
         performedIfNeeded()?.let {
-            getUseCase(params)
+            buildUseCase(params)
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
                 .subscribeWith(it)
                 .addTo(compositeDisposable)
         }

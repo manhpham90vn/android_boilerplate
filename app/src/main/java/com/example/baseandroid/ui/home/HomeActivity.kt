@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.baseandroid.R
 import com.example.baseandroid.databinding.ActivityHomeBinding
@@ -12,6 +13,7 @@ import com.example.baseandroid.networking.ApiErrorHandler
 import com.example.baseandroid.ui.base.BaseActivity
 import com.example.baseandroid.ui.detail.DetailActivity
 import com.wada811.databinding.withBinding
+import timber.log.Timber
 import javax.inject.Inject
 
 interface HomeHandler {
@@ -28,7 +30,7 @@ class HomeActivity : BaseActivity(), HomeHandler {
 
     @Inject lateinit var errorHandler: ApiErrorHandler
 
-    val adapter = HomeAdapter()
+    private val adapter = HomeAdapter()
 
     companion object {
         fun toHome(context: Context) {
@@ -46,10 +48,33 @@ class HomeActivity : BaseActivity(), HomeHandler {
             adapter.listener = {
                 DetailActivity.toDetail(this, it)
             }
+            adapter.addLoadStateListener {
+                val isListEmpty = it.refresh is LoadState.NotLoading && adapter.itemCount == 0
+                Timber.d(isListEmpty.toString())
+
+                val isLoading = it.source.refresh is LoadState.Loading ||
+                    it.source.append is LoadState.Loading ||
+                    it.source.prepend is LoadState.Loading ||
+                    it.append is LoadState.Loading ||
+                    it.prepend is LoadState.Loading
+
+                viewModel.isLoadingSingleLive.postValue(isLoading)
+
+                val errorState = it.source.refresh as? LoadState.Error
+                    ?: it.source.append as? LoadState.Error
+                    ?: it.source.prepend as? LoadState.Error
+                    ?: it.refresh as? LoadState.Error
+                    ?: it.append as? LoadState.Error
+                    ?: it.prepend as? LoadState.Error
+
+                errorState?.let { error ->
+                    errorHandler.handleError(error.error)
+                }
+            }
             binding.recyclerView.adapter = adapter
             binding.recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
             binding.swipeRefresh.setOnRefreshListener {
-                adapter.refresh()
+                viewModel.callApi()
             }
             viewModel.listItem.observe(this) {
                 binding.swipeRefresh.isRefreshing = false
@@ -68,6 +93,11 @@ class HomeActivity : BaseActivity(), HomeHandler {
         viewModel.error.observe(this) {
             errorHandler.handleError(it)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        adapter.removeLoadStateListener { }
     }
 
     override fun onResume() {

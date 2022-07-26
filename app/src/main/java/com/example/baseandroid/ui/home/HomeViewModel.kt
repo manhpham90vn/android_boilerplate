@@ -7,7 +7,7 @@ import com.example.baseandroid.networking.RefreshTokenValidator
 import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
 import com.example.baseandroid.ui.base.BaseViewModel
 import com.example.baseandroid.usecase.GetUserInfoUseCase
-import com.example.baseandroid.usecase.PagingUseCase
+import com.example.baseandroid.usecase.PagingDataUseCase
 import io.reactivex.rxjava3.kotlin.Observables
 import io.reactivex.rxjava3.kotlin.addTo
 import javax.inject.Inject
@@ -15,7 +15,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val localDataRepositoryInterface: AppLocalDataRepositoryInterface,
     private val getUserInfoUseCase: GetUserInfoUseCase,
-    private val pagingUseCase: PagingUseCase
+    private val pagingUseCase: PagingDataUseCase
 ) : BaseViewModel() {
 
     val listItem = MutableLiveData<PagingData<PagingUserResponse>>()
@@ -52,6 +52,7 @@ class HomeViewModel @Inject constructor(
 
             failed
                 .subscribe {
+                    listItem.value = PagingData.empty()
                     singleLiveError.postValue(it)
                 }
                 .addTo(compositeDisposable)
@@ -59,7 +60,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun callApi() {
-        getUserInfoUseCase.execute(Unit)
+//        getUserInfoUseCase.execute(Unit)
         pagingUseCase.execute(Unit)
     }
 
