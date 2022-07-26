@@ -35,7 +35,7 @@
 
 - [x] base pagging handle sort
 
-- [ ] load image with [glide](https://github.com/bumptech/glide)
+- [x] load image with [glide](https://github.com/bumptech/glide)
 
 - [ ] binding adapter load image
 
