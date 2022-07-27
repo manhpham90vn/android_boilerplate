@@ -69,7 +69,7 @@ class HomeActivity : BaseActivity(), HomeHandler {
                     ?: it.prepend as? LoadState.Error
 
                 errorState?.let { error ->
-                    errorHandler.handleError(error.error)
+                    viewModel.singleLiveError.postValue(error.error)
                 }
             }
             binding.recyclerView.adapter = adapter

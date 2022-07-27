@@ -28,6 +28,7 @@ class RefreshTokenValidator {
         @Synchronized get
 
         @Synchronized set
+
     var lastFailedDate: Long? = null
 }
 

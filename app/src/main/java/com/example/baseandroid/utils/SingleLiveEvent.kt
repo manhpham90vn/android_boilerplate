@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 
+// https://github.com/android/architecture-samples/blob/dev-todo-mvvm-live/todoapp/app/src/main/java/com/example/android/architecture/blueprints/todoapp/SingleLiveEvent.java
 open class SingleLiveEvent<T> : MutableLiveData<T>() {
 
     private val pending = AtomicBoolean(false)
