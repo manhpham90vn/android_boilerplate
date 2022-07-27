@@ -37,7 +37,7 @@
 
 - [x] load image with [glide](https://github.com/bumptech/glide)
 
-- [ ] binding adapter load image
+- [x] binding adapter load image
 
 - [ ] [navigation](https://developer.android.com/guide/navigation/navigation-principles)
 
