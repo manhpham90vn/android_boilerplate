@@ -10,24 +10,18 @@ import com.google.gson.Gson
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 
-class PagingDataUseCaseAscending @Inject constructor(
-    private val appPagingDataRepositoryInterface: AppPagingDataRepositoryInterface,
-    schedulerProvider: SchedulerProvider,
-    connectivityService: ConnectivityService,
-    gson: Gson
-) : ObservableUseCase<Unit, PagingData<PagingUserResponse>>(schedulerProvider, connectivityService, gson) {
-    override fun buildUseCase(params: Unit): Observable<PagingData<PagingUserResponse>> {
-        return appPagingDataRepositoryInterface.getPagingDataAscending()
-    }
+enum class PagingDataSortType(val rawValue: String) {
+    ASCENDING("ascending"),
+    DESCENDING("descending")
 }
 
-class PagingDataUseCaseDescending @Inject constructor(
+class PagingDataUseCase @Inject constructor(
     private val appPagingDataRepositoryInterface: AppPagingDataRepositoryInterface,
     schedulerProvider: SchedulerProvider,
     connectivityService: ConnectivityService,
     gson: Gson
-) : ObservableUseCase<Unit, PagingData<PagingUserResponse>>(schedulerProvider, connectivityService, gson) {
-    override fun buildUseCase(params: Unit): Observable<PagingData<PagingUserResponse>> {
-        return appPagingDataRepositoryInterface.getPagingDataDescending()
+) : ObservableUseCase<PagingDataSortType, PagingData<PagingUserResponse>>(schedulerProvider, connectivityService, gson) {
+    override fun buildUseCase(params: PagingDataSortType): Observable<PagingData<PagingUserResponse>> {
+        return appPagingDataRepositoryInterface.getPagingData(params)
     }
 }
