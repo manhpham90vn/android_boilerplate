@@ -1,4 +1,4 @@
-package com.example.baseandroid.common
+package com.example.baseandroid.service
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -10,7 +10,8 @@ interface ConnectivityService {
     val isNetworkConnection: Boolean
 }
 
-class ConnectivityServiceImpl @Inject constructor(private val context: Context) : ConnectivityService {
+class ConnectivityServiceImpl @Inject constructor(private val context: Context) :
+    ConnectivityService {
     override val isNetworkConnection: Boolean
         get() = context.getSystemService<ConnectivityManager>()?.let {
             return@let it.isNetworkConnection()

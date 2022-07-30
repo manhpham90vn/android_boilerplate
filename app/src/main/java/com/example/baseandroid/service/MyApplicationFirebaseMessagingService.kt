@@ -1,4 +1,4 @@
-package com.example.baseandroid.ui.application
+package com.example.baseandroid.service
 
 import android.app.NotificationChannel
 import android.app.NotificationManager

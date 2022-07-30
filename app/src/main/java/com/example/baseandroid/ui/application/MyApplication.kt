@@ -3,6 +3,7 @@ package com.example.baseandroid.ui.application
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.example.baseandroid.BuildConfig
 import com.example.baseandroid.di.DaggerAppComponent
+import com.example.baseandroid.service.MyApplicationDefaultLifecycleObserver
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import timber.log.Timber

@@ -1,7 +1,7 @@
 package com.example.baseandroid.usecase.base
 
-import com.example.baseandroid.common.ConnectivityService
-import com.example.baseandroid.common.SchedulerProvider
+import com.example.baseandroid.service.ConnectivityService
+import com.example.baseandroid.service.SchedulerProvider
 import com.example.baseandroid.data.remote.Api
 import com.example.baseandroid.networking.ApiException
 import com.example.baseandroid.networking.AppError

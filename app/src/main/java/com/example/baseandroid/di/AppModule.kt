@@ -1,13 +1,9 @@
 package com.example.baseandroid.di
 
-import com.example.baseandroid.common.ApplicationSchedulerProvider
-import com.example.baseandroid.common.ConnectivityService
-import com.example.baseandroid.common.ConnectivityServiceImpl
-import com.example.baseandroid.common.SchedulerProvider
 import com.example.baseandroid.data.local.SharedPreferencesStorage
 import com.example.baseandroid.data.local.Storage
-import com.example.baseandroid.repository.* // ktlint-disable no-wildcard-imports
-import com.example.baseandroid.ui.application.MyApplicationFirebaseMessagingService
+import com.example.baseandroid.repository.*
+import com.example.baseandroid.service.*
 import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
