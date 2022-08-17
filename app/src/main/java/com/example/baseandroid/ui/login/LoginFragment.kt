@@ -65,9 +65,9 @@ class LoginFragment : BaseFragment(), LoginHandle {
 
         viewModel.isLoading.observe(viewLifecycleOwner) {
             if (it) {
-                progress.showLoadingProgress(this)
+                progress.showLoadingProgress(requireActivity() as AppCompatActivity)
             } else {
-                progress.hideLoadingProgress(this)
+                progress.hideLoadingProgress(requireActivity() as AppCompatActivity)
             }
         }
     }

@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.baseandroid.R
 
@@ -32,21 +31,9 @@ class LoadingProgress : DialogFragment() {
         }
     }
 
-    fun showLoadingProgress(fragment: Fragment) {
-        fragment.run {
-            startLoading(this.parentFragmentManager)
-        }
-    }
-
     fun hideLoadingProgress(activity: AppCompatActivity) {
         activity.run {
             stopLoading(this.supportFragmentManager)
-        }
-    }
-
-    fun hideLoadingProgress(fragment: Fragment) {
-        fragment.run {
-            stopLoading(this.parentFragmentManager)
         }
     }
 

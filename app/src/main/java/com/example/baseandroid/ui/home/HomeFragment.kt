@@ -58,11 +58,11 @@ class HomeFragment : BaseFragment(), HomeHandler {
                 Timber.d(isListEmpty.toString())
 
                 val isLoading = it.source.refresh is LoadState.Loading ||
-                        it.source.append is LoadState.Loading ||
-                        it.source.prepend is LoadState.Loading ||
-                        it.refresh is LoadState.Loading ||
-                        it.append is LoadState.Loading ||
-                        it.prepend is LoadState.Loading
+                    it.source.append is LoadState.Loading ||
+                    it.source.prepend is LoadState.Loading ||
+                    it.refresh is LoadState.Loading ||
+                    it.append is LoadState.Loading ||
+                    it.prepend is LoadState.Loading
 
                 viewModel.isLoadingSingleLive.postValue(isLoading)
 
@@ -90,9 +90,9 @@ class HomeFragment : BaseFragment(), HomeHandler {
 
         viewModel.isLoading.observe(viewLifecycleOwner) {
             if (it) {
-                progress.showLoadingProgress(this)
+                progress.showLoadingProgress(requireActivity() as AppCompatActivity)
             } else {
-                progress.hideLoadingProgress(this)
+                progress.hideLoadingProgress(requireActivity() as AppCompatActivity)
             }
         }
 

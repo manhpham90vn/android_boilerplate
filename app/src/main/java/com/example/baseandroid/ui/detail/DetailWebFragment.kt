@@ -8,6 +8,7 @@ import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import com.example.baseandroid.R
 import com.example.baseandroid.databinding.FragmentDetailWebBinding
@@ -46,9 +47,9 @@ class DetailWebFragment : BaseFragment(), DetailHandle {
 
         viewModel.isLoading.observe(viewLifecycleOwner) {
             if (it) {
-                progress.showLoadingProgress(this)
+                progress.showLoadingProgress(requireActivity() as AppCompatActivity)
             } else {
-                progress.hideLoadingProgress(this)
+                progress.hideLoadingProgress(requireActivity() as AppCompatActivity)
             }
         }
     }
