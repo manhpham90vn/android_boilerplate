@@ -3,8 +3,6 @@ package com.example.baseandroid.ui.detail
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
 import com.example.baseandroid.R
 import com.example.baseandroid.databinding.FragmentDetailImageBinding
 import com.example.baseandroid.di.ViewModelFactory

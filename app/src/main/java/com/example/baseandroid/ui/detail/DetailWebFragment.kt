@@ -9,7 +9,6 @@ import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
 import com.example.baseandroid.R
 import com.example.baseandroid.databinding.FragmentDetailWebBinding
 import com.example.baseandroid.di.ViewModelFactory

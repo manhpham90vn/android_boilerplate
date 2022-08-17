@@ -1,9 +1,9 @@
 package com.example.baseandroid.usecase
 
-import com.example.baseandroid.service.ConnectivityService
-import com.example.baseandroid.service.SchedulerProvider
 import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
 import com.example.baseandroid.repository.AppRemoteDataRepositoryInterface
+import com.example.baseandroid.service.ConnectivityService
+import com.example.baseandroid.service.SchedulerProvider
 import com.example.baseandroid.usecase.base.SingleUseCase
 import com.google.gson.Gson
 import io.reactivex.rxjava3.core.Single

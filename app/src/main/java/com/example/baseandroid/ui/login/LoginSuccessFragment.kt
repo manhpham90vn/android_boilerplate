@@ -8,7 +8,6 @@ import com.example.baseandroid.R
 import com.example.baseandroid.databinding.FragmentLoginSuccessBinding
 import com.example.baseandroid.di.ViewModelFactory
 import com.example.baseandroid.ui.base.BaseFragment
-import com.example.baseandroid.ui.home.HomeFragment
 import com.wada811.databinding.withBinding
 import javax.inject.Inject
 
