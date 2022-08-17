@@ -10,7 +10,6 @@ import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class AppModule {
-
     @Binds
     abstract fun provideConnectivityService(instance: ConnectivityServiceImpl): ConnectivityService
 

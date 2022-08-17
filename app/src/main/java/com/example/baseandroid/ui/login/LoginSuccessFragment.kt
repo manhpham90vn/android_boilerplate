@@ -1,14 +1,14 @@
-package com.example.baseandroid.ui.login.fragments
+package com.example.baseandroid.ui.login
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.Navigation
 import com.example.baseandroid.R
 import com.example.baseandroid.databinding.FragmentLoginSuccessBinding
 import com.example.baseandroid.di.ViewModelFactory
 import com.example.baseandroid.ui.base.BaseFragment
-import com.example.baseandroid.ui.home.HomeActivity
-import com.example.baseandroid.ui.login.LoginViewModel
+import com.example.baseandroid.ui.home.HomeFragment
 import com.wada811.databinding.withBinding
 import javax.inject.Inject
 
@@ -32,6 +32,8 @@ class LoginSuccessFragment : BaseFragment(), LoginHandle {
     }
 
     override fun didTapLogin() {
-        HomeActivity.toHome(requireActivity())
+        Navigation
+            .findNavController(requireActivity(), R.id.proxy_fragment_container)
+            .navigate(R.id.action_loginSuccessFragment_to_homeFragment)
     }
 }

@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.login.fragments.LoginFragment">
+    tools:context=".ui.login.LoginFragment" >
 
     <data>
         <variable
@@ -11,7 +11,7 @@
 
         <variable
             name="handle"
-            type="com.example.baseandroid.ui.login.fragments.LoginHandle" />
+            type="com.example.baseandroid.ui.login.LoginHandle" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

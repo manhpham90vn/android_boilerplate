@@ -3,6 +3,7 @@ package com.example.baseandroid.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.rxjava3.cachedIn
 import androidx.paging.rxjava3.observable
 import com.example.baseandroid.models.PagingUserResponse
 import com.example.baseandroid.ui.home.HomePagingSource

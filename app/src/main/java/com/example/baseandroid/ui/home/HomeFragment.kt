@@ -1,17 +1,17 @@
 package com.example.baseandroid.ui.home
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import androidx.activity.viewModels
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.baseandroid.R
-import com.example.baseandroid.databinding.ActivityHomeBinding
+import com.example.baseandroid.databinding.FragmentHomeBinding
 import com.example.baseandroid.di.ViewModelFactory
 import com.example.baseandroid.networking.ApiErrorHandler
-import com.example.baseandroid.ui.base.BaseActivity
-import com.example.baseandroid.ui.detail.DetailActivity
+import com.example.baseandroid.ui.base.BaseFragment
 import com.wada811.databinding.withBinding
 import timber.log.Timber
 import javax.inject.Inject
@@ -22,7 +22,7 @@ interface HomeHandler {
     fun didTapSort()
 }
 
-class HomeActivity : BaseActivity(), HomeHandler {
+class HomeFragment : BaseFragment(), HomeHandler {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory<HomeViewModel>
@@ -32,32 +32,37 @@ class HomeActivity : BaseActivity(), HomeHandler {
 
     private val adapter = HomeAdapter()
 
-    companion object {
-        fun toHome(context: Context) {
-            context.run {
-                startActivity(Intent(context, HomeActivity::class.java))
-            }
-        }
-    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        withBinding<ActivityHomeBinding> { binding ->
+        withBinding<FragmentHomeBinding> { binding ->
             binding.handle = this
-            adapter.listener = {
-                DetailActivity.toDetail(this, it)
+            adapter.listener = { response ->
+                response.type?.let {
+                    when (it) {
+                        "web" -> {
+                            Navigation
+                                .findNavController(requireActivity(), R.id.proxy_fragment_container)
+                                .navigate(HomeFragmentDirections.actionHomeFragmentToDetailWebFragment(response.website!!))
+                        }
+                        "img" -> {
+                            Navigation
+                                .findNavController(requireActivity(), R.id.proxy_fragment_container)
+                                .navigate(HomeFragmentDirections.actionHomeFragmentToDetailImageFragment(response.img!!))
+                        }
+                    }
+                }
             }
             adapter.addLoadStateListener {
                 val isListEmpty = it.refresh is LoadState.NotLoading && adapter.itemCount == 0
                 Timber.d(isListEmpty.toString())
 
                 val isLoading = it.source.refresh is LoadState.Loading ||
-                    it.source.append is LoadState.Loading ||
-                    it.source.prepend is LoadState.Loading ||
-                    it.refresh is LoadState.Loading ||
-                    it.append is LoadState.Loading ||
-                    it.prepend is LoadState.Loading
+                        it.source.append is LoadState.Loading ||
+                        it.source.prepend is LoadState.Loading ||
+                        it.refresh is LoadState.Loading ||
+                        it.append is LoadState.Loading ||
+                        it.prepend is LoadState.Loading
 
                 viewModel.isLoadingSingleLive.postValue(isLoading)
 
@@ -73,17 +78,17 @@ class HomeActivity : BaseActivity(), HomeHandler {
                 }
             }
             binding.recyclerView.adapter = adapter
-            binding.recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+            binding.recyclerView.addItemDecoration(DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL))
             binding.swipeRefresh.setOnRefreshListener {
                 viewModel.callApi()
             }
-            viewModel.listItem.observe(this) {
+            viewModel.listItem.observe(viewLifecycleOwner) {
                 binding.swipeRefresh.isRefreshing = false
                 adapter.submitData(lifecycle, it)
             }
         }
 
-        viewModel.isLoading.observe(this) {
+        viewModel.isLoading.observe(viewLifecycleOwner) {
             if (it) {
                 progress.showLoadingProgress(this)
             } else {
@@ -91,8 +96,8 @@ class HomeActivity : BaseActivity(), HomeHandler {
             }
         }
 
-        viewModel.error.observe(this) {
-            errorHandler.handleError(it)
+        viewModel.error.observe(viewLifecycleOwner) {
+            errorHandler.handleError(it, requireActivity() as AppCompatActivity)
         }
     }
 
@@ -108,7 +113,9 @@ class HomeActivity : BaseActivity(), HomeHandler {
 
     override fun didTapLogOut() {
         viewModel.cleanData()
-        finish()
+        Navigation
+            .findNavController(requireActivity(), R.id.proxy_fragment_container)
+            .navigate(R.id.action_homeFragment_to_loginFragment)
     }
 
     override fun didTapRefresh() {
@@ -120,6 +127,6 @@ class HomeActivity : BaseActivity(), HomeHandler {
     }
 
     override fun layoutId(): Int {
-        return R.layout.activity_home
+        return R.layout.fragment_home
     }
 }

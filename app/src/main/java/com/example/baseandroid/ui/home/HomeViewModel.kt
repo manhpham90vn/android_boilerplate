@@ -1,5 +1,6 @@
 package com.example.baseandroid.ui.home
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagingData
 import com.example.baseandroid.models.PagingUserResponse
@@ -9,6 +10,7 @@ import com.example.baseandroid.ui.base.BaseViewModel
 import com.example.baseandroid.usecase.GetUserInfoUseCase
 import com.example.baseandroid.usecase.PagingDataSortType
 import com.example.baseandroid.usecase.PagingDataUseCase
+import com.example.baseandroid.utils.SingleLiveEvent
 import io.reactivex.rxjava3.kotlin.Observables
 import io.reactivex.rxjava3.kotlin.addTo
 import javax.inject.Inject
@@ -19,7 +21,8 @@ class HomeViewModel @Inject constructor(
     private val pagingDataUseCase: PagingDataUseCase
 ) : BaseViewModel() {
 
-    val listItem = MutableLiveData<PagingData<PagingUserResponse>>()
+    private val _listItem = SingleLiveEvent<PagingData<PagingUserResponse>>()
+    val listItem: LiveData<PagingData<PagingUserResponse>> = _listItem
     private var filterType: PagingDataSortType = PagingDataSortType.ASCENDING
 
     init {
@@ -48,14 +51,14 @@ class HomeViewModel @Inject constructor(
         pagingDataUseCase.apply {
             succeeded
                 .subscribe {
-                    listItem.value = it
+                    _listItem.postValue(it)
                 }
                 .addTo(compositeDisposable)
 
             failed
                 .subscribe {
                     singleLiveError.postValue(it)
-                    listItem.value = PagingData.empty()
+                    _listItem.postValue(PagingData.empty())
                 }
                 .addTo(compositeDisposable)
         }
