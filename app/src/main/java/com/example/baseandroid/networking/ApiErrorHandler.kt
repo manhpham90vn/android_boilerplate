@@ -2,10 +2,12 @@ package com.example.baseandroid.networking
 
 import android.content.Context
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.Navigation
+import com.example.baseandroid.R
 import com.example.baseandroid.data.remote.Api
 import com.example.baseandroid.models.ErrorResponse
 import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
-import com.example.baseandroid.ui.login.LoginActivity
 import com.google.gson.Gson
 import retrofit2.HttpException
 import java.io.IOException
@@ -20,14 +22,16 @@ class ApiErrorHandler @Inject constructor(
     private val localDataRepositoryInterface: AppLocalDataRepositoryInterface
 ) {
 
-    fun handleError(throwable: Throwable) {
+    fun handleError(throwable: Throwable, appCompatActivity: AppCompatActivity) {
         when (throwable) {
             is AppError -> {
                 when (throwable.throwable) {
                     is ApiException.RefreshTokenException -> {
                         Toast.makeText(context, "RefreshTokenException", Toast.LENGTH_SHORT).show()
                         cleanLocalData()
-                        LoginActivity.toLoginRefreshToken(context)
+                        Navigation
+                            .findNavController(appCompatActivity, R.id.proxy_fragment_container)
+                            .navigate(R.id.action_homeFragment_to_loginFragment)
                     }
                     is ApiException.NoInternetConnectionException -> {
                         Toast.makeText(context, "NoInternetConnectionException", Toast.LENGTH_SHORT).show()

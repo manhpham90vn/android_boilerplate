@@ -1,5 +1,6 @@
-package com.example.baseandroid.ui.detail.fragments
+package com.example.baseandroid.ui.detail
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
@@ -7,26 +8,25 @@ import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.example.baseandroid.R
 import com.example.baseandroid.databinding.FragmentDetailWebBinding
 import com.example.baseandroid.di.ViewModelFactory
 import com.example.baseandroid.ui.base.BaseFragment
-import com.example.baseandroid.ui.detail.DetailHandle
-import com.example.baseandroid.ui.detail.DetailViewModel
 import com.wada811.databinding.withBinding
 import javax.inject.Inject
+
+interface DetailHandle {
+    fun didTapClose()
+}
 
 class DetailWebFragment : BaseFragment(), DetailHandle {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory<DetailViewModel>
-    private val viewModel: DetailViewModel by activityViewModels { viewModelFactory }
+    private val viewModel: DetailViewModel by viewModels { viewModelFactory }
 
-    override fun layoutId(): Int {
-        return R.layout.fragment_detail_web
-    }
-
+    @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -39,7 +39,7 @@ class DetailWebFragment : BaseFragment(), DetailHandle {
             it.webview.settings.cacheMode = WebSettings.LOAD_NO_CACHE
             it.webview.webChromeClient = WebChromeClient()
             it.webview.webViewClient = createWebViewClient()
-            viewModel.url?.let { url ->
+            arguments?.getString("key")?.let { url ->
                 it.webview.loadUrl(url)
             }
         }
@@ -51,6 +51,10 @@ class DetailWebFragment : BaseFragment(), DetailHandle {
                 progress.hideLoadingProgress(this)
             }
         }
+    }
+
+    override fun layoutId(): Int {
+        return R.layout.fragment_detail_web
     }
 
     private fun createWebViewClient(): WebViewClient {
@@ -74,6 +78,6 @@ class DetailWebFragment : BaseFragment(), DetailHandle {
     }
 
     override fun didTapClose() {
-        requireActivity().finish()
+        activity?.onBackPressed()
     }
 }

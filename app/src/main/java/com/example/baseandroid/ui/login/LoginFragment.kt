@@ -1,18 +1,16 @@
-package com.example.baseandroid.ui.login.fragments
+package com.example.baseandroid.ui.login
 
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.Navigation
 import com.example.baseandroid.R
 import com.example.baseandroid.databinding.FragmentLoginBinding
 import com.example.baseandroid.di.ViewModelFactory
 import com.example.baseandroid.networking.ApiErrorHandler
 import com.example.baseandroid.ui.base.BaseFragment
-import com.example.baseandroid.ui.login.LoginActivity
-import com.example.baseandroid.ui.login.LoginResult
-import com.example.baseandroid.ui.login.LoginViewModel
 import com.wada811.databinding.withBinding
 import javax.inject.Inject
 
@@ -46,8 +44,10 @@ class LoginFragment : BaseFragment(), LoginHandle {
             when (it) {
                 is LoginResult.LoginSuccess -> {
                     Toast.makeText(requireActivity(), "Login success", Toast.LENGTH_SHORT).show()
-                    LoginActivity.toLoginSuccess(requireActivity() as AppCompatActivity)
                     viewModel.cleanData()
+                    Navigation
+                        .findNavController(requireActivity(), R.id.proxy_fragment_container)
+                        .navigate(R.id.action_loginFragment_to_loginSuccessFragment)
                 }
                 is LoginResult.LoginError -> {
                     Toast.makeText(
@@ -60,7 +60,7 @@ class LoginFragment : BaseFragment(), LoginHandle {
         }
 
         viewModel.error.observe(viewLifecycleOwner) {
-            errorHandler.handleError(it)
+            errorHandler.handleError(it, requireActivity() as AppCompatActivity)
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) {

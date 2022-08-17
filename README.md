@@ -39,7 +39,7 @@
 
 - [x] binding adapter load image
 
-- [ ] [navigation](https://developer.android.com/guide/navigation/navigation-principles)
+- [x] [navigation](https://developer.android.com/guide/navigation/navigation-principles)
 
 - [ ] [Configure build variants](https://developer.android.com/studio/build/build-variants)
 

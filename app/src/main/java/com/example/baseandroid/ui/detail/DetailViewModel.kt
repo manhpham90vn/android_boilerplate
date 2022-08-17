@@ -7,6 +7,5 @@ import javax.inject.Inject
 class DetailViewModel @Inject constructor() : BaseViewModel() {
 
     val text = MutableLiveData<String>()
-    var url: String? = null
     var img: String? = null
 }

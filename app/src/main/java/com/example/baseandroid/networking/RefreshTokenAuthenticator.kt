@@ -32,7 +32,10 @@ class RefreshTokenValidator {
     var lastFailedDate: Long? = null
 }
 
-class RefreshTokenAuthenticator @Inject constructor(private val appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface, private val appRemoteDataRepositoryInterface: AppRemoteDataRepositoryInterface) : Authenticator {
+class RefreshTokenAuthenticator @Inject constructor(
+    private val appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface,
+    private val appRemoteDataRepositoryInterface: AppRemoteDataRepositoryInterface
+) : Authenticator {
 
     @Throws(ApiException.RefreshTokenException::class)
     override fun authenticate(route: Route?, response: Response): Request? {
