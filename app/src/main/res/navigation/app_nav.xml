@@ -29,7 +29,10 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@+id/loginFragment"
+            app:popUpToInclusive="true"
+            />
         <action
             android:id="@+id/action_homeFragment_to_detailImageFragment"
             app:destination="@id/detailImageFragment">
