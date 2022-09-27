@@ -21,7 +21,7 @@ class ServiceModule {
     }
 
     @Provides
-    fun firebaseMessagingService(appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface): MyApplicationFirebaseMessagingService {
-        return MyApplicationFirebaseMessagingService(appLocalDataRepositoryInterface)
+    fun firebaseMessagingService(): MyApplicationFirebaseMessagingService {
+        return MyApplicationFirebaseMessagingService()
     }
 }

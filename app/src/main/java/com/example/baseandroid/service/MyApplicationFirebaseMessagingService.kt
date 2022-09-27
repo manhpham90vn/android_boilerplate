@@ -12,10 +12,11 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import timber.log.Timber
 import java.util.*
+import javax.inject.Inject
 
-class MyApplicationFirebaseMessagingService(
-    val appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface
-) : FirebaseMessagingService() {
+class MyApplicationFirebaseMessagingService : FirebaseMessagingService() {
+
+    @Inject lateinit var appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         Timber.d("From: ${remoteMessage.from}")
