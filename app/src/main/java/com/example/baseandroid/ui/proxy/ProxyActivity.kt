@@ -8,7 +8,6 @@ import com.example.baseandroid.ui.base.BaseActivity
 import com.example.baseandroid.ui.login.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_proxy.*
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class ProxyActivity : BaseActivity() {

@@ -7,9 +7,6 @@ import androidx.paging.rxjava3.observable
 import com.example.baseandroid.models.PagingUserResponse
 import com.example.baseandroid.ui.home.HomePagingSource
 import com.example.baseandroid.usecase.PagingDataSortType
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 
