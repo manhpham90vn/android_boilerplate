@@ -1,10 +1,10 @@
 package com.example.baseandroid.ui.base
 
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.example.baseandroid.ui.dialog.LoadingProgress
-import dagger.android.support.DaggerAppCompatActivity
 
-abstract class BaseActivity : DaggerAppCompatActivity() {
+abstract class BaseActivity : AppCompatActivity() {
 
     val progress: LoadingProgress by lazy { LoadingProgress() }
 

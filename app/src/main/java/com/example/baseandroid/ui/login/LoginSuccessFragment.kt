@@ -6,16 +6,14 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import com.example.baseandroid.R
 import com.example.baseandroid.databinding.FragmentLoginSuccessBinding
-import com.example.baseandroid.di.ViewModelFactory
 import com.example.baseandroid.ui.base.BaseFragment
 import com.wada811.databinding.withBinding
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginSuccessFragment : BaseFragment(), LoginHandle {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory<LoginViewModel>
-    private val viewModel: LoginViewModel by activityViewModels { viewModelFactory }
+    private val viewModel: LoginViewModel by activityViewModels()
 
     override fun layoutId(): Int {
         return R.layout.fragment_login_success

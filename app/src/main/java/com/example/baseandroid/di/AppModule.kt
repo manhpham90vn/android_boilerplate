@@ -2,14 +2,17 @@ package com.example.baseandroid.di
 
 import com.example.baseandroid.data.local.SharedPreferencesStorage
 import com.example.baseandroid.data.local.Storage
-import com.example.baseandroid.repository.* // ktlint-disable no-wildcard-imports
-import com.example.baseandroid.service.* // ktlint-disable no-wildcard-imports
+import com.example.baseandroid.repository.*
+import com.example.baseandroid.service.*
 import dagger.Binds
 import dagger.Module
-import dagger.android.ContributesAndroidInjector
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
 @Module
+@InstallIn(SingletonComponent::class)
 abstract class AppModule {
+
     @Binds
     abstract fun provideConnectivityService(instance: ConnectivityServiceImpl): ConnectivityService
 
@@ -30,7 +33,4 @@ abstract class AppModule {
 
     @Binds
     abstract fun provideAppPagingDataRepositoryInterface(instance: AppPagingDataRepository): AppPagingDataRepositoryInterface
-
-    @ContributesAndroidInjector
-    abstract fun contributeMyApplicationFirebaseMessagingService(): MyApplicationFirebaseMessagingService
 }

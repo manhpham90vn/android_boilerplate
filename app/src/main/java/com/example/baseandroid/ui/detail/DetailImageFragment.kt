@@ -5,16 +5,14 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import com.example.baseandroid.R
 import com.example.baseandroid.databinding.FragmentDetailImageBinding
-import com.example.baseandroid.di.ViewModelFactory
 import com.example.baseandroid.ui.base.BaseFragment
 import com.wada811.databinding.withBinding
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DetailImageFragment : BaseFragment(), DetailHandle {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory<DetailViewModel>
-    private val viewModel: DetailViewModel by viewModels { viewModelFactory }
+    private val viewModel: DetailViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

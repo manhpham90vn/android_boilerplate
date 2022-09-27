@@ -7,6 +7,7 @@ import com.example.baseandroid.ui.base.BaseViewModel
 import com.example.baseandroid.usecase.LoginUseCase
 import com.example.baseandroid.usecase.LoginUseCaseParams
 import com.example.baseandroid.utils.SingleLiveEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.kotlin.addTo
 import javax.inject.Inject
 
@@ -15,6 +16,7 @@ sealed class LoginResult {
     data class LoginError(val message: String) : LoginResult()
 }
 
+@HiltViewModel
 class LoginViewModel @Inject constructor(
     private val appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface,
     private val loginUseCase: LoginUseCase

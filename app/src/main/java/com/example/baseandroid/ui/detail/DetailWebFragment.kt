@@ -12,20 +12,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import com.example.baseandroid.R
 import com.example.baseandroid.databinding.FragmentDetailWebBinding
-import com.example.baseandroid.di.ViewModelFactory
 import com.example.baseandroid.ui.base.BaseFragment
 import com.wada811.databinding.withBinding
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
 interface DetailHandle {
     fun didTapClose()
 }
 
+@AndroidEntryPoint
 class DetailWebFragment : BaseFragment(), DetailHandle {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory<DetailViewModel>
-    private val viewModel: DetailViewModel by viewModels { viewModelFactory }
+    private val viewModel: DetailViewModel by viewModels()
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

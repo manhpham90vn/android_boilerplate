@@ -4,17 +4,15 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import com.example.baseandroid.R
-import com.example.baseandroid.di.ViewModelFactory
 import com.example.baseandroid.ui.base.BaseActivity
 import com.example.baseandroid.ui.login.LoginViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_proxy.*
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class ProxyActivity : BaseActivity() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory<LoginViewModel>
-    private val viewModel: LoginViewModel by viewModels { viewModelFactory }
+    private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

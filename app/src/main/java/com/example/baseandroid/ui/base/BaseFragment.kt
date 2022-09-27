@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.example.baseandroid.ui.dialog.LoadingProgress
-import dagger.android.support.DaggerFragment
 
-abstract class BaseFragment : DaggerFragment() {
+abstract class BaseFragment : Fragment() {
 
     val progress: LoadingProgress by lazy { LoadingProgress() }
 
