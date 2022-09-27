@@ -10,10 +10,12 @@ import com.example.baseandroid.R
 import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class MyApplicationFirebaseMessagingService : FirebaseMessagingService() {
 
     @Inject lateinit var appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface
