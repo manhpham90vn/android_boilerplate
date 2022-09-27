@@ -1,14 +1,15 @@
 package com.example.baseandroid.ui.application
 
+import android.app.Application
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.example.baseandroid.BuildConfig
-import com.example.baseandroid.di.DaggerAppComponent
 import com.example.baseandroid.service.MyApplicationDefaultLifecycleObserver
-import dagger.android.AndroidInjector
-import dagger.android.DaggerApplication
+import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
-class MyApplication : DaggerApplication() {
+@HiltAndroidApp
+class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -20,9 +21,5 @@ class MyApplication : DaggerApplication() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
-    }
-
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return DaggerAppComponent.factory().create(this)
     }
 }

@@ -8,6 +8,7 @@ import com.example.baseandroid.usecase.base.SingleUseCase
 import com.google.gson.Gson
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
+import javax.inject.Singleton
 
 data class LoginUseCaseParams(val email: String, val password: String)
 

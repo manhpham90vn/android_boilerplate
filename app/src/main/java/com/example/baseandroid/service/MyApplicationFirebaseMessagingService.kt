@@ -10,19 +10,12 @@ import com.example.baseandroid.R
 import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import dagger.android.AndroidInjection
 import timber.log.Timber
 import java.util.*
-import javax.inject.Inject
 
-class MyApplicationFirebaseMessagingService : FirebaseMessagingService() {
-
-    @Inject lateinit var appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface
-
-    override fun onCreate() {
-        super.onCreate()
-        AndroidInjection.inject(this)
-    }
+class MyApplicationFirebaseMessagingService(
+    val appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface
+) : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         Timber.d("From: ${remoteMessage.from}")

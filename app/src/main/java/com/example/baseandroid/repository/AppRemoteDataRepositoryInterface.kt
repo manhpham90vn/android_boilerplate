@@ -6,6 +6,9 @@ import com.example.baseandroid.data.remote.ApiClientRefreshtor
 import com.example.baseandroid.models.LoginResponse
 import com.example.baseandroid.models.RefreshTokenResponse
 import com.example.baseandroid.networking.AppError
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import io.reactivex.rxjava3.core.Single
 import retrofit2.Call
 import javax.inject.Inject

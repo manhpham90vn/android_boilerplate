@@ -11,6 +11,8 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -18,22 +20,24 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
+import javax.inject.Singleton
 
 @Module
+@InstallIn(SingletonComponent::class)
 class NetworkModule {
 
     companion object {
         private const val APP_BASE_URL = "http://localhost.charlesproxy.com:3000/"
     }
 
-    @AppScope
     @Provides
+    @Singleton
     fun createTokenInterceptor(appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface): TokenInterceptor {
         return TokenInterceptor(appLocalDataRepositoryInterface)
     }
 
-    @AppScope
     @Provides
+    @Singleton
     fun createRefreshTokenAuthenticator(
         appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface,
         appRemoteDataRepositoryInterface: AppRemoteDataRepositoryInterface
@@ -41,16 +45,16 @@ class NetworkModule {
         return RefreshTokenAuthenticator(appLocalDataRepositoryInterface, appRemoteDataRepositoryInterface)
     }
 
-    @AppScope
     @Provides
+    @Singleton
     fun createHttpLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().apply {
             this.setLevel(HttpLoggingInterceptor.Level.BODY)
         }
     }
 
-    @AppScope
     @Provides
+    @Singleton
     fun createGson(): Gson {
         return GsonBuilder()
             .setPrettyPrinting()
@@ -58,14 +62,14 @@ class NetworkModule {
             .create()
     }
 
-    @AppScope
     @Provides
+    @Singleton
     fun createRxJava3CallAdapterFactory(): RxJava3CallAdapterFactory {
         return RxJava3CallAdapterFactory.create()
     }
 
-    @AppScope
     @Provides
+    @Singleton
     @Named("httpClient")
     fun createHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
@@ -76,8 +80,8 @@ class NetworkModule {
             .build()
     }
 
-    @AppScope
     @Provides
+    @Singleton
     @Named("httpClientRefreshable")
     fun createHttpClientRefreshable(
         tokenInterceptor: TokenInterceptor,
@@ -94,8 +98,8 @@ class NetworkModule {
             .build()
     }
 
-    @AppScope
     @Provides
+    @Singleton
     @Named("retrofit")
     fun createRetrofit(
         @Named("httpClient") httpClient: OkHttpClient,
@@ -110,8 +114,8 @@ class NetworkModule {
             .build()
     }
 
-    @AppScope
     @Provides
+    @Singleton
     @Named("retrofitRefreshtor")
     fun createRetrofitRefreshtor(
         @Named("httpClient") httpClient: OkHttpClient,
@@ -124,8 +128,8 @@ class NetworkModule {
             .build()
     }
 
-    @AppScope
     @Provides
+    @Singleton
     @Named("retrofitRefreshable")
     fun createRetrofitRefreshable(
         @Named("httpClientRefreshable") httpClient: OkHttpClient,
@@ -140,20 +144,20 @@ class NetworkModule {
             .build()
     }
 
-    @AppScope
     @Provides
+    @Singleton
     fun provideApiClient(@Named("retrofit") retrofit: Retrofit): ApiClient {
         return retrofit.create(ApiClient::class.java)
     }
 
-    @AppScope
     @Provides
+    @Singleton
     fun provideApiClientRefreshable(@Named("retrofitRefreshable") retrofit: Retrofit): ApiClientRefreshable {
         return retrofit.create(ApiClientRefreshable::class.java)
     }
 
-    @AppScope
     @Provides
+    @Singleton
     fun provideApiClientRefreshtor(@Named("retrofitRefreshtor") retrofit: Retrofit): ApiClientRefreshtor {
         return retrofit.create(ApiClientRefreshtor::class.java)
     }

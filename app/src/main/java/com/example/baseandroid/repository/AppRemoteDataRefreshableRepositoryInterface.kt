@@ -5,6 +5,9 @@ import com.example.baseandroid.data.remote.ApiClientRefreshable
 import com.example.baseandroid.models.PagingResponse
 import com.example.baseandroid.models.UserResponse
 import com.example.baseandroid.networking.AppError
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 

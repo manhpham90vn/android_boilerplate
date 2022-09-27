@@ -4,13 +4,14 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import androidx.core.content.getSystemService
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 interface ConnectivityService {
     val isNetworkConnection: Boolean
 }
 
-class ConnectivityServiceImpl @Inject constructor(private val context: Context) :
+class ConnectivityServiceImpl @Inject constructor(@ApplicationContext val context: Context) :
     ConnectivityService {
     override val isNetworkConnection: Boolean
         get() = context.getSystemService<ConnectivityManager>()?.let {

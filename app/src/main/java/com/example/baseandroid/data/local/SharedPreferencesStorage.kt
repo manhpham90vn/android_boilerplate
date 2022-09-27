@@ -1,9 +1,10 @@
 package com.example.baseandroid.data.local
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class SharedPreferencesStorage @Inject constructor(context: Context) : Storage {
+class SharedPreferencesStorage @Inject constructor(@ApplicationContext context: Context) : Storage {
 
     private val sharedPreferences = context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE)
 

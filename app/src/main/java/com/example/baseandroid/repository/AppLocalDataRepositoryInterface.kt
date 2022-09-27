@@ -2,6 +2,9 @@ package com.example.baseandroid.repository
 
 import com.example.baseandroid.data.local.Storage
 import com.example.baseandroid.data.local.StorageConstants
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Inject
 
 interface AppLocalDataRepositoryInterface {

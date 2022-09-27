@@ -1,7 +1,6 @@
 package com.example.baseandroid.ui.home
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagingData
 import com.example.baseandroid.models.PagingUserResponse
 import com.example.baseandroid.networking.RefreshTokenValidator
@@ -11,10 +10,12 @@ import com.example.baseandroid.usecase.GetUserInfoUseCase
 import com.example.baseandroid.usecase.PagingDataSortType
 import com.example.baseandroid.usecase.PagingDataUseCase
 import com.example.baseandroid.utils.SingleLiveEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.kotlin.Observables
 import io.reactivex.rxjava3.kotlin.addTo
 import javax.inject.Inject
 
+@HiltViewModel
 class HomeViewModel @Inject constructor(
     private val localDataRepositoryInterface: AppLocalDataRepositoryInterface,
     private val getUserInfoUseCase: GetUserInfoUseCase,

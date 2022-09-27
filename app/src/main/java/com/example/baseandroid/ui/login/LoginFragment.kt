@@ -8,21 +8,20 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import com.example.baseandroid.R
 import com.example.baseandroid.databinding.FragmentLoginBinding
-import com.example.baseandroid.di.ViewModelFactory
 import com.example.baseandroid.networking.ApiErrorHandler
 import com.example.baseandroid.ui.base.BaseFragment
 import com.wada811.databinding.withBinding
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 interface LoginHandle {
     fun didTapLogin()
 }
 
+@AndroidEntryPoint
 class LoginFragment : BaseFragment(), LoginHandle {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory<LoginViewModel>
-    private val viewModel: LoginViewModel by activityViewModels { viewModelFactory }
+    private val viewModel: LoginViewModel by activityViewModels()
 
     @Inject lateinit var errorHandler: ApiErrorHandler
 

@@ -9,10 +9,10 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.baseandroid.R
 import com.example.baseandroid.databinding.FragmentHomeBinding
-import com.example.baseandroid.di.ViewModelFactory
 import com.example.baseandroid.networking.ApiErrorHandler
 import com.example.baseandroid.ui.base.BaseFragment
 import com.wada811.databinding.withBinding
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -22,11 +22,10 @@ interface HomeHandler {
     fun didTapSort()
 }
 
+@AndroidEntryPoint
 class HomeFragment : BaseFragment(), HomeHandler {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory<HomeViewModel>
-    private val viewModel: HomeViewModel by viewModels { viewModelFactory }
+    private val viewModel: HomeViewModel by viewModels()
 
     @Inject lateinit var errorHandler: ApiErrorHandler
 
