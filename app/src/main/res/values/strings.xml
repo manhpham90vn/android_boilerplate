@@ -10,4 +10,6 @@
     <string name="close">Close</string>
     <string name="toWebview">Open WebView</string>
     <string name="sort">Sort</string>
+    <string name="cancel">Cancel</string>
+    <string name="retry">Retry</string>
 </resources>

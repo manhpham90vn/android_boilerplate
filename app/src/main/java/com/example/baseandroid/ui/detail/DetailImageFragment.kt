@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import com.example.baseandroid.R
 import com.example.baseandroid.databinding.FragmentDetailImageBinding
 import com.example.baseandroid.ui.base.BaseFragment
+import com.example.baseandroid.ui.base.ScreenType
 import com.wada811.databinding.withBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,6 +29,10 @@ class DetailImageFragment : BaseFragment(), DetailHandle {
 
     override fun layoutId(): Int {
         return R.layout.fragment_detail_image
+    }
+
+    override fun screenType(): ScreenType {
+        return ScreenType.IMG_DETAIL
     }
 
     override fun didTapClose() {
