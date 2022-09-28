@@ -63,6 +63,10 @@ class LoginViewModel @Inject constructor(
         loginUseCase.execute(params)
     }
 
+    fun retryLogin() {
+        loginUseCase.retry()
+    }
+
     fun isLogin(): Boolean {
         return appLocalDataRepositoryInterface.isLogin()
     }

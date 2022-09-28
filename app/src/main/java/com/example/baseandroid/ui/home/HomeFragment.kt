@@ -11,6 +11,7 @@ import com.example.baseandroid.R
 import com.example.baseandroid.databinding.FragmentHomeBinding
 import com.example.baseandroid.networking.ApiErrorHandler
 import com.example.baseandroid.ui.base.BaseFragment
+import com.example.baseandroid.ui.base.ScreenType
 import com.wada811.databinding.withBinding
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -96,7 +97,7 @@ class HomeFragment : BaseFragment(), HomeHandler {
         }
 
         viewModel.error.observe(viewLifecycleOwner) {
-            errorHandler.handleError(it, requireActivity() as AppCompatActivity)
+            errorHandler.handleError(it, screenType(), requireActivity() as AppCompatActivity)
         }
     }
 
@@ -127,5 +128,9 @@ class HomeFragment : BaseFragment(), HomeHandler {
 
     override fun layoutId(): Int {
         return R.layout.fragment_home
+    }
+
+    override fun screenType(): ScreenType {
+        return ScreenType.HOME
     }
 }

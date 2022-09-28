@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import com.example.baseandroid.R
 import com.example.baseandroid.databinding.FragmentDetailWebBinding
 import com.example.baseandroid.ui.base.BaseFragment
+import com.example.baseandroid.ui.base.ScreenType
 import com.wada811.databinding.withBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -54,6 +55,10 @@ class DetailWebFragment : BaseFragment(), DetailHandle {
 
     override fun layoutId(): Int {
         return R.layout.fragment_detail_web
+    }
+
+    override fun screenType(): ScreenType {
+        return ScreenType.WEB_DETAIL
     }
 
     private fun createWebViewClient(): WebViewClient {

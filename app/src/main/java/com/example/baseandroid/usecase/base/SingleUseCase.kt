@@ -34,6 +34,7 @@ abstract class SingleUseCase<P, R : Any> constructor(
     abstract override fun buildUseCase(params: P): Single<R>
 
     override fun execute(params: P) {
+        cacheParams.set(params)
         performedIfNeeded()?.let {
             buildUseCase(params)
                 .subscribeOn(schedulerProvider.io())

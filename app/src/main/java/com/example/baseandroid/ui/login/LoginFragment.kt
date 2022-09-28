@@ -10,6 +10,7 @@ import com.example.baseandroid.R
 import com.example.baseandroid.databinding.FragmentLoginBinding
 import com.example.baseandroid.networking.ApiErrorHandler
 import com.example.baseandroid.ui.base.BaseFragment
+import com.example.baseandroid.ui.base.ScreenType
 import com.wada811.databinding.withBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -59,7 +60,9 @@ class LoginFragment : BaseFragment(), LoginHandle {
         }
 
         viewModel.error.observe(viewLifecycleOwner) {
-            errorHandler.handleError(it, requireActivity() as AppCompatActivity)
+            errorHandler.handleError(it, screenType(), requireActivity() as AppCompatActivity) {
+                viewModel.retryLogin()
+            }
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) {
@@ -73,5 +76,9 @@ class LoginFragment : BaseFragment(), LoginHandle {
 
     override fun didTapLogin() {
         viewModel.login()
+    }
+
+    override fun screenType(): ScreenType {
+        return ScreenType.LOGIN
     }
 }

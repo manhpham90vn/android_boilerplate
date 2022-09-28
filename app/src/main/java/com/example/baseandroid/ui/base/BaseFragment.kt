@@ -20,4 +20,6 @@ abstract class BaseFragment : Fragment() {
     }
 
     abstract fun layoutId(): Int
+
+    abstract fun screenType(): ScreenType
 }
