@@ -1,5 +1,6 @@
 package com.example.baseandroid.di
 
+import com.example.baseandroid.BuildConfig
 import com.example.baseandroid.data.remote.ApiClient
 import com.example.baseandroid.data.remote.ApiClientRefreshable
 import com.example.baseandroid.data.remote.ApiClientRefreshtor
@@ -25,10 +26,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
-
-    companion object {
-        private const val APP_BASE_URL = "http://localhost.charlesproxy.com:3000/"
-    }
 
     @Provides
     @Singleton
@@ -107,7 +104,7 @@ class NetworkModule {
         rxJava3CallAdapterFactory: RxJava3CallAdapterFactory
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(APP_BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(rxJava3CallAdapterFactory)
             .client(httpClient)
@@ -122,7 +119,7 @@ class NetworkModule {
         gson: Gson
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(APP_BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(httpClient)
             .build()
@@ -137,7 +134,7 @@ class NetworkModule {
         rxJava3CallAdapterFactory: RxJava3CallAdapterFactory
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(APP_BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(rxJava3CallAdapterFactory)
             .client(httpClient)

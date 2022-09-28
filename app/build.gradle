@@ -13,7 +13,6 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.example.baseandroid"
         minSdk 23
         targetSdk 32
         versionCode 1
@@ -44,6 +43,30 @@ android {
 
     lintOptions {
         disable "JvmStaticProvidesInObjectDetector", "FieldSiteTargetOnQualifierAnnotation", "ModuleCompanionObjects", "ModuleCompanionObjectsNotInModuleParent"
+    }
+
+    signingConfigs {
+        debug
+        release
+    }
+
+    flavorDimensions "default"
+
+    productFlavors {
+        dev {
+            applicationId "com.example.baseandroid"
+            buildConfigField 'String', 'BASE_URL', '"http://localhost.charlesproxy.com:3000/"'
+        }
+
+        staging {
+            applicationId "com.example.baseandroid"
+            buildConfigField 'String', 'BASE_URL', '"http://localhost.charlesproxy.com:3000/"'
+        }
+
+        product {
+            applicationId "com.example.baseandroid"
+            buildConfigField 'String', 'BASE_URL', '"http://localhost.charlesproxy.com:3000/"'
+        }
     }
 }
 
@@ -116,7 +139,7 @@ dependencies {
     kapt "com.github.bumptech.glide:compiler:$glide_version"
     implementation "com.github.bumptech.glide:okhttp3-integration:$glide_version"
 
-    def nav_version = "2.5.1"
+    def nav_version = "2.5.2"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 

@@ -11,7 +11,7 @@ on:
 jobs:
   test:
     name: Run Unit Tests
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v3
@@ -30,7 +30,7 @@ jobs:
 
   lint:
     name: Lint Check
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v3
@@ -40,7 +40,7 @@ jobs:
           distribution: 'zulu'
           java-version: '11'
       - name: Lint debug flavor
-        run: bash ./gradlew lintDebug --stacktrace
+        run: bash ./gradlew lintDevDebug --stacktrace
       - name: Lint results
         uses: actions/upload-artifact@v3
         with:
@@ -49,7 +49,7 @@ jobs:
 
   apk:
     name: Generate APK
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v3
@@ -59,7 +59,7 @@ jobs:
           distribution: 'zulu'
           java-version: '11'
       - name: Build debug APK
-        run: bash ./gradlew assembleDebug --stacktrace
+        run: bash ./gradlew assembleDev --stacktrace
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
