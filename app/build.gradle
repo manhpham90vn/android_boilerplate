@@ -45,6 +45,30 @@ android {
     lintOptions {
         disable "JvmStaticProvidesInObjectDetector", "FieldSiteTargetOnQualifierAnnotation", "ModuleCompanionObjects", "ModuleCompanionObjectsNotInModuleParent"
     }
+
+    signingConfigs {
+        debug
+        release
+    }
+
+    flavorDimensions "default"
+
+    productFlavors {
+        dev {
+            applicationId "com.example.baseandroid"
+            buildConfigField 'String', 'BASE_URL', '"http://localhost.charlesproxy.com:3000/"'
+        }
+
+        staging {
+            applicationId "com.example.baseandroid"
+            buildConfigField 'String', 'BASE_URL', '"http://localhost.charlesproxy.com:3000/"'
+        }
+
+        product {
+            applicationId "com.example.baseandroid"
+            buildConfigField 'String', 'BASE_URL', '"http://localhost.charlesproxy.com:3000/"'
+        }
+    }
 }
 
 dependencies {
