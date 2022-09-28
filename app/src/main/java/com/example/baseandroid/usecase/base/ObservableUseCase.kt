@@ -34,7 +34,7 @@ abstract class ObservableUseCase<P, R : Any> constructor(
     abstract override fun buildUseCase(params: P): Observable<R>
 
     override fun execute(params: P) {
-        input = params
+        cacheParams.set(params)
         performedIfNeeded()?.let {
             buildUseCase(params)
                 .subscribeOn(schedulerProvider.io())
