@@ -82,6 +82,4 @@ class ApiErrorHandler @Inject constructor(
         localDataRepositoryInterface.cleanRefreshToken()
         RefreshTokenValidator.getInstance().lastFailedDate = null
     }
-
-    private fun handleRefreshToken
 }
