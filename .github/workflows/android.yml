@@ -26,7 +26,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: unit-tests-results
-          path: app/build/reports/tests/testDebugUnitTest/index.html
+          path: app/build/reports/tests/testDevDebugUnitTest/index.html
 
   lint:
     name: Lint Check
@@ -45,7 +45,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: app
-          path: app/build/reports/lint-results-debug.html
+          path: app/build/reports/lint-results-devDebug.html
 
   apk:
     name: Generate APK
@@ -64,4 +64,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: app
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: app/build/outputs/apk/dev/debug/app-dev-debug.apk
