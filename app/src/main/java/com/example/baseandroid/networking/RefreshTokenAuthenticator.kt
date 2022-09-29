@@ -28,8 +28,6 @@ class RefreshTokenValidator {
         @Synchronized get
 
         @Synchronized set
-
-    var lastFailedDate: Long? = null
 }
 
 class RefreshTokenAuthenticator @Inject constructor(
@@ -40,7 +38,7 @@ class RefreshTokenAuthenticator @Inject constructor(
     @Throws(ApiException.RefreshTokenException::class)
     override fun authenticate(route: Route?, response: Response): Request? {
         val isRefreshTokenRequest = response.request.url.toString().endsWith("refreshToken")
-        if (response.code == 401 && !isRefreshTokenRequest && checkRepeatRefreshToken()) {
+        if (response.code == 401 && !isRefreshTokenRequest) {
             if (RefreshTokenValidator.getInstance().refreshTokenState != RefreshTokenState.IS_REFRESHING) {
                 RefreshTokenValidator.getInstance().refreshTokenState = RefreshTokenState.IS_REFRESHING
                 refreshToken()
@@ -48,15 +46,6 @@ class RefreshTokenAuthenticator @Inject constructor(
             return newRequest(response)
         }
         return null
-    }
-
-    private fun checkRepeatRefreshToken(): Boolean {
-        val timeDiff = System.currentTimeMillis() - (RefreshTokenValidator.getInstance().lastFailedDate ?: System.currentTimeMillis())
-        return if (RefreshTokenValidator.getInstance().lastFailedDate != null) {
-            timeDiff > 30000
-        } else {
-            true
-        }
     }
 
     private fun newRequest(response: Response): Request? {
@@ -95,10 +84,8 @@ class RefreshTokenAuthenticator @Inject constructor(
                 if (it.isSuccessful && it.code() == 200) {
                     appLocalDataRepositoryInterface.setToken(it.body()?.token ?: "")
                     RefreshTokenValidator.getInstance().refreshTokenState = RefreshTokenState.REFRESH_SUCCESS
-                    RefreshTokenValidator.getInstance().lastFailedDate = null
                 } else {
                     RefreshTokenValidator.getInstance().refreshTokenState = RefreshTokenState.REFRESH_ERROR
-                    RefreshTokenValidator.getInstance().lastFailedDate = System.currentTimeMillis()
                     throw ApiException.RefreshTokenException
                 }
             }

@@ -3,7 +3,6 @@ package com.example.baseandroid.ui.home
 import androidx.lifecycle.LiveData
 import androidx.paging.PagingData
 import com.example.baseandroid.models.PagingUserResponse
-import com.example.baseandroid.networking.RefreshTokenValidator
 import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
 import com.example.baseandroid.ui.base.BaseViewModel
 import com.example.baseandroid.usecase.GetUserInfoUseCase
@@ -82,7 +81,6 @@ class HomeViewModel @Inject constructor(
     fun cleanData() {
         localDataRepositoryInterface.cleanRefreshToken()
         localDataRepositoryInterface.cleanToken()
-        RefreshTokenValidator.getInstance().lastFailedDate = null
     }
 
     override fun onCleared() {
