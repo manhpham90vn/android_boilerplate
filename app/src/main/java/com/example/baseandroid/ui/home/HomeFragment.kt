@@ -9,7 +9,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.baseandroid.R
 import com.example.baseandroid.databinding.FragmentHomeBinding
-import com.example.baseandroid.networking.ApiErrorHandler
+import com.example.baseandroid.service.ApiErrorHandler
 import com.example.baseandroid.ui.base.BaseFragment
 import com.example.baseandroid.ui.base.ScreenType
 import com.wada811.databinding.withBinding
