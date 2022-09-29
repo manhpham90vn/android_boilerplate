@@ -2,7 +2,6 @@ package com.example.baseandroid.service
 
 import android.content.Context
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import com.example.baseandroid.R
@@ -12,7 +11,10 @@ import com.example.baseandroid.networking.ApiException
 import com.example.baseandroid.networking.AppError
 import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
 import com.example.baseandroid.ui.base.ScreenType
+import com.example.baseandroid.ui.dialog.DialogManager
+import com.example.baseandroid.ui.dialog.TypeDialog
 import com.google.gson.Gson
+import dagger.hilt.android.qualifiers.ActivityContext
 import retrofit2.HttpException
 import java.io.IOException
 import java.net.ConnectException
@@ -21,9 +23,10 @@ import java.util.concurrent.TimeoutException
 import javax.inject.Inject
 
 class ApiErrorHandler @Inject constructor(
-    val context: Context,
+    @ActivityContext val context: Context,
     val gson: Gson,
-    private val localDataRepositoryInterface: AppLocalDataRepositoryInterface
+    private val dialogManager: DialogManager,
+    private val localDataRepositoryInterface: AppLocalDataRepositoryInterface,
 ) {
 
     fun handleError(throwable: Throwable, screenType: ScreenType, appCompatActivity: AppCompatActivity, callback: () -> Unit = {}) {
@@ -38,45 +41,69 @@ class ApiErrorHandler @Inject constructor(
                             .navigate(R.id.action_homeFragment_to_loginFragment)
                     }
                     is ApiException.NoInternetConnectionException -> {
-                        Toast.makeText(context, "NoInternetConnectionException screen:$screenType", Toast.LENGTH_SHORT).show()
+                        dialogManager.showDialog(TypeDialog.CLOSE_DIALOG, message = context.getString(R.string.no_internet))
                     }
                     is ApiException.ActionAlreadyPerformingException -> {
-                        Toast.makeText(context, "ActionAlreadyPerformingException screen:$screenType", Toast.LENGTH_SHORT).show()
+                        dialogManager.showDialog(
+                            TypeDialog.RETRY_DIALOG,
+                            message = context.getString(R.string.api_exception),
+                            callbackRetry = callback
+                        )
                     }
-                    is ConnectException -> Toast.makeText(context, "ConnectException screen:$screenType", Toast.LENGTH_SHORT).show()
-                    is TimeoutException -> Toast.makeText(context, "TimeoutException screen:$screenType", Toast.LENGTH_SHORT).show()
-                    is SocketTimeoutException -> Toast.makeText(context, "SocketTimeoutException screen:$screenType", Toast.LENGTH_SHORT).show()
+                    is ConnectException -> {
+                        dialogManager.showDialog(
+                            TypeDialog.RETRY_DIALOG,
+                            message = context.getString(R.string.connect_exception),
+                            callbackRetry = callback
+                        )
+                    }
+                    is TimeoutException -> {
+                        dialogManager.showDialog(
+                            TypeDialog.RETRY_DIALOG,
+                            message = context.getString(R.string.timeout_exception),
+                            callbackRetry = callback
+                        )
+                    }
+                    is SocketTimeoutException -> {
+                        dialogManager.showDialog(
+                            TypeDialog.RETRY_DIALOG,
+                            message = context.getString(R.string.socket_timeout_exception),
+                            callbackRetry = callback
+                        )
+                    }
                     is HttpException -> {
                         when (throwable.api) {
-                            Api.Login -> defaultHandleError(throwable.throwable, screenType, appCompatActivity, callback)
-                            else -> defaultHandleError(throwable.throwable, screenType, appCompatActivity, callback)
+                            Api.Login -> defaultHandleError(throwable.throwable, screenType, callback)
+                            else -> defaultHandleError(throwable.throwable, screenType, callback)
                         }
                     }
                     else -> {
-                        Toast.makeText(context, "UnknownException", Toast.LENGTH_SHORT).show()
+                        showDialogUnknownException(callback)
                     }
                 }
             }
-            else -> Toast.makeText(context, "UnknownException", Toast.LENGTH_SHORT).show()
+            else -> showDialogUnknownException(callback)
         }
     }
 
-    private fun defaultHandleError(exception: HttpException, screenType: ScreenType, appCompatActivity: AppCompatActivity, callback: () -> Unit) {
+    private fun defaultHandleError(exception: HttpException, screenType: ScreenType, callback: () -> Unit) {
         val adapter = gson.getAdapter(ErrorResponse::class.java)
         try {
             val json = adapter.fromJson(exception.response()?.errorBody()?.string()) as ErrorResponse
             Toast.makeText(context, "message:${json.message} screen:$screenType", Toast.LENGTH_SHORT).show()
+            dialogManager.showDialog(TypeDialog.RETRY_DIALOG, message = "${json.message}", callbackRetry = callback)
+
         } catch (error: IOException) {
-            val alert = AlertDialog.Builder(appCompatActivity).apply {
-                setTitle(R.string.app_name)
-                setMessage("UnknownException")
-                setPositiveButton(R.string.retry) { _, _ ->
-                    callback.invoke()
-                }
-                setNegativeButton(R.string.cancel, null)
-            }
-            alert.show()
+            showDialogUnknownException(callback)
         }
+    }
+
+    private fun showDialogUnknownException(callback: () -> Unit) {
+        dialogManager.showDialog(
+            TypeDialog.CLOSE_DIALOG,
+            message = context.getString(R.string.unknown_exception),
+            callbackClose = callback
+        )
     }
 
     private fun cleanLocalData() {

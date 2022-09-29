@@ -10,6 +10,15 @@
     <string name="close">Close</string>
     <string name="toWebview">Open WebView</string>
     <string name="sort">Sort</string>
+    <string name="tittle">Tittle</string>
+    <string name="message">Message</string>
     <string name="cancel">Cancel</string>
     <string name="retry">Retry</string>
+
+    <string name="no_internet">No internet</string>
+    <string name="api_exception">Api exception</string>
+    <string name="connect_exception">Connect exception</string>
+    <string name="timeout_exception">Timeout exception</string>
+    <string name="socket_timeout_exception">Socket timeout exception</string>
+    <string name="unknown_exception">Unknown exception</string>
 </resources>
