@@ -2,7 +2,6 @@ package com.example.baseandroid.service
 
 import android.content.Context
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import com.example.baseandroid.R
@@ -15,7 +14,6 @@ import com.example.baseandroid.ui.base.ScreenType
 import com.example.baseandroid.ui.dialog.DialogManager
 import com.example.baseandroid.ui.dialog.TypeDialog
 import com.google.gson.Gson
-import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ActivityContext
 import retrofit2.HttpException
 import java.io.IOException
@@ -27,7 +25,7 @@ import javax.inject.Inject
 class ApiErrorHandler @Inject constructor(
     @ActivityContext val context: Context,
     val gson: Gson,
-    val dialogManager: DialogManager,
+    private val dialogManager: DialogManager,
     private val localDataRepositoryInterface: AppLocalDataRepositoryInterface,
 ) {
 
@@ -75,20 +73,20 @@ class ApiErrorHandler @Inject constructor(
                     }
                     is HttpException -> {
                         when (throwable.api) {
-                            Api.Login -> defaultHandleError(throwable.throwable, screenType, appCompatActivity, callback)
-                            else -> defaultHandleError(throwable.throwable, screenType, appCompatActivity, callback)
+                            Api.Login -> defaultHandleError(throwable.throwable, screenType, callback)
+                            else -> defaultHandleError(throwable.throwable, screenType, callback)
                         }
                     }
                     else -> {
-                        showDialogUnknowException(callback)
+                        showDialogUnknownException(callback)
                     }
                 }
             }
-            else -> showDialogUnknowException(callback)
+            else -> showDialogUnknownException(callback)
         }
     }
 
-    private fun defaultHandleError(exception: HttpException, screenType: ScreenType, appCompatActivity: AppCompatActivity, callback: () -> Unit) {
+    private fun defaultHandleError(exception: HttpException, screenType: ScreenType, callback: () -> Unit) {
         val adapter = gson.getAdapter(ErrorResponse::class.java)
         try {
             val json = adapter.fromJson(exception.response()?.errorBody()?.string()) as ErrorResponse
@@ -96,11 +94,11 @@ class ApiErrorHandler @Inject constructor(
             dialogManager.showDialog(TypeDialog.RETRY_DIALOG, message = "${json.message}", callbackRetry = callback)
 
         } catch (error: IOException) {
-            showDialogUnknowException(callback)
+            showDialogUnknownException(callback)
         }
     }
 
-    private fun showDialogUnknowException(callback: () -> Unit) {
+    private fun showDialogUnknownException(callback: () -> Unit) {
         dialogManager.showDialog(
             TypeDialog.CLOSE_DIALOG,
             message = context.getString(R.string.unknown_exception),

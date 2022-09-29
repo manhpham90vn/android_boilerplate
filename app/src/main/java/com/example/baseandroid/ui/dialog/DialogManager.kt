@@ -8,31 +8,28 @@ import javax.inject.Inject
 
 class DialogManager @Inject constructor(@ActivityContext val context: Context) {
 
-    private var shownDialoged = false
+    private var isShowedDialog = false
 
     fun showDialog(
         typeDialog: TypeDialog,
         title: String? = null,
         message: String? = null,
-        closeButtonLable: String? = null,
-        retryButtonLable: String? = null,
+        closeButtonLabel: String? = null,
+        retryButtonLabel: String? = null,
         callbackRetry: (() -> Unit)? = null,
         callbackClose: (() -> Unit)? = null
     ) {
-        if (shownDialoged) {
+        if (isShowedDialog) {
             return
         }
-        shownDialoged = true
+        isShowedDialog = true
 
         when (typeDialog) {
             TypeDialog.CLOSE_DIALOG -> {
-                createCloseDialog(title, message, closeButtonLable, callbackClose)
+                createCloseDialog(title, message, closeButtonLabel, callbackClose)
             }
             TypeDialog.RETRY_DIALOG -> {
-                createRetryDialog(title, message, closeButtonLable, retryButtonLable, callbackRetry, callbackClose)
-            }
-            else -> {
-
+                createRetryDialog(title, message, closeButtonLabel, retryButtonLabel, callbackRetry, callbackClose)
             }
         }
     }
@@ -40,17 +37,17 @@ class DialogManager @Inject constructor(@ActivityContext val context: Context) {
     private fun createCloseDialog(
         title: String? = null,
         message: String? = null,
-        closeButtonLable: String? = null,
+        closeButtonLabel: String? = null,
         callbackClose: (() -> Unit)? = null
     ) {
         val alert = AlertDialog.Builder(context).apply {
             setTitle(title ?: context.getString(R.string.tittle))
             setMessage(message ?: context.getString(R.string.message))
             setCancelable(false)
-            setNegativeButton(closeButtonLable ?:context.getString(R.string.close)) { _, _ ->
+            setNegativeButton(closeButtonLabel ?:context.getString(R.string.close)) { _, _ ->
                 callbackClose?.invoke()
             }
-            setOnDismissListener { shownDialoged = false }
+            setOnDismissListener { isShowedDialog = false }
         }
         alert.show()
     }
@@ -58,8 +55,8 @@ class DialogManager @Inject constructor(@ActivityContext val context: Context) {
     private fun createRetryDialog(
         title: String? = null,
         message: String? = null,
-        closeButtonLable: String? = null,
-        retryButtonLable: String? = null,
+        closeButtonLabel: String? = null,
+        retryButtonLabel: String? = null,
         callbackRetry: (() -> Unit)? = null,
         callbackClose: (() -> Unit)? = null
     ) {
@@ -67,13 +64,13 @@ class DialogManager @Inject constructor(@ActivityContext val context: Context) {
             setTitle(title ?: context.getString(R.string.tittle))
             setMessage(message ?: context.getString(R.string.message))
             setCancelable(false)
-            setPositiveButton(closeButtonLable ?: context.getString(R.string.retry)) { _, _ ->
+            setPositiveButton(closeButtonLabel ?: context.getString(R.string.retry)) { _, _ ->
                 callbackRetry?.invoke()
             }
-            setNegativeButton(retryButtonLable ?: context.getString(R.string.close)) { _, _ ->
+            setNegativeButton(retryButtonLabel ?: context.getString(R.string.close)) { _, _ ->
                 callbackClose?.invoke()
             }
-            setOnDismissListener { shownDialoged = false }
+            setOnDismissListener { isShowedDialog = false }
         }
         alert.show()
     }
