@@ -1,7 +1,7 @@
 package com.example.baseandroid.di
 
 import android.content.Context
-import com.example.baseandroid.networking.ApiErrorHandler
+import com.example.baseandroid.service.ApiErrorHandler
 import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
 import com.example.baseandroid.service.MyApplicationFirebaseMessagingService
 import com.google.gson.Gson

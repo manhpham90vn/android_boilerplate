@@ -1,4 +1,4 @@
-package com.example.baseandroid.networking
+package com.example.baseandroid.service
 
 import android.content.Context
 import android.widget.Toast
@@ -8,6 +8,8 @@ import androidx.navigation.Navigation
 import com.example.baseandroid.R
 import com.example.baseandroid.data.remote.Api
 import com.example.baseandroid.models.ErrorResponse
+import com.example.baseandroid.networking.ApiException
+import com.example.baseandroid.networking.AppError
 import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
 import com.example.baseandroid.ui.base.ScreenType
 import com.example.baseandroid.ui.dialog.DialogManager
@@ -109,6 +111,5 @@ class ApiErrorHandler @Inject constructor(
     private fun cleanLocalData() {
         localDataRepositoryInterface.cleanToken()
         localDataRepositoryInterface.cleanRefreshToken()
-        RefreshTokenValidator.getInstance().lastFailedDate = null
     }
 }

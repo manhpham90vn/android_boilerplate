@@ -8,7 +8,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import com.example.baseandroid.R
 import com.example.baseandroid.databinding.FragmentLoginBinding
-import com.example.baseandroid.networking.ApiErrorHandler
+import com.example.baseandroid.service.ApiErrorHandler
 import com.example.baseandroid.ui.base.BaseFragment
 import com.example.baseandroid.ui.base.ScreenType
 import com.example.baseandroid.ui.dialog.DialogManager
