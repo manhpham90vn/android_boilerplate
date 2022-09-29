@@ -5,7 +5,6 @@ import com.example.baseandroid.networking.ApiException
 import com.example.baseandroid.networking.AppError
 import com.example.baseandroid.service.ConnectivityService
 import com.example.baseandroid.service.SchedulerProvider
-import com.google.gson.Gson
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -13,12 +12,12 @@ import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import io.reactivex.rxjava3.subjects.PublishSubject
+import javax.inject.Inject
 
-abstract class SingleUseCase<P, R : Any> constructor(
-    open val schedulerProvider: SchedulerProvider,
-    open val connectivityService: ConnectivityService,
-    open val gson: Gson
-) : UseCase<P, Single<R>>() {
+abstract class SingleUseCase<P, R : Any>: UseCase<P, Single<R>>() {
+
+    @Inject lateinit var schedulerProvider: SchedulerProvider
+    @Inject lateinit var connectivityService: ConnectivityService
 
     private val _processing = BehaviorSubject.create<Boolean>()
     val processing: Observable<Boolean> = _processing
