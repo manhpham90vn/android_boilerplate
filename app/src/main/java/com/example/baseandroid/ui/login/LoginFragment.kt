@@ -11,6 +11,8 @@ import com.example.baseandroid.databinding.FragmentLoginBinding
 import com.example.baseandroid.networking.ApiErrorHandler
 import com.example.baseandroid.ui.base.BaseFragment
 import com.example.baseandroid.ui.base.ScreenType
+import com.example.baseandroid.ui.dialog.DialogManager
+import com.example.baseandroid.ui.dialog.TypeDialog
 import com.wada811.databinding.withBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -25,6 +27,7 @@ class LoginFragment : BaseFragment(), LoginHandle {
     private val viewModel: LoginViewModel by activityViewModels()
 
     @Inject lateinit var errorHandler: ApiErrorHandler
+    @Inject lateinit var dialogManager: DialogManager
 
     override fun layoutId(): Int {
         return R.layout.fragment_login
@@ -50,11 +53,7 @@ class LoginFragment : BaseFragment(), LoginHandle {
                         .navigate(R.id.action_loginFragment_to_loginSuccessFragment)
                 }
                 is LoginResult.LoginError -> {
-                    Toast.makeText(
-                        requireActivity(),
-                        it.message,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    dialogManager.showDialog(TypeDialog.RETRY_DIALOG, message = it.message)
                 }
             }
         }
