@@ -1,13 +1,17 @@
 package com.example.baseandroid.ui.home
 
 import androidx.lifecycle.LiveData
-import androidx.paging.PagingData
+import com.example.baseandroid.extensions.checkCanLoadMore
+import com.example.baseandroid.models.PagingResponse
 import com.example.baseandroid.models.PagingUserResponse
+import com.example.baseandroid.models.request.DataLoadMore
+import com.example.baseandroid.models.request.DataLoadMoreInterface
+import com.example.baseandroid.models.request.LoadMoreRequest
+import com.example.baseandroid.models.request.PagingDataSortType
 import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
 import com.example.baseandroid.ui.base.BaseViewModel
+import com.example.baseandroid.usecase.GetListUserUseCase
 import com.example.baseandroid.usecase.GetUserInfoUseCase
-import com.example.baseandroid.usecase.PagingDataSortType
-import com.example.baseandroid.usecase.PagingDataUseCase
 import com.example.baseandroid.utils.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.kotlin.Observables
@@ -18,15 +22,17 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val localDataRepositoryInterface: AppLocalDataRepositoryInterface,
     private val getUserInfoUseCase: GetUserInfoUseCase,
-    private val pagingDataUseCase: PagingDataUseCase
+    private val getListUserUseCase: GetListUserUseCase,
+    private val dataLoadMore: DataLoadMore<PagingUserResponse>
 ) : BaseViewModel() {
 
-    private val _listItem = SingleLiveEvent<PagingData<PagingUserResponse>>()
-    val listItem: LiveData<PagingData<PagingUserResponse>> = _listItem
     private var filterType: PagingDataSortType = PagingDataSortType.ASCENDING
 
+    private val _pagingResponse = SingleLiveEvent<PagingResponse>()
+    val pagingResponse: LiveData<PagingResponse> = _pagingResponse
+
     init {
-        Observables.combineLatest(getUserInfoUseCase.processing, pagingDataUseCase.processing)
+        Observables.combineLatest(getUserInfoUseCase.processing, getListUserUseCase.processing)
             .map {
                 return@map it.first || it.second
             }
@@ -36,37 +42,39 @@ class HomeViewModel @Inject constructor(
             .addTo(compositeDisposable)
 
         getUserInfoUseCase.apply {
-            succeeded
-                .subscribe {
-                }
-                .addTo(compositeDisposable)
+                succeeded.subscribe {
+            }.addTo(compositeDisposable)
 
-            failed
-                .subscribe {
-                    singleLiveError.postValue(it)
-                }
-                .addTo(compositeDisposable)
+            failed.subscribe {
+                singleLiveError.postValue(it)
+            }.addTo(compositeDisposable)
         }
 
-        pagingDataUseCase.apply {
-            succeeded
-                .subscribe {
-                    _listItem.postValue(it)
-                }
-                .addTo(compositeDisposable)
+        getListUserUseCase.apply {
+            succeeded.subscribe {
+                _pagingResponse.value = it
+                dataLoadMore.handleDataWhenCallApiSuccess(it.array)
+            }.addTo(compositeDisposable)
 
-            failed
-                .subscribe {
-                    singleLiveError.postValue(it)
-                    _listItem.postValue(PagingData.empty())
-                }
-                .addTo(compositeDisposable)
+            failed.subscribe {
+                singleLiveError.postValue(it)
+            }.addTo(compositeDisposable)
         }
     }
 
     fun callApi() {
         getUserInfoUseCase.execute(Unit)
-        pagingDataUseCase.execute(filterType)
+        dataLoadMore.clearDataLoadMore()
+        checkExecuteGetListUser()
+    }
+
+    fun checkExecuteGetListUser() {
+        if (!dataLoadMore.checkCallApiMore()) {
+            return
+        }
+        val loadMoreRequest = LoadMoreRequest(dataLoadMore.pageLoadMore, dataLoadMore.perPageLoadMore, this.filterType)
+
+        getListUserUseCase.execute(loadMoreRequest)
     }
 
     fun sort() {
@@ -75,7 +83,6 @@ class HomeViewModel @Inject constructor(
         } else {
             PagingDataSortType.ASCENDING
         }
-        callApi()
     }
 
     fun cleanData() {
@@ -86,6 +93,6 @@ class HomeViewModel @Inject constructor(
     override fun onCleared() {
         super.onCleared()
         getUserInfoUseCase.onCleared()
-        pagingDataUseCase.onCleared()
+        getListUserUseCase.onCleared()
     }
 }

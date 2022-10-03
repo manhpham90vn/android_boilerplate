@@ -42,13 +42,17 @@ class LoadingProgress : DialogFragment() {
             return
         }
         show(fragmentManager, this::class.java.name)
-        fragmentManager.executePendingTransactions()
+        try {
+            fragmentManager.executePendingTransactions()
+        } catch (e :IllegalStateException){
+
+        }
     }
 
     private fun stopLoading(fragmentManager: FragmentManager) {
         fragmentManager.fragments.forEach {
-            if (it is LoadingProgress) {
-                it.dismiss()
+            if (it is LoadingProgress && isAdded) {
+                it.dismissAllowingStateLoss()
             }
         }
     }

@@ -30,7 +30,4 @@ abstract class AppModule {
 
     @Binds
     abstract fun provideAppRemoteDataRefreshableRepositoryInterface(instance: AppRemoteDataRefreshableRepository): AppRemoteDataRefreshableRepositoryInterface
-
-    @Binds
-    abstract fun provideAppPagingDataRepositoryInterface(instance: AppPagingDataRepository): AppPagingDataRepositoryInterface
 }

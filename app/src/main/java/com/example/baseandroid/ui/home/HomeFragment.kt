@@ -5,16 +5,17 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
-import androidx.paging.LoadState
-import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.baseandroid.R
 import com.example.baseandroid.databinding.FragmentHomeBinding
+import com.example.baseandroid.extensions.setOnScrollEndVerticalListener
+import com.example.baseandroid.models.PagingUserResponse
 import com.example.baseandroid.service.ApiErrorHandler
 import com.example.baseandroid.ui.base.BaseFragment
 import com.example.baseandroid.ui.base.ScreenType
 import com.wada811.databinding.withBinding
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import javax.inject.Inject
 
 interface HomeHandler {
@@ -26,65 +27,34 @@ interface HomeHandler {
 @AndroidEntryPoint
 class HomeFragment : BaseFragment(), HomeHandler {
 
-    private val viewModel: HomeViewModel by viewModels()
-
     @Inject lateinit var errorHandler: ApiErrorHandler
 
-    private val adapter = HomeAdapter()
+    private val viewModel: HomeViewModel by viewModels()
+
+    private val homeUserAdapter = HomeUserAdapter(mutableListOf())
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initViewAndData()
+        subscribeData()
+    }
 
+    private fun initViewAndData() {
         withBinding<FragmentHomeBinding> { binding ->
             binding.handle = this
-            adapter.listener = { response ->
-                response.type?.let {
-                    when (it) {
-                        "web" -> {
-                            Navigation
-                                .findNavController(requireActivity(), R.id.proxy_fragment_container)
-                                .navigate(HomeFragmentDirections.actionHomeFragmentToDetailWebFragment(response.website!!))
-                        }
-                        "img" -> {
-                            Navigation
-                                .findNavController(requireActivity(), R.id.proxy_fragment_container)
-                                .navigate(HomeFragmentDirections.actionHomeFragmentToDetailImageFragment(response.img!!))
-                        }
-                    }
-                }
-            }
-            adapter.addLoadStateListener {
-                val isListEmpty = it.refresh is LoadState.NotLoading && adapter.itemCount == 0
-                Timber.d(isListEmpty.toString())
-
-                val isLoading = it.source.refresh is LoadState.Loading ||
-                    it.source.append is LoadState.Loading ||
-                    it.source.prepend is LoadState.Loading ||
-                    it.refresh is LoadState.Loading ||
-                    it.append is LoadState.Loading ||
-                    it.prepend is LoadState.Loading
-
-                viewModel.isLoadingSingleLive.postValue(isLoading)
-
-                val errorState = it.source.refresh as? LoadState.Error
-                    ?: it.source.append as? LoadState.Error
-                    ?: it.source.prepend as? LoadState.Error
-                    ?: it.refresh as? LoadState.Error
-                    ?: it.append as? LoadState.Error
-                    ?: it.prepend as? LoadState.Error
-
-                errorState?.let { error ->
-                    viewModel.singleLiveError.postValue(error.error)
-                }
-            }
-            binding.recyclerView.adapter = adapter
-            binding.recyclerView.addItemDecoration(DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL))
             binding.swipeRefresh.setOnRefreshListener {
-                viewModel.callApi()
+                refreshCallApi()
             }
-            viewModel.listItem.observe(viewLifecycleOwner) {
+        }
+    }
+
+    private fun subscribeData() {
+        viewModel.pagingResponse.observe(viewLifecycleOwner) {
+            if (!it.array.isNullOrEmpty()) {
+                initRcvUser(it.array)
+            }
+            withBinding<FragmentHomeBinding> { binding ->
                 binding.swipeRefresh.isRefreshing = false
-                adapter.submitData(lifecycle, it)
             }
         }
 
@@ -101,14 +71,29 @@ class HomeFragment : BaseFragment(), HomeHandler {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        adapter.removeLoadStateListener { }
+    private fun initRcvUser(listUser: List<PagingUserResponse>) {
+        withBinding<FragmentHomeBinding> { binding ->
+            if (binding.recyclerView.adapter == null) {
+                binding.recyclerView.apply {
+                    adapter = homeUserAdapter
+                    layoutManager = LinearLayoutManager(this@HomeFragment.activity, RecyclerView.VERTICAL, false)
+                    setOnScrollEndVerticalListener {
+                        viewModel.checkExecuteGetListUser()
+                    }
+                }
+            }
+        }
+        homeUserAdapter.addItemList(listUser)
+    }
+
+    private fun refreshCallApi() {
+        homeUserAdapter.clear()
+        viewModel.callApi()
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.callApi()
+        refreshCallApi()
     }
 
     override fun didTapLogOut() {
@@ -119,11 +104,12 @@ class HomeFragment : BaseFragment(), HomeHandler {
     }
 
     override fun didTapRefresh() {
-        viewModel.callApi()
+        refreshCallApi()
     }
 
     override fun didTapSort() {
         viewModel.sort()
+        refreshCallApi()
     }
 
     override fun layoutId(): Int {

@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 interface AppRemoteDataRefreshableRepositoryInterface {
     fun getUserInfo(): Single<UserResponse>
-    fun getList(page: Int, sort: String): Single<PagingResponse>
+    fun getList(page: Int, perPage: Int? = 10, sort: String): Single<PagingResponse>
 }
 
 class AppRemoteDataRefreshableRepository @Inject constructor(
@@ -24,8 +24,8 @@ class AppRemoteDataRefreshableRepository @Inject constructor(
             }
     }
 
-    override fun getList(page: Int, sort: String): Single<PagingResponse> {
-        return apiClientRefreshable.getList(page, sort)
+    override fun getList(page: Int, perPage: Int?, sort: String): Single<PagingResponse> {
+        return apiClientRefreshable.getList(page, perPage, sort)
             .onErrorResumeNext {
                 return@onErrorResumeNext Single.error(AppError(Api.Paging, it))
             }
