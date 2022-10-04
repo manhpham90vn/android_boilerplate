@@ -44,7 +44,7 @@ class LoadingProgress : DialogFragment() {
         show(fragmentManager, this::class.java.name)
         try {
             fragmentManager.executePendingTransactions()
-        } catch (e :IllegalStateException){
+        } catch (e :IllegalStateException) {
 
         }
     }

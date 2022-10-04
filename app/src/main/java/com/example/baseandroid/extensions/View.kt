@@ -73,8 +73,6 @@ fun View.listenSoftKeyboard(callback: (() -> Unit)? = null) {
         val heightDiff: Int = rootView.height - r.bottom
         if (heightDiff < rootView.height * 0.15) {
             callback?.invoke()
-        } else {
-
         }
     }
 }
