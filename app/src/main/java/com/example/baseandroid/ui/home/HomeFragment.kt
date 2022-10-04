@@ -33,13 +33,7 @@ class HomeFragment : BaseFragment(), HomeHandler {
 
     private val homeUserAdapter = HomeUserAdapter(mutableListOf())
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initViewAndData()
-        subscribeData()
-    }
-
-    private fun initViewAndData() {
+    override fun initViewAndData() {
         withBinding<FragmentHomeBinding> { binding ->
             binding.handle = this
             binding.swipeRefresh.setOnRefreshListener {
@@ -48,7 +42,7 @@ class HomeFragment : BaseFragment(), HomeHandler {
         }
     }
 
-    private fun subscribeData() {
+    override fun subscribeData() {
         viewModel.pagingResponse.observe(viewLifecycleOwner) {
             if (!it.array.isNullOrEmpty()) {
                 initRcvUser(it.array)

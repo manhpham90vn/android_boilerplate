@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import com.example.baseandroid.R
 import com.example.baseandroid.databinding.FragmentDetailImageBinding
+import com.example.baseandroid.databinding.FragmentLoginSuccessBinding
 import com.example.baseandroid.ui.base.BaseFragment
 import com.example.baseandroid.ui.base.ScreenType
 import com.wada811.databinding.withBinding
@@ -15,9 +16,7 @@ class DetailImageFragment : BaseFragment(), DetailHandle {
 
     private val viewModel: DetailViewModel by viewModels()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun initViewAndData() {
         withBinding<FragmentDetailImageBinding> { binding ->
             binding.viewModel = viewModel
             binding.handle = this
@@ -25,6 +24,10 @@ class DetailImageFragment : BaseFragment(), DetailHandle {
                 viewModel.img = it
             }
         }
+    }
+
+    override fun subscribeData() {
+
     }
 
     override fun layoutId(): Int {

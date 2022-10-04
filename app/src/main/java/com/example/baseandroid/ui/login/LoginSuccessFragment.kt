@@ -16,13 +16,15 @@ class LoginSuccessFragment : BaseFragment(), LoginHandle {
 
     private val viewModel: LoginViewModel by activityViewModels()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun initViewAndData() {
         withBinding<FragmentLoginSuccessBinding> {
             it.viewModel = viewModel
             it.handle = this
         }
+    }
+
+    override fun subscribeData() {
+
     }
 
     override fun didTapLogin() {

@@ -1,6 +1,6 @@
 package com.example.baseandroid.extensions
 
-fun <T> List<T>.getCountItemInList(count: Int): MutableList<T> {
+fun <T> List<T>.getListItems(count: Int): MutableList<T> {
     val newList = mutableListOf<T>()
     when {
         this.isEmpty() -> {
@@ -13,13 +13,5 @@ fun <T> List<T>.getCountItemInList(count: Int): MutableList<T> {
         }
     }
     return newList
-}
-
-fun <T> List<T>?.checkCanLoadMore(perPage: Int): Boolean {
-    return if (!this.isNullOrEmpty()) {
-        this.size <= perPage
-    } else {
-        false
-    }
 }
 

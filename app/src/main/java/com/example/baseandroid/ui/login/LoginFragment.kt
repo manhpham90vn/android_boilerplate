@@ -33,14 +33,15 @@ class LoginFragment : BaseFragment(), LoginHandle {
         return R.layout.fragment_login
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun initViewAndData() {
         withBinding<FragmentLoginBinding> {
             it.viewModel = viewModel
             it.lifecycleOwner = this
             it.handle = this
         }
+    }
 
+    override fun subscribeData() {
         viewModel.loginResult.observe(
             viewLifecycleOwner
         ) {

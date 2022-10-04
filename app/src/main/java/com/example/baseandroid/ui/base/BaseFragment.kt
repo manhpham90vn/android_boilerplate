@@ -19,7 +19,14 @@ abstract class BaseFragment : Fragment() {
         return inflater.inflate(layoutId(), container, false)
     }
 
-    abstract fun layoutId(): Int
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initViewAndData()
+        subscribeData()
+    }
 
+    abstract fun layoutId(): Int
     abstract fun screenType(): ScreenType
+    abstract fun initViewAndData()
+    abstract fun subscribeData()
 }

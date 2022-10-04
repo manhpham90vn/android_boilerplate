@@ -11,6 +11,7 @@ import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import com.example.baseandroid.R
+import com.example.baseandroid.databinding.FragmentDetailImageBinding
 import com.example.baseandroid.databinding.FragmentDetailWebBinding
 import com.example.baseandroid.ui.base.BaseFragment
 import com.example.baseandroid.ui.base.ScreenType
@@ -27,9 +28,7 @@ class DetailWebFragment : BaseFragment(), DetailHandle {
     private val viewModel: DetailViewModel by viewModels()
 
     @SuppressLint("SetJavaScriptEnabled")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun initViewAndData() {
         withBinding<FragmentDetailWebBinding> {
             it.viewModel = viewModel
             it.handle = this
@@ -43,7 +42,9 @@ class DetailWebFragment : BaseFragment(), DetailHandle {
                 it.webview.loadUrl(url)
             }
         }
+    }
 
+    override fun subscribeData() {
         viewModel.isLoading.observe(viewLifecycleOwner) {
             if (it) {
                 progress.showLoadingProgress(requireActivity() as AppCompatActivity)

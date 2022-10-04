@@ -1,6 +1,5 @@
 package com.example.baseandroid.models.request
 
-import com.example.baseandroid.extensions.checkCanLoadMore
 import javax.inject.Inject
 
 data class LoadMoreRequest(
@@ -24,13 +23,21 @@ class DataLoadMore <T> @Inject constructor(): DataLoadMoreInterface<T> {
         }
     }
 
+    override fun checkCanLoadMore(perPage: Int, listT: List<T>?): Boolean {
+        return if (!listT.isNullOrEmpty()) {
+            listT.size <= perPage
+        } else {
+            false
+        }
+    }
+
     override fun handleDataWhenCallApiSuccess(listT: List<T>?) {
         pageLoadMore++
-        canLoadMore = listT.checkCanLoadMore(perPageLoadMore)
+        canLoadMore = checkCanLoadMore(perPageLoadMore, listT)
         isLoadingLoadMore = false
     }
 
-    override fun clearDataLoadMore() {
+    override fun clearData() {
         pageLoadMore = 1
         canLoadMore = true
         isLoadingLoadMore = false
@@ -44,7 +51,8 @@ interface DataLoadMoreInterface<T> {
     var perPageLoadMore: Int
 
     fun checkCallApiMore(): Boolean
-    fun clearDataLoadMore()
+    fun checkCanLoadMore(perPage: Int, listT: List<T>?): Boolean
+    fun clearData()
     fun handleDataWhenCallApiSuccess(listT: List<T>?)
 }
 

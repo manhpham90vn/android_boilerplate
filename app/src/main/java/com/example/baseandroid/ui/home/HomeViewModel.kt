@@ -1,11 +1,9 @@
 package com.example.baseandroid.ui.home
 
 import androidx.lifecycle.LiveData
-import com.example.baseandroid.extensions.checkCanLoadMore
 import com.example.baseandroid.models.PagingResponse
 import com.example.baseandroid.models.PagingUserResponse
 import com.example.baseandroid.models.request.DataLoadMore
-import com.example.baseandroid.models.request.DataLoadMoreInterface
 import com.example.baseandroid.models.request.LoadMoreRequest
 import com.example.baseandroid.models.request.PagingDataSortType
 import com.example.baseandroid.repository.AppLocalDataRepositoryInterface
@@ -64,7 +62,7 @@ class HomeViewModel @Inject constructor(
 
     fun callApi() {
         getUserInfoUseCase.execute(Unit)
-        dataLoadMore.clearDataLoadMore()
+        dataLoadMore.clearData()
         checkExecuteGetListUser()
     }
 
@@ -72,7 +70,11 @@ class HomeViewModel @Inject constructor(
         if (!dataLoadMore.checkCallApiMore()) {
             return
         }
-        val loadMoreRequest = LoadMoreRequest(dataLoadMore.pageLoadMore, dataLoadMore.perPageLoadMore, this.filterType)
+        val loadMoreRequest = LoadMoreRequest(
+            dataLoadMore.pageLoadMore,
+            dataLoadMore.perPageLoadMore,
+            this.filterType
+        )
 
         getListUserUseCase.execute(loadMoreRequest)
     }
