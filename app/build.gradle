@@ -111,6 +111,10 @@ dependencies {
     implementation "androidx.fragment:fragment-ktx:$ktx_version"
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
+    def paging_version = "3.1.1"
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
+    implementation "androidx.paging:paging-rxjava3:$paging_version"
     
     // other
     implementation 'com.github.wada811:DataBinding-ktx:6.1.0'
