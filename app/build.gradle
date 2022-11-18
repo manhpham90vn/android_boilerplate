@@ -12,6 +12,21 @@ plugins {
 android {
     compileSdk 32
 
+    signingConfigs {
+        debug {
+            storeFile file("${rootProject.projectDir}/Untitled")
+            keyAlias = 'key0'
+            storePassword '123456'
+            keyPassword '123456'
+        }
+        release {
+            storeFile file("${rootProject.projectDir}/Untitled")
+            keyAlias = 'key0'
+            storePassword '123456'
+            keyPassword '123456'
+        }
+    }
+
     defaultConfig {
         minSdk 23
         targetSdk 32
