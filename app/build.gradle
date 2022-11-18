@@ -92,7 +92,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'com.google.firebase:firebase-messaging-ktx:23.0.8'
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.1.0'
 
     // networking
     def retrofit_version = "2.9.0"
