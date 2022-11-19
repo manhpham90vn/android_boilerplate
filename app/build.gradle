@@ -27,12 +27,14 @@ android {
         }
     }
 
+    namespace "com.example.baseandroid"
+
     defaultConfig {
         minSdk 23
         targetSdk 33
         versionCode 1
         versionName "1.0"
-
+        applicationId "com.example.baseandroid"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -53,6 +55,7 @@ android {
     }
 
     buildFeatures {
+        viewBinding true
         dataBinding true
     }
 
