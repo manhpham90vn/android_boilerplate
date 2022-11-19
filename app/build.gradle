@@ -60,11 +60,6 @@ android {
         disable "JvmStaticProvidesInObjectDetector", "FieldSiteTargetOnQualifierAnnotation", "ModuleCompanionObjects", "ModuleCompanionObjectsNotInModuleParent"
     }
 
-    signingConfigs {
-        debug
-        release
-    }
-
     flavorDimensions "default"
 
     productFlavors {
