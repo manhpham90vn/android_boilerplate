@@ -36,6 +36,6 @@ class DetailImageFragment : BaseFragment(), DetailHandle {
     }
 
     override fun didTapClose() {
-        activity?.onBackPressed()
+        activity?.onBackPressedDispatcher?.onBackPressed()
     }
 }
