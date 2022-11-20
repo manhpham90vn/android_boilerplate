@@ -22,11 +22,13 @@ open class BaseViewModel : ViewModel() {
     init {
         error.addSource(singleLiveError) {
             if (it is ApiException.RefreshTokenException) {
+                isLoadingSingleLive.value = false
                 error.value = it
             }
         }
         error.addSource(throttled) {
             if (it !is ApiException.RefreshTokenException) {
+                isLoadingSingleLive.value = false
                 error.value = it
             }
         }

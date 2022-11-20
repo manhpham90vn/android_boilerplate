@@ -7,7 +7,6 @@ import com.example.baseandroid.R
 import com.example.baseandroid.ui.base.BaseActivity
 import com.example.baseandroid.ui.login.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_proxy.*
 
 @AndroidEntryPoint
 class ProxyActivity : BaseActivity() {
@@ -17,7 +16,7 @@ class ProxyActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val navHostFragment = proxy_fragment_container as NavHostFragment
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.proxy_fragment_container) as NavHostFragment
         val navController = navHostFragment.navController
         val graph = navController.navInflater.inflate(R.navigation.app_nav)
 
