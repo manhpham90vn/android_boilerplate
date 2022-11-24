@@ -31,13 +31,10 @@ class LoginViewModel @Inject constructor(
 
     init {
         loginUseCase.apply {
-            succeeded
+
+            complete
                 .subscribe {
-                    if (it) {
-                        _loginResult.postValue(LoginResult.LoginSuccess)
-                    } else {
-                        _loginResult.postValue(LoginResult.LoginError("Can not get token"))
-                    }
+                    _loginResult.postValue(LoginResult.LoginSuccess)
                 }
                 .addTo(compositeDisposable)
 
