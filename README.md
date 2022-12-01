@@ -8,11 +8,6 @@
 
 # Server: https://github.com/manhpham90vn/refresh-Token-Demo
 
-## Resolve Android Dependencies
-```
-./gradlew androidDependencies
-```
-
 ## Run unit test
 ```
 ./gradlew test
