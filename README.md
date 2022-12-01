@@ -10,20 +10,20 @@
 
 ## Resolve Android Dependencies
 ```
-JAVA_HOME=/Applications/Android\ Studio.app/Contents/jre/Contents/Home ./gradlew androidDependencies
+./gradlew androidDependencies
 ```
 
 ## Run unit test
 ```
-JAVA_HOME=/Applications/Android\ Studio.app/Contents/jre/Contents/Home ./gradlew test
+./gradlew test
 ```
 
 ## Run lint
 ```
-JAVA_HOME=/Applications/Android\ Studio.app/Contents/jre/Contents/Home ./gradlew lintDevDebug
+./gradlew lintDevDebug
 ```
 
 ## Generate APK
 ```
-JAVA_HOME=/Applications/Android\ Studio.app/Contents/jre/Contents/Home ./gradlew assembleDev
+./gradlew assembleDev
 ```
