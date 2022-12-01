@@ -7,6 +7,11 @@
 
 # Server: https://github.com/manhpham90vn/refresh-Token-Demo
 
+## Resolve Android Dependencies
+```
+JAVA_HOME=/Applications/Android\ Studio.app/Contents/jre/Contents/Home ./gradlew androidDependencies
+```
+
 ## Run unit test
 ```
 JAVA_HOME=/Applications/Android\ Studio.app/Contents/jre/Contents/Home ./gradlew test
