@@ -15,14 +15,14 @@ jobs:
     steps:
       - checkout
       - run: 
-          name: "Resolve androidDependencies"
-          command: "./gradlew androidDependencies"
-      - run: 
           name: "Lint"
-          command: "./gradlew lintDevDebug"
+          command: "./gradlew lintDevDebug --stacktrace"
       - run: 
           name: "Test"
-          command: "./gradlew test"   
+          command: "./gradlew test --stacktrace"   
+      - run: 
+          name: "Generate APK"
+          command: "./gradlew assembleDev --stacktracee"  
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
