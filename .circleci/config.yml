@@ -14,8 +14,15 @@ jobs:
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
       - checkout
-      - run: ./gradlew androidDependencies
-      - run: ./gradlew lint test
+      - run: 
+          name: "Resolve androidDependencies"
+          command: "./gradlew androidDependencies"
+      - run: 
+          name: "Lint"
+          command: "./gradlew lintDevDebug"
+      - run: 
+          name: "Test"
+          command: "./gradlew test"   
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
