@@ -7,11 +7,11 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.baseandroid.ui.login.LoginViewModel" />
+            type="com.manhpham.baseandroid.ui.login.LoginViewModel" />
 
         <variable
             name="handle"
-            type="com.example.baseandroid.ui.login.LoginHandle" />
+            type="com.manhpham.baseandroid.ui.login.LoginHandle" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

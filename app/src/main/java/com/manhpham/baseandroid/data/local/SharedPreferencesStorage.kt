@@ -1,0 +1,22 @@
+package com.manhpham.baseandroid.data.local
+
+import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
+
+class SharedPreferencesStorage @Inject constructor(@ApplicationContext context: Context) : Storage {
+
+    private val sharedPreferences = context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE)
+
+    override fun setString(key: String, value: String) {
+        sharedPreferences.edit().putString(key, value).apply()
+    }
+
+    override fun getString(key: String): String {
+        return sharedPreferences.getString(key, "")!!
+    }
+
+    override fun clearString(key: String) {
+        sharedPreferences.edit().remove(key).apply()
+    }
+}

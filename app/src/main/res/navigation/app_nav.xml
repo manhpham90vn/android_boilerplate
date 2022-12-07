@@ -6,7 +6,7 @@
     app:startDestination="@id/homeFragment">
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.baseandroid.ui.login.LoginFragment"
+        android:name="com.manhpham.baseandroid.ui.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginSuccessFragment"
-        android:name="com.example.baseandroid.ui.login.LoginSuccessFragment"
+        android:name="com.manhpham.baseandroid.ui.login.LoginSuccessFragment"
         android:label="fragment_login_success"
         tools:layout="@layout/fragment_login_success" >
         <action
@@ -24,7 +24,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.baseandroid.ui.home.HomeFragment"
+        android:name="com.manhpham.baseandroid.ui.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -44,7 +44,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailImageFragment"
-        android:name="com.example.baseandroid.ui.detail.DetailImageFragment"
+        android:name="com.manhpham.baseandroid.ui.detail.DetailImageFragment"
         android:label="fragment_detail_image"
         tools:layout="@layout/fragment_detail_image">
         <argument
@@ -54,7 +54,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailWebFragment"
-        android:name="com.example.baseandroid.ui.detail.DetailWebFragment"
+        android:name="com.manhpham.baseandroid.ui.detail.DetailWebFragment"
         android:label="fragment_detail_web"
         tools:layout="@layout/fragment_detail_web">
         <argument

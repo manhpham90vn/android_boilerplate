@@ -7,7 +7,7 @@
     <data>
         <variable
             name="handle"
-            type="com.example.baseandroid.ui.home.HomeHandler" />
+            type="com.manhpham.baseandroid.ui.home.HomeHandler" />
 
     </data>
 
