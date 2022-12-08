@@ -33,6 +33,9 @@ jobs:
           name: "Create API Json"
           command: "echo $KEY | base64 --decode > pc-api-6062999880016485916-13-afcea4789892.json"
       - run:
+          name: "Install bundle"
+          command: "bundle install"
+      - run:
           name: "Generate APK and upload to Store"
           command: "bundle exec fastlane beta"
 
