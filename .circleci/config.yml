@@ -24,6 +24,18 @@ jobs:
           name: "Generate APK"
           command: "./gradlew assembleDev --stacktrace"
 
+  to-store:
+    docker:
+      - image: cimg/android:2022.09.2-browsers
+    steps:
+      - checkout
+      - run:
+          name: "Create API Json"
+          command: "echo $KEY | base64 --decode > pc-api-6062999880016485916-13-afcea4789892.json"
+      - run:
+          name: "Generate APK and upload to Store"
+          command: "bundle exec fastlane beta"
+
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:

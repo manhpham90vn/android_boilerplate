@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="fastlane.lanes">
+    
+    
+    
+      
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000728">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="1: clean" time="1.884935">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="2: bundleproductRelease" time="27.153925">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="3: jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore /Users/manh/Works/Self/BaseAndroid/Untitled -storepass 123456 -keypass 123456 /Users/manh/Works/Self/BaseAndroid/app/build/outputs/bundle/productRelease/app-product-release.aab key0" time="2.73976">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="4: upload_to_play_store" time="31.836177">
+        
+      </testcase>
+    
+  </testsuite>
+</testsuites>
