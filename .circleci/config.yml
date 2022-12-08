@@ -42,3 +42,10 @@ workflows:
   unit-test:
     jobs:
       - unit-test
+  to-store:
+    jobs:
+      - to-store:
+          filters:
+                branches:
+                  only:
+                    - master
