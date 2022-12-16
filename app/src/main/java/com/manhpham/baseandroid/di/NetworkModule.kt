@@ -1,5 +1,7 @@
 package com.manhpham.baseandroid.di
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.manhpham.baseandroid.BuildConfig
 import com.manhpham.baseandroid.data.remote.ApiClient
 import com.manhpham.baseandroid.data.remote.ApiClientRefreshable
@@ -8,8 +10,6 @@ import com.manhpham.baseandroid.networking.RefreshTokenAuthenticator
 import com.manhpham.baseandroid.networking.TokenInterceptor
 import com.manhpham.baseandroid.repository.AppLocalDataRepositoryInterface
 import com.manhpham.baseandroid.repository.AppRemoteDataRepositoryInterface
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

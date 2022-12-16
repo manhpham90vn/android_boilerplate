@@ -18,6 +18,9 @@ jobs:
           name: "Lint"
           command: "./gradlew lintDevDebug --stacktrace"
       - run:
+          name: "Ktlint"
+          command: "./gradlew ktlint --stacktrace"    
+      - run:
           name: "Test"
           command: "./gradlew test --stacktrace"
       - run:

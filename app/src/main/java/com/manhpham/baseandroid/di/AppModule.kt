@@ -1,11 +1,11 @@
 package com.manhpham.baseandroid.di
 
-import com.manhpham.baseandroid.service.ConnectivityService
-import com.manhpham.baseandroid.service.ConnectivityServiceImpl
 import com.manhpham.baseandroid.data.local.SharedPreferencesStorage
 import com.manhpham.baseandroid.data.local.Storage
 import com.manhpham.baseandroid.repository.*
 import com.manhpham.baseandroid.service.*
+import com.manhpham.baseandroid.service.ConnectivityService
+import com.manhpham.baseandroid.service.ConnectivityServiceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -44,7 +44,7 @@ class DialogManager @Inject constructor(@ActivityContext val context: Context) {
             setTitle(title ?: context.getString(R.string.tittle))
             setMessage(message ?: context.getString(R.string.message))
             setCancelable(false)
-            setNegativeButton(closeButtonLabel ?:context.getString(R.string.close)) { _, _ ->
+            setNegativeButton(closeButtonLabel ?: context.getString(R.string.close)) { _, _ ->
                 callbackClose?.invoke()
             }
             setOnDismissListener { isShowedDialog = false }

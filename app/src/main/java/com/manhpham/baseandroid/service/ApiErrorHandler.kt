@@ -4,6 +4,7 @@ import android.content.Context
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
+import com.google.gson.Gson
 import com.manhpham.baseandroid.R
 import com.manhpham.baseandroid.data.remote.Api
 import com.manhpham.baseandroid.models.ErrorResponse
@@ -13,7 +14,6 @@ import com.manhpham.baseandroid.repository.AppLocalDataRepositoryInterface
 import com.manhpham.baseandroid.ui.base.ScreenType
 import com.manhpham.baseandroid.ui.dialog.DialogManager
 import com.manhpham.baseandroid.ui.dialog.TypeDialog
-import com.google.gson.Gson
 import dagger.hilt.android.qualifiers.ActivityContext
 import retrofit2.HttpException
 import java.io.IOException
@@ -26,7 +26,7 @@ class ApiErrorHandler @Inject constructor(
     @ActivityContext val context: Context,
     val gson: Gson,
     private val dialogManager: DialogManager,
-    private val localDataRepositoryInterface: AppLocalDataRepositoryInterface,
+    private val localDataRepositoryInterface: AppLocalDataRepositoryInterface
 ) {
 
     fun handleError(throwable: Throwable, screenType: ScreenType, appCompatActivity: AppCompatActivity, callback: () -> Unit = {}) {
@@ -92,7 +92,6 @@ class ApiErrorHandler @Inject constructor(
             val json = adapter.fromJson(exception.response()?.errorBody()?.string()) as ErrorResponse
             Toast.makeText(context, "message:${json.message} screen:$screenType", Toast.LENGTH_SHORT).show()
             dialogManager.showDialog(TypeDialog.RETRY_DIALOG, message = "${json.message}", callbackRetry = callback)
-
         } catch (error: IOException) {
             showDialogUnknownException(callback)
         }
