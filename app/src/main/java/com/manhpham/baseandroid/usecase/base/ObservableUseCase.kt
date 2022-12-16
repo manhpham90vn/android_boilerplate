@@ -14,10 +14,11 @@ import io.reactivex.rxjava3.subjects.PublishSubject
 import timber.log.Timber
 import javax.inject.Inject
 
-abstract class ObservableUseCase<P, R : Any>: UseCase<P, Observable<R>>() {
+abstract class ObservableUseCase<P, R : Any> : UseCase<P, Observable<R>>() {
 
     @Inject
     lateinit var schedulerProvider: SchedulerProvider
+
     @Inject
     lateinit var connectivityService: ConnectivityService
 

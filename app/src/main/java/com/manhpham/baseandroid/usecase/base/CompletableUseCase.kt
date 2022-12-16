@@ -18,6 +18,7 @@ abstract class CompletableUseCase<P : Any> : UseCase<P, Completable>() {
 
     @Inject
     lateinit var schedulerProvider: SchedulerProvider
+
     @Inject
     lateinit var connectivityService: ConnectivityService
 
@@ -59,7 +60,7 @@ abstract class CompletableUseCase<P : Any> : UseCase<P, Completable>() {
             return null
         }
         _processing.onNext(true)
-        return object : DisposableCompletableObserver(){
+        return object : DisposableCompletableObserver() {
             override fun onComplete() {
                 _complete.onNext(Unit)
                 _processing.onNext(false)

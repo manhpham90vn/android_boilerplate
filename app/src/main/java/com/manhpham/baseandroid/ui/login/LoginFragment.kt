@@ -27,6 +27,7 @@ class LoginFragment : BaseFragment(), LoginHandle {
     private val viewModel: LoginViewModel by activityViewModels()
 
     @Inject lateinit var errorHandler: ApiErrorHandler
+
     @Inject lateinit var dialogManager: DialogManager
 
     override fun layoutId(): Int {

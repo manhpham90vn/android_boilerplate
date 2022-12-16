@@ -14,9 +14,10 @@ import io.reactivex.rxjava3.subjects.BehaviorSubject
 import io.reactivex.rxjava3.subjects.PublishSubject
 import javax.inject.Inject
 
-abstract class SingleUseCase<P, R : Any>: UseCase<P, Single<R>>() {
+abstract class SingleUseCase<P, R : Any> : UseCase<P, Single<R>>() {
 
     @Inject lateinit var schedulerProvider: SchedulerProvider
+
     @Inject lateinit var connectivityService: ConnectivityService
 
     private val _processing = BehaviorSubject.create<Boolean>()

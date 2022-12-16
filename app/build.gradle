@@ -8,6 +8,8 @@ plugins {
     id 'dagger.hilt.android.plugin'
 }
 
+apply from: '../ktlint.grade'
+
 android {
     compileSdk 33
 
