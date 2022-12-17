@@ -2,14 +2,54 @@ default_platform(:android)
 
 platform :android do
   desc "Submit a new Internal testing"
-  lane :beta do
-    gradle(task: "clean")
-    gradle(task: "bundle", build_type: 'Release', flavor: "product")
-    dirPath = File.expand_path(File.dirname(__FILE__)).chomp('fastlane')
-    aabPath = dirPath + "app/build/outputs/bundle/productRelease/app-product-release.aab"
-    keyStorePath = dirPath + "Untitled"
-    sh("jarsigner", "-verbose", "-sigalg", "SHA1withRSA", "-digestalg", "SHA1", "-keystore", keyStorePath, "-storepass", "123456", "-keypass", "123456", aabPath, "key0")
-    upload_to_play_store(track: "internal", release_status: 'draft', aab: aabPath, skip_upload_apk: true)
+    lane :beta do
+      # get current version code in play store
+      version_name = "1.0"
+      version = google_play_track_version_codes(track: "internal")[0] || 1
+      version += 1
+
+      # set version
+      set_version(version_name)
+      set_version_code(version)
+
+      # clean and build
+      gradle(task: "clean")
+      gradle(task: "bundle", build_type: 'Release', flavor: "product")
+
+      # get aab path
+      dirPath = File.expand_path(File.dirname(__FILE__)).chomp('fastlane')
+      aabPath = dirPath + "app/build/outputs/bundle/productRelease/app-product-release.aab"
+
+      # sign
+      keyStorePath = dirPath + "Untitled"
+      sh("jarsigner", "-verbose", "-sigalg", "SHA1withRSA", "-digestalg", "SHA1", "-keystore", keyStorePath, "-storepass", "123456", "-keypass", "123456", aabPath, "key0")
+
+      # upload to play store
+      upload_to_play_store(track: "internal", version_code: version, version_name: version_name, release_status: 'draft', aab: aabPath, skip_upload_apk: true)
+  end
+
+  def set_version_code(number)
+    path = "../app/build.gradle"
+    re = /versionCode\s+(\d+)/
+
+    s = File.read(path)
+    s[re, 1] = (number).to_s
+
+    f = File.new(path, "w")
+    f.write(s)
+    f.close
+  end
+
+  def set_version(version)
+    path = "../app/build.gradle"
+    re = /versionName\s+("[\d.]+")/
+
+    s = File.read(path)
+    s[re, 1] = "\"#{version}\""
+
+    f = File.new(path, "w")
+    f.write(s)
+    f.close
   end
 
 end
