@@ -13,21 +13,6 @@ apply from: '../ktlint.grade'
 android {
     compileSdk 33
 
-    signingConfigs {
-        debug {
-            storeFile file("${rootProject.projectDir}/Untitled")
-            keyAlias = 'key0'
-            storePassword '123456'
-            keyPassword '123456'
-        }
-        release {
-            storeFile file("${rootProject.projectDir}/Untitled")
-            keyAlias = 'key0'
-            storePassword '123456'
-            keyPassword '123456'
-        }
-    }
-
     namespace "com.manhpham.baseandroid"
 
     defaultConfig {
@@ -39,10 +24,21 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        debug
+        release {
+            storeFile file("${rootProject.projectDir}/Untitled")
+            keyAlias = 'key0'
+            storePassword '123456'
+            keyPassword '123456'
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 
