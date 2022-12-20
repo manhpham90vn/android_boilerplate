@@ -20,10 +20,6 @@ platform :android do
       dirPath = File.expand_path(File.dirname(__FILE__)).chomp('fastlane')
       aabPath = dirPath + "app/build/outputs/bundle/productRelease/app-product-release.aab"
 
-      # sign
-      keyStorePath = dirPath + "Untitled"
-      sh("jarsigner", "-verbose", "-sigalg", "SHA1withRSA", "-digestalg", "SHA1", "-keystore", keyStorePath, "-storepass", "123456", "-keypass", "123456", aabPath, "key0")
-
       # upload to play store
       upload_to_play_store(track: "internal", version_code: version, version_name: version_name, release_status: 'draft', aab: aabPath, skip_upload_apk: true)
   end
