@@ -1,24 +1,22 @@
 name: ktlint
-
 on:
   pull_request:
     paths:
       - .github/workflows/ktlint.yml
-      - 'src/**/*.kt'
-      - '**.kts'
-
+      - src/**/*.kt
+      - "**.kts"
 jobs:
   ktlint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: |
+      - run: >
           curl -sSLO https://github.com/pinterest/ktlint/releases/download/0.47.1/ktlint && chmod a+x ktlint && sudo mv ktlint /usr/local/bin/
       - name: run ktlint
-        run: |
+        run: >
           ktlint --disabled_rules=no-wildcard-imports --reporter=checkstyle,output=build/ktlint-report.xml
         continue-on-error: true
       - uses: yutailang0119/action-ktlint@v3
         with:
-          report-path: build/*.xml # Support glob patterns by https://www.npmjs.com/package/@actions/glob
-        continue-on-error: false # If annotations contain error of severity, action-ktlint exit 1.
+          report-path: build/*.xml
+        continue-on-error: false

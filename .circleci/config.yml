@@ -8,33 +8,31 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "Lint"
-          command: "./gradlew lintDevDebug --stacktrace"
+          name: Lint
+          command: ./gradlew lintDevDebug --stacktrace
       - run:
-          name: "Ktlint"
-          command: "./gradlew ktlint --stacktrace"    
+          name: Ktlint
+          command: ./gradlew ktlint --stacktrace
       - run:
-          name: "Test"
-          command: "./gradlew test --stacktrace"
+          name: Test
+          command: ./gradlew test --stacktrace
       - run:
-          name: "Generate APK"
-          command: "./gradlew assembleDev --stacktrace"
-
+          name: Generate APK
+          command: ./gradlew assembleDev --stacktrace
   to-store:
     docker:
       - image: cimg/android:2022.09.2-browsers
     steps:
       - checkout
       - run:
-          name: "Create API Json"
-          command: "echo $KEY | base64 --decode > pc-api-6062999880016485916-13-afcea4789892.json"
+          name: Create API Json
+          command: echo $KEY | base64 --decode > pc-api-6062999880016485916-13-afcea4789892.json
       - run:
-          name: "Install"
-          command: "scripts/installDependencies.sh"
+          name: Install
+          command: scripts/installDependencies.sh
       - run:
-          name: "Generate APK and upload to Store"
-          command: "bundle exec fastlane beta"
-
+          name: Generate APK and upload to Store
+          command: bundle exec fastlane beta
 workflows:
   unit-test:
     jobs:

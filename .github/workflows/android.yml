@@ -1,25 +1,22 @@
 name: android ci
-
 on:
   pull_request:
     branches:
-      - 'develop'
+      - develop
   push:
     branches:
-      - 'develop'
-
+      - develop
 jobs:
   test:
     name: Run Unit Tests
     runs-on: ubuntu-22.04
-
     steps:
       - uses: actions/checkout@v3
       - name: set up JDK
         uses: actions/setup-java@v3
         with:
-          distribution: 'zulu'
-          java-version: '11'
+          distribution: zulu
+          java-version: "11"
       - name: Unit tests
         run: bash ./gradlew test --stacktrace
       - name: Unit tests results
@@ -27,18 +24,16 @@ jobs:
         with:
           name: unit-tests-results
           path: app/build/reports/tests/testDevDebugUnitTest/index.html
-
   lint:
     name: Lint Check
     runs-on: ubuntu-22.04
-
     steps:
       - uses: actions/checkout@v3
       - name: set up JDK
         uses: actions/setup-java@v3
         with:
-          distribution: 'zulu'
-          java-version: '11'
+          distribution: zulu
+          java-version: "11"
       - name: Lint debug flavor
         run: bash ./gradlew lintDevDebug --stacktrace
       - name: Lint results
@@ -46,18 +41,16 @@ jobs:
         with:
           name: app
           path: app/build/reports/lint-results-devDebug.html
-
   apk:
     name: Generate APK
     runs-on: ubuntu-22.04
-
     steps:
       - uses: actions/checkout@v3
       - name: set up JDK
         uses: actions/setup-java@v3
         with:
-          distribution: 'zulu'
-          java-version: '11'
+          distribution: zulu
+          java-version: "11"
       - name: Build debug APK
         run: bash ./gradlew assembleDev --stacktrace
       - name: Upload APK
