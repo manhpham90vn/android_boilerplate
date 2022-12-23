@@ -23,6 +23,7 @@ fun <T : ViewDataBinding> FragmentActivity.withBinding(withBinding: (binding: T)
 }
 
 private fun <T : ViewDataBinding> bind(view: View): T = DataBindingUtil.bind(view)!!
+
 private fun FragmentActivity.getContentView(): View {
     return checkNotNull(findViewById<ViewGroup>(android.R.id.content).getChildAt(0)) {
         "Call setContentView or Use Activity's secondary constructor passing layout res id."

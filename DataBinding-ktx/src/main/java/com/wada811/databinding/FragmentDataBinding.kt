@@ -33,4 +33,3 @@ fun <T : ViewDataBinding> Fragment.withBinding(withBinding: (binding: T) -> Unit
         withBinding(binding)
     }
 }
-
