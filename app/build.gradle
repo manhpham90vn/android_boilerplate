@@ -130,8 +130,7 @@ dependencies {
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
     implementation "androidx.paging:paging-rxjava3:$paging_version"
 
-    // other
-    implementation 'com.github.wada811:DataBinding-ktx:6.1.0'
+    implementation project(':DataBinding-ktx')
 
     // rx
     implementation 'io.reactivex.rxjava3:rxjava:3.1.5'
