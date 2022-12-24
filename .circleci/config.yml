@@ -19,6 +19,8 @@ jobs:
       - run:
           name: Generate APK
           command: ./gradlew assembleDev --stacktrace
+      - store_artifacts:
+          path: app/build/outputs/apk/dev/debug/app-dev-debug.apk
   to-store:
     docker:
       - image: cimg/android:2022.09.2-browsers
@@ -33,6 +35,8 @@ jobs:
       - run:
           name: Generate APK and upload to Store
           command: bundle exec fastlane beta
+      - store_artifacts:
+          path: app/build/outputs/bundle/productRelease/app-product-release.aab
 workflows:
   unit-test:
     jobs:
