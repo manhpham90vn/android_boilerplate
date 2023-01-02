@@ -4,7 +4,7 @@ orbs:
 jobs:
   unit-test:
     docker:
-      - image: cimg/android:2022.09.2-browsers
+      - image: cimg/android:2022.12.1-browsers
     steps:
       - checkout
       - run:
@@ -23,7 +23,7 @@ jobs:
           path: app/build/outputs/apk/dev/debug/app-dev-debug.apk
   to-store:
     docker:
-      - image: cimg/android:2022.09.2-browsers
+      - image: cimg/android:2022.12.1-browsers
     steps:
       - checkout
       - run:
