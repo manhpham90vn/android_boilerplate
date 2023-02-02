@@ -18,6 +18,16 @@
 ./gradlew lintDevDebug
 ```
 
+## Run ktlint
+```
+./gradlew ktlint
+```
+
+## Run code coverage
+```
+./gradlew testDevDebugUnitTestCoverage
+```
+
 ## Generate APK
 ```
 ./gradlew assembleDev
