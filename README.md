@@ -32,3 +32,8 @@
 ```
 ./gradlew assembleDev
 ```
+
+## Generate AAB
+```
+./gradlew bundleDev
+```
