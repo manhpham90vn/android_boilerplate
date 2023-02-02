@@ -23,7 +23,7 @@
 ./gradlew ktlint
 ```
 
-## Run code coverage
+## Generate code coverage
 ```
 ./gradlew testDevDebugUnitTestCoverage
 ```
