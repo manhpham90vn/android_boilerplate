@@ -3,8 +3,7 @@ on:
   pull_request:
     paths:
       - .github/workflows/ktlint.yml
-      - src/**/*.kt
-      - "**.kts"
+      - app/src/**/*.kt
 jobs:
   ktlint:
     runs-on: ubuntu-latest
