@@ -39,7 +39,7 @@ jobs:
       - name: Lint results
         uses: actions/upload-artifact@v3
         with:
-          name: app
+          name: lint
           path: app/build/reports/lint-results-devDebug.html
   codecov:
     name: Code coverage
@@ -56,7 +56,7 @@ jobs:
       - name: Code coverage results
         uses: actions/upload-artifact@v3
         with:
-          name: app
+          name: coverage
           path: app/build/reports/jacoco/testDevDebugUnitTestCoverage/html/    
   apk:
     name: Generate APK
@@ -73,5 +73,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
-          name: app
+          name: apk
           path: app/build/outputs/apk/dev/debug/app-dev-debug.apk
