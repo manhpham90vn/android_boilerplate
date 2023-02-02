@@ -8,6 +8,7 @@ import com.manhpham.baseandroid.R
 import com.manhpham.baseandroid.databinding.FragmentLoginSuccessBinding
 import com.manhpham.baseandroid.ui.base.BaseFragment
 import com.manhpham.baseandroid.ui.base.ScreenType
+import com.manhpham.baseandroid.viewmodel.LoginViewModel
 import com.wada811.databinding.withBinding
 import dagger.hilt.android.AndroidEntryPoint
 

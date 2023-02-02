@@ -7,7 +7,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.manhpham.baseandroid.ui.login.LoginViewModel" />
+            type="com.manhpham.baseandroid.viewmodel.LoginViewModel" />
 
         <variable
             name="handle"

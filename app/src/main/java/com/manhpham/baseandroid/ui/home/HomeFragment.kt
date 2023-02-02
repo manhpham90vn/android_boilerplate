@@ -12,6 +12,7 @@ import com.manhpham.baseandroid.databinding.FragmentHomeBinding
 import com.manhpham.baseandroid.service.ApiErrorHandler
 import com.manhpham.baseandroid.ui.base.BaseFragment
 import com.manhpham.baseandroid.ui.base.ScreenType
+import com.manhpham.baseandroid.viewmodel.HomeViewModel
 import com.wada811.databinding.withBinding
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber

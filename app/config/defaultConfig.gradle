@@ -1,0 +1,10 @@
+android {
+    defaultConfig {
+        minSdk 23
+        targetSdk 33
+        versionCode 7
+        versionName "1.0"
+        applicationId "com.manhpham.baseandroid"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+}

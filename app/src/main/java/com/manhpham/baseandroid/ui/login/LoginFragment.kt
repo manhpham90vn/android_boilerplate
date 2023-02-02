@@ -13,6 +13,7 @@ import com.manhpham.baseandroid.ui.base.BaseFragment
 import com.manhpham.baseandroid.ui.base.ScreenType
 import com.manhpham.baseandroid.ui.dialog.DialogManager
 import com.manhpham.baseandroid.ui.dialog.TypeDialog
+import com.manhpham.baseandroid.viewmodel.LoginViewModel
 import com.wada811.databinding.withBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

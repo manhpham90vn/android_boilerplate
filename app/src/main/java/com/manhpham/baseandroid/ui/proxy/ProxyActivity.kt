@@ -5,7 +5,7 @@ import androidx.activity.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import com.manhpham.baseandroid.R
 import com.manhpham.baseandroid.ui.base.BaseActivity
-import com.manhpham.baseandroid.ui.login.LoginViewModel
+import com.manhpham.baseandroid.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
