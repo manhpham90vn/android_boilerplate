@@ -14,6 +14,7 @@ import com.manhpham.baseandroid.R
 import com.manhpham.baseandroid.databinding.FragmentDetailWebBinding
 import com.manhpham.baseandroid.ui.base.BaseFragment
 import com.manhpham.baseandroid.ui.base.ScreenType
+import com.manhpham.baseandroid.viewmodel.DetailViewModel
 import com.wada811.databinding.withBinding
 import dagger.hilt.android.AndroidEntryPoint
 

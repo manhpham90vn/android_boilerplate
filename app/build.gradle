@@ -8,33 +8,30 @@ plugins {
     id 'dagger.hilt.android.plugin'
 }
 
-apply from: '../ktlint.grade'
+apply from: '../config/ktlint.gradle'
+apply from: '../config/jacoco.gradle'
+apply from: 'config/defaultConfig.gradle'
+apply from: 'config/productFlavors.gradle'
+apply from: 'config/dependencies.gradle'
 
 android {
-    compileSdk 33
-
     namespace "com.manhpham.baseandroid"
-
-    defaultConfig {
-        minSdk 23
-        targetSdk 33
-        versionCode 7
-        versionName "1.0"
-        applicationId "com.manhpham.baseandroid"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
+    compileSdk 33
 
     signingConfigs {
         debug
         release {
-            storeFile file("${rootProject.projectDir}/Untitled")
-            keyAlias = 'key0'
-            storePassword '123456'
-            keyPassword '123456'
+            storeFile file(RELEASE_STORE_FILE)
+            keyAlias = RELEASE_KEY_ALIAS
+            storePassword RELEASE_STORE_PASSWORD
+            keyPassword RELEASE_KEY_PASSWORD
         }
     }
 
     buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -60,99 +57,11 @@ android {
         disable "JvmStaticProvidesInObjectDetector", "FieldSiteTargetOnQualifierAnnotation", "ModuleCompanionObjects", "ModuleCompanionObjectsNotInModuleParent"
     }
 
-    flavorDimensions "default"
-
-    productFlavors {
-        dev {
-            applicationId "com.manhpham.baseandroid"
-            buildConfigField 'String', 'BASE_URL', '"http://localhost.charlesproxy.com:3000/"'
-        }
-
-        staging {
-            applicationId "com.manhpham.baseandroid"
-            buildConfigField 'String', 'BASE_URL', '"http://localhost.charlesproxy.com:3000/"'
-        }
-
-        product {
-            applicationId "com.manhpham.baseandroid"
-            buildConfigField 'String', 'BASE_URL', '"http://localhost.charlesproxy.com:3000/"'
-        }
+    testOptions {
+        unitTests.returnDefaultValues = true
+        unitTests.includeAndroidResources = true
     }
+
+    flavorDimensions "default"
 }
 
-dependencies {
-
-    // base
-    implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.appcompat:appcompat:1.6.0'
-    implementation 'com.google.android.material:material:1.8.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'com.google.firebase:firebase-messaging-ktx:23.1.1'
-
-    // networking
-    def retrofit_version = "2.9.0"
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    implementation "com.squareup.retrofit2:adapter-rxjava3:$retrofit_version"
-
-    def okhttp3_version = "5.0.0-alpha.11"
-    implementation "com.squareup.okhttp3:okhttp:$okhttp3_version"
-    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3_version"
-
-    // until
-    implementation 'com.google.code.gson:gson:2.10.1'
-
-    // coroutines
-    def coroutines_version = "1.6.4"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
-
-    // dagger hilt
-    def dagger_hilt_version = "2.44.2"
-    implementation "com.google.dagger:hilt-android:$dagger_hilt_version"
-    kapt "com.google.dagger:hilt-compiler:$dagger_hilt_version"
-
-    // log
-    implementation 'com.jakewharton.timber:timber:5.0.1'
-
-    // androidx
-    def lifecycle_version = "2.5.1"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-process:$lifecycle_version"
-
-    implementation "androidx.activity:activity-ktx:1.6.1"
-    implementation "androidx.fragment:fragment-ktx:1.5.5"
-
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
-
-    def paging_version = "3.1.1"
-    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
-    implementation "androidx.paging:paging-rxjava3:$paging_version"
-
-    implementation project(':DataBinding-ktx')
-
-    // rx
-    implementation 'io.reactivex.rxjava3:rxjava:3.1.6'
-    implementation 'io.reactivex.rxjava3:rxandroid:3.0.2'
-    implementation 'io.reactivex.rxjava3:rxkotlin:3.0.1'
-
-    // firebase
-    implementation platform('com.google.firebase:firebase-bom:31.2.0')
-    implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation 'com.google.firebase:firebase-crashlytics'
-
-    def glide_version = "4.14.2"
-    implementation "com.github.bumptech.glide:glide:$glide_version"
-    kapt "com.github.bumptech.glide:compiler:$glide_version"
-    implementation "com.github.bumptech.glide:okhttp3-integration:$glide_version"
-
-    def nav_version = "2.5.3"
-    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
-
-    // test
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-}

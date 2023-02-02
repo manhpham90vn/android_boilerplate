@@ -1,20 +1,16 @@
-package com.manhpham.baseandroid.ui.login
+package com.manhpham.baseandroid.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.manhpham.baseandroid.repository.AppLocalDataRepositoryInterface
 import com.manhpham.baseandroid.ui.base.BaseViewModel
+import com.manhpham.baseandroid.ui.login.LoginResult
 import com.manhpham.baseandroid.usecase.LoginUseCase
 import com.manhpham.baseandroid.usecase.LoginUseCaseParams
 import com.manhpham.baseandroid.utils.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.kotlin.addTo
 import javax.inject.Inject
-
-sealed class LoginResult {
-    object LoginSuccess : LoginResult()
-    data class LoginError(val message: String) : LoginResult()
-}
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(

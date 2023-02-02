@@ -1,4 +1,4 @@
-package com.manhpham.baseandroid.ui.detail
+package com.manhpham.baseandroid.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import com.manhpham.baseandroid.ui.base.BaseViewModel

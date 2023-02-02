@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="com.manhpham.baseandroid.ui.detail.DetailViewModel" />
+            type="com.manhpham.baseandroid.viewmodel.DetailViewModel" />
     </data>
 
     <LinearLayout

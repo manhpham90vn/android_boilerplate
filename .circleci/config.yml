@@ -14,6 +14,9 @@ jobs:
           name: Ktlint
           command: ./gradlew ktlint --stacktrace
       - run:
+          name: Code coverage
+          command: ./gradlew testDevDebugUnitTestCoverage --stacktrace    
+      - run:
           name: Test
           command: ./gradlew test --stacktrace
       - run:

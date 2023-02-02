@@ -1,4 +1,4 @@
-package com.manhpham.baseandroid.ui.home
+package com.manhpham.baseandroid.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagingData
