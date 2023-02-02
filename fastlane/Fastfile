@@ -25,7 +25,7 @@ platform :android do
   end
 
   def set_version_code(number)
-    path = "../app/build.gradle"
+    path = "../app/config/defaultConfig.gradle"
     re = /versionCode\s+(\d+)/
 
     s = File.read(path)
@@ -37,7 +37,7 @@ platform :android do
   end
 
   def set_version(version)
-    path = "../app/build.gradle"
+    path = "../app/config/defaultConfig.gradle"
     re = /versionName\s+("[\d.]+")/
 
     s = File.read(path)
