@@ -41,6 +41,18 @@ jobs:
         with:
           name: lint
           path: app/build/reports/lint-results-devDebug.html
+  ktlint:
+    name: Ktlint Check
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: zulu
+          java-version: "11"
+      - name: Ktlint
+        run: bash ./gradlew ktlint --stacktrace 
   codecov:
     name: Code coverage
     runs-on: ubuntu-22.04
@@ -75,3 +87,20 @@ jobs:
         with:
           name: apk
           path: app/build/outputs/apk/dev/debug/app-dev-debug.apk
+  aab:
+    name: Generate APK
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: zulu
+          java-version: "11"
+      - name: Build debug APK
+        run: bash ./gradlew bundleDev --stacktrace
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: aab
+          path: app/build/outputs/bundle/devDebug/app-dev-debug.aab
