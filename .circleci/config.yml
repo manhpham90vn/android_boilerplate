@@ -22,6 +22,9 @@ jobs:
       - run:
           name: Generate APK
           command: ./gradlew assembleDev --stacktrace
+      - run:
+          name: Generate AAB
+          command: ./gradlew bundleDev --stacktrace
       - store_artifacts:
           path: app/build/outputs/apk/dev/debug/app-dev-debug.apk
   to-store:
