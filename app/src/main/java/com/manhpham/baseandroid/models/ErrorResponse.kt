@@ -7,13 +7,13 @@ class ErrorResponse {
 
     @SerializedName("status")
     @Expose
-    var status: String? = null
+    val status: String? = null
 
     @SerializedName("code")
     @Expose
-    var code: String? = null
+    val code: String? = null
 
     @SerializedName("message")
     @Expose
-    var message: String? = null
+    val message: String? = null
 }
