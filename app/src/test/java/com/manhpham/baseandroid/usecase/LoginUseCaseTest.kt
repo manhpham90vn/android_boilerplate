@@ -45,6 +45,7 @@ class LoginUseCaseTest {
 
     @After
     fun tearDown() {
+        clearAllMocks()
     }
 
     @Test
