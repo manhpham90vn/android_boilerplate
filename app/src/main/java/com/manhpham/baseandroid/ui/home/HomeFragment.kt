@@ -97,7 +97,7 @@ class HomeFragment : BaseFragment(), HomeHandler {
             }
         }
 
-        viewModel.error.observe(viewLifecycleOwner) {
+        viewModel.throttledError.observe(viewLifecycleOwner) {
             errorHandler.handleError(it, screenType(), requireActivity() as AppCompatActivity)
         }
     }
