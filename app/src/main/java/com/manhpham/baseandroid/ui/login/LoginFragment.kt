@@ -60,7 +60,7 @@ class LoginFragment : BaseFragment(), LoginHandle {
             }
         }
 
-        viewModel.error.observe(viewLifecycleOwner) {
+        viewModel.throttledError.observe(viewLifecycleOwner) {
             errorHandler.handleError(it, screenType(), requireActivity() as AppCompatActivity) {
                 viewModel.retryLogin()
             }
