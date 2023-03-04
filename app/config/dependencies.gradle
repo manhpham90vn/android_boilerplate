@@ -78,6 +78,6 @@ dependencies {
 
     def mockkVersion = "1.11.0"
     implementation "io.mockk:mockk:$mockkVersion"
-    testImplementation 'androidx.arch.core:core-testing:2.1.0'
+    testImplementation 'androidx.arch.core:core-testing:2.2.0'
 
 }
