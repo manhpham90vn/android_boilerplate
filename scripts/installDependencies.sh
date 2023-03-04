@@ -7,6 +7,6 @@ then
     sudo gem install bundler:$BUNDLER_VERSION
 fi
 
-bundle install
+sudo bundle install
 
 echo "Done"
