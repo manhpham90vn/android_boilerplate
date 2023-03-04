@@ -7,17 +7,21 @@ plugins {
 android {
     namespace "com.wada811.databinding"
     compileSdkVersion 33
+
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 33
     }
+
     buildFeatures {
         dataBinding true
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
+
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.toString()
     }
