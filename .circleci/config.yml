@@ -18,7 +18,7 @@ jobs:
           command: ./gradlew testDevDebugUnitTestCoverage --stacktrace    
       - run:
           name: Test
-          command: ./gradlew test --stacktrace
+          command: ./gradlew testDevDebugUnitTest --stacktrace
       - run:
           name: Generate APK
           command: ./gradlew assembleDev --stacktrace

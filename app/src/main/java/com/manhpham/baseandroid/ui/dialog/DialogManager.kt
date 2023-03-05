@@ -17,7 +17,7 @@ class DialogManager @Inject constructor(@ActivityContext val context: Context) {
         closeButtonLabel: String? = null,
         retryButtonLabel: String? = null,
         callbackRetry: (() -> Unit)? = null,
-        callbackClose: (() -> Unit)? = null
+        callbackClose: (() -> Unit)? = null,
     ) {
         if (isShowedDialog) {
             return
@@ -38,7 +38,7 @@ class DialogManager @Inject constructor(@ActivityContext val context: Context) {
         title: String? = null,
         message: String? = null,
         closeButtonLabel: String? = null,
-        callbackClose: (() -> Unit)? = null
+        callbackClose: (() -> Unit)? = null,
     ) {
         val alert = AlertDialog.Builder(context).apply {
             setTitle(title ?: context.getString(R.string.tittle))
@@ -58,7 +58,7 @@ class DialogManager @Inject constructor(@ActivityContext val context: Context) {
         closeButtonLabel: String? = null,
         retryButtonLabel: String? = null,
         callbackRetry: (() -> Unit)? = null,
-        callbackClose: (() -> Unit)? = null
+        callbackClose: (() -> Unit)? = null,
     ) {
         val alert = AlertDialog.Builder(context).apply {
             setTitle(title ?: context.getString(R.string.tittle))
@@ -78,5 +78,5 @@ class DialogManager @Inject constructor(@ActivityContext val context: Context) {
 
 enum class TypeDialog {
     CLOSE_DIALOG,
-    RETRY_DIALOG
+    RETRY_DIALOG,
 }

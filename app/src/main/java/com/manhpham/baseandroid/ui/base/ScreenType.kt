@@ -5,5 +5,5 @@ enum class ScreenType {
     LOGIN_SUCCESS,
     HOME,
     WEB_DETAIL,
-    IMG_DETAIL
+    IMG_DETAIL,
 }

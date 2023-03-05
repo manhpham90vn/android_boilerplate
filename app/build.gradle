@@ -63,6 +63,10 @@ android {
         unitTests.includeAndroidResources = true
     }
 
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
+    }
+
     flavorDimensions "default"
 }
 

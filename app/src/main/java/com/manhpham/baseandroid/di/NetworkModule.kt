@@ -37,7 +37,7 @@ class NetworkModule {
     @Singleton
     fun createRefreshTokenAuthenticator(
         appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface,
-        appRemoteDataRepositoryInterface: AppRemoteDataRepositoryInterface
+        appRemoteDataRepositoryInterface: AppRemoteDataRepositoryInterface,
     ): RefreshTokenAuthenticator {
         return RefreshTokenAuthenticator(appLocalDataRepositoryInterface, appRemoteDataRepositoryInterface)
     }
@@ -83,7 +83,7 @@ class NetworkModule {
     fun createHttpClientRefreshable(
         tokenInterceptor: TokenInterceptor,
         refreshTokenAuthenticator: RefreshTokenAuthenticator,
-        httpLoggingInterceptor: HttpLoggingInterceptor
+        httpLoggingInterceptor: HttpLoggingInterceptor,
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .connectTimeout(30, TimeUnit.SECONDS)
@@ -101,7 +101,7 @@ class NetworkModule {
     fun createRetrofit(
         @Named("httpClient") httpClient: OkHttpClient,
         gson: Gson,
-        rxJava3CallAdapterFactory: RxJava3CallAdapterFactory
+        rxJava3CallAdapterFactory: RxJava3CallAdapterFactory,
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
@@ -116,7 +116,7 @@ class NetworkModule {
     @Named("retrofitRefreshtor")
     fun createRetrofitRefreshtor(
         @Named("httpClient") httpClient: OkHttpClient,
-        gson: Gson
+        gson: Gson,
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
@@ -131,7 +131,7 @@ class NetworkModule {
     fun createRetrofitRefreshable(
         @Named("httpClientRefreshable") httpClient: OkHttpClient,
         gson: Gson,
-        rxJava3CallAdapterFactory: RxJava3CallAdapterFactory
+        rxJava3CallAdapterFactory: RxJava3CallAdapterFactory,
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)

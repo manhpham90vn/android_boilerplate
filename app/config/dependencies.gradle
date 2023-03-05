@@ -76,7 +76,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.ext:junit-ktx:1.1.5'
 
-    def mockkVersion = "1.11.0"
+    def mockkVersion = "1.13.4"
     implementation "io.mockk:mockk:$mockkVersion"
     testImplementation 'androidx.arch.core:core-testing:2.2.0'
 

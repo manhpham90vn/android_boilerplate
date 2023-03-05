@@ -35,11 +35,11 @@ class LoginUseCaseTest {
         loginUseCase = spyk(
             LoginUseCase(
                 appRemoteDataRepositoryInterface = mockAppRemoteDataRepositoryInterface,
-                localDataRepositoryInterface = mockAppLocalDataRepositoryInterface
+                localDataRepositoryInterface = mockAppLocalDataRepositoryInterface,
             ).apply {
                 connectivityService = mockConnectivityService
                 schedulerProvider = mockSchedule
-            }
+            },
         )
     }
 
@@ -61,8 +61,8 @@ class LoginUseCaseTest {
         every { mockAppLocalDataRepositoryInterface.setRefreshToken(any()) } returns Unit
         every { mockAppRemoteDataRepositoryInterface.callLogin(any(), any()) }.returns(
             Single.just(
-                mockResponse
-            )
+                mockResponse,
+            ),
         )
 
         val recorder = Recorder<Unit>()
@@ -83,8 +83,8 @@ class LoginUseCaseTest {
         every { mockAppLocalDataRepositoryInterface.setRefreshToken(any()) } returns Unit
         every { mockAppRemoteDataRepositoryInterface.callLogin(any(), any()) }.returns(
             Single.just(
-                mockResponse
-            )
+                mockResponse,
+            ),
         )
 
         val recorder = Recorder<Throwable>()

@@ -44,7 +44,7 @@ class LoginFragment : BaseFragment(), LoginHandle {
         }
 
         viewModel.loginResult.observe(
-            viewLifecycleOwner
+            viewLifecycleOwner,
         ) {
             when (it) {
                 is LoginResult.LoginSuccess -> {

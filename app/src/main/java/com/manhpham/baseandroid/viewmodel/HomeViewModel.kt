@@ -18,7 +18,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val localDataRepositoryInterface: AppLocalDataRepositoryInterface,
     private val getUserInfoUseCase: GetUserInfoUseCase,
-    private val pagingDataUseCase: PagingDataUseCase
+    private val pagingDataUseCase: PagingDataUseCase,
 ) : BaseViewModel() {
 
     private val _listItem = SingleLiveEvent<PagingData<PagingUserResponse>>()

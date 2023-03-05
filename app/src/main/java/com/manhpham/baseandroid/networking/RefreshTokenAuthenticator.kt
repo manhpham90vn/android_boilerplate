@@ -12,7 +12,7 @@ enum class RefreshTokenState {
     NOT_NEED_REFRESH,
     IS_REFRESHING,
     REFRESH_SUCCESS,
-    REFRESH_ERROR
+    REFRESH_ERROR,
 }
 
 class RefreshTokenValidator {
@@ -32,7 +32,7 @@ class RefreshTokenValidator {
 
 class RefreshTokenAuthenticator @Inject constructor(
     private val appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface,
-    private val appRemoteDataRepositoryInterface: AppRemoteDataRepositoryInterface
+    private val appRemoteDataRepositoryInterface: AppRemoteDataRepositoryInterface,
 ) : Authenticator {
 
     @Throws(ApiException.RefreshTokenException::class)

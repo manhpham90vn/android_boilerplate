@@ -10,6 +10,6 @@ interface ApiClientRefreshtor {
     @FormUrlEncoded
     @POST("refreshToken")
     fun refresh(
-        @Field("token") token: String
+        @Field("token") token: String,
     ): Call<RefreshTokenResponse>
 }

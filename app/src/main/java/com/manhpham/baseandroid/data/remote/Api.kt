@@ -4,5 +4,5 @@ enum class Api {
     Login,
     GetUser,
     Paging,
-    None
+    None,
 }

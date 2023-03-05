@@ -15,14 +15,14 @@ interface AppPagingDataRepositoryInterface {
 }
 
 class AppPagingDataRepository @Inject constructor(
-    private val appRemoteDataRefreshableRepositoryInterface: AppRemoteDataRefreshableRepositoryInterface
+    private val appRemoteDataRefreshableRepositoryInterface: AppRemoteDataRefreshableRepositoryInterface,
 ) : AppPagingDataRepositoryInterface {
     override fun getPagingData(type: PagingDataSortType): Observable<PagingData<PagingUserResponse>> {
         return Pager(
             config = PagingConfig(20, 10),
             pagingSourceFactory = {
                 HomePagingSource(appRemoteDataRefreshableRepositoryInterface, type)
-            }
+            },
         ).observable
     }
 }

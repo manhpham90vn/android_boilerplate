@@ -11,6 +11,6 @@ interface ApiClient {
     @POST("login")
     fun callLogin(
         @Field("email") email: String,
-        @Field("password") password: String
+        @Field("password") password: String,
     ): Single<LoginResponse>
 }
