@@ -10,7 +10,7 @@
 
 ## Run unit test
 ```
-./gradlew test
+./gradlew testDevDebugUnitTest
 ```
 
 ## Run lint
