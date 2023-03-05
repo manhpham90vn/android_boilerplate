@@ -17,7 +17,7 @@ interface AppRemoteDataRepositoryInterface {
 
 class AppRemoteDataRepository @Inject constructor(
     private val apiClient: ApiClient,
-    private val apiClientRefreshtor: ApiClientRefreshtor
+    private val apiClientRefreshtor: ApiClientRefreshtor,
 ) : AppRemoteDataRepositoryInterface {
 
     override fun callLogin(email: String, password: String): Single<LoginResponse> {

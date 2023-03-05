@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class HomePagingSource @Inject constructor(
     private val appRemoteDataRefreshableRepositoryInterface: AppRemoteDataRefreshableRepositoryInterface,
-    val type: PagingDataSortType
+    val type: PagingDataSortType,
 ) : RxPagingSource<Int, PagingUserResponse>() {
     override fun getRefreshKey(state: PagingState<Int, PagingUserResponse>): Int {
         return 1
@@ -24,7 +24,7 @@ class HomePagingSource @Inject constructor(
                 return@map LoadResult.Page(
                     it,
                     prevKey = null,
-                    nextKey = if (it.isEmpty()) null else page + 1
+                    nextKey = if (it.isEmpty()) null else page + 1,
                 )
             }
             .onErrorReturn { e ->

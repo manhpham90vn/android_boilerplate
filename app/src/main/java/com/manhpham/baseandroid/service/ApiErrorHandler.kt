@@ -26,7 +26,7 @@ class ApiErrorHandler @Inject constructor(
     @ActivityContext val context: Context,
     val gson: Gson,
     private val dialogManager: DialogManager,
-    private val localDataRepositoryInterface: AppLocalDataRepositoryInterface
+    private val localDataRepositoryInterface: AppLocalDataRepositoryInterface,
 ) {
 
     fun handleError(throwable: Throwable, screenType: ScreenType, appCompatActivity: AppCompatActivity, callback: () -> Unit = {}) {
@@ -47,28 +47,28 @@ class ApiErrorHandler @Inject constructor(
                         dialogManager.showDialog(
                             TypeDialog.RETRY_DIALOG,
                             message = context.getString(R.string.api_exception),
-                            callbackRetry = callback
+                            callbackRetry = callback,
                         )
                     }
                     is ConnectException -> {
                         dialogManager.showDialog(
                             TypeDialog.RETRY_DIALOG,
                             message = context.getString(R.string.connect_exception),
-                            callbackRetry = callback
+                            callbackRetry = callback,
                         )
                     }
                     is TimeoutException -> {
                         dialogManager.showDialog(
                             TypeDialog.RETRY_DIALOG,
                             message = context.getString(R.string.timeout_exception),
-                            callbackRetry = callback
+                            callbackRetry = callback,
                         )
                     }
                     is SocketTimeoutException -> {
                         dialogManager.showDialog(
                             TypeDialog.RETRY_DIALOG,
                             message = context.getString(R.string.socket_timeout_exception),
-                            callbackRetry = callback
+                            callbackRetry = callback,
                         )
                     }
                     is HttpException -> {
@@ -101,7 +101,7 @@ class ApiErrorHandler @Inject constructor(
         dialogManager.showDialog(
             TypeDialog.CLOSE_DIALOG,
             message = context.getString(R.string.unknown_exception),
-            callbackClose = callback
+            callbackClose = callback,
         )
     }
 

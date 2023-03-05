@@ -21,7 +21,7 @@ class TokenInterceptor @Inject constructor(private val appLocalDataRepositoryInt
                         }
                         .method(method, body)
                         .build()
-                }
+                },
         )
     }
 }

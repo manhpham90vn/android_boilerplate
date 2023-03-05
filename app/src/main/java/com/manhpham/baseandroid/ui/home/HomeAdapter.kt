@@ -20,14 +20,14 @@ class HomeAdapter : PagingDataAdapter<PagingUserResponse, HomeAdapter.HomeViewHo
         val diffCallback = object : DiffUtil.ItemCallback<PagingUserResponse>() {
             override fun areItemsTheSame(
                 oldItem: PagingUserResponse,
-                newItem: PagingUserResponse
+                newItem: PagingUserResponse,
             ): Boolean {
                 return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(
                 oldItem: PagingUserResponse,
-                newItem: PagingUserResponse
+                newItem: PagingUserResponse,
             ): Boolean {
                 return oldItem.id == newItem.id
             }

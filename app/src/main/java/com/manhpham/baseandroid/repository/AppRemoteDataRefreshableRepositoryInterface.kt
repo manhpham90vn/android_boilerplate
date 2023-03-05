@@ -14,7 +14,7 @@ interface AppRemoteDataRefreshableRepositoryInterface {
 }
 
 class AppRemoteDataRefreshableRepository @Inject constructor(
-    private val apiClientRefreshable: ApiClientRefreshable
+    private val apiClientRefreshable: ApiClientRefreshable,
 ) : AppRemoteDataRefreshableRepositoryInterface {
 
     override fun getUserInfo(): Single<UserResponse> {

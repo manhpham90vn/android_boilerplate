@@ -10,7 +10,7 @@ data class LoginUseCaseParams(val email: String, val password: String)
 
 class LoginUseCase @Inject constructor(
     private val appRemoteDataRepositoryInterface: AppRemoteDataRepositoryInterface,
-    private val localDataRepositoryInterface: AppLocalDataRepositoryInterface
+    private val localDataRepositoryInterface: AppLocalDataRepositoryInterface,
 ) : CompletableUseCase<LoginUseCaseParams>() {
 
     override fun buildUseCase(params: LoginUseCaseParams): Completable {

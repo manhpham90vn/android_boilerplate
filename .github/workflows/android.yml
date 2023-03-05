@@ -18,7 +18,7 @@ jobs:
           distribution: zulu
           java-version: "11"
       - name: Unit tests
-        run: bash ./gradlew test --stacktrace
+        run: bash ./gradlew testDevDebugUnitTest --stacktrace
       - name: Unit tests results
         uses: actions/upload-artifact@v3
         with:

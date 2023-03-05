@@ -21,7 +21,7 @@ open class SingleLiveEvent<T> : MutableLiveData<T>() {
 
         // Observe the internal MutableLiveData
         super.observe(
-            owner
+            owner,
         ) { t ->
             if (pending.compareAndSet(true, false)) {
                 observer.onChanged(t)

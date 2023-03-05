@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val appLocalDataRepositoryInterface: AppLocalDataRepositoryInterface,
-    private val loginUseCase: LoginUseCase
+    private val loginUseCase: LoginUseCase,
 ) : BaseViewModel() {
 
     val email = MutableLiveData<String>()

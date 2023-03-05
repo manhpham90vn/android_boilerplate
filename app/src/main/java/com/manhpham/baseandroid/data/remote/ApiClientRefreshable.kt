@@ -13,6 +13,6 @@ interface ApiClientRefreshable {
     @GET("paging")
     fun getList(
         @Query("page") page: Int,
-        @Query("sort") sort: String
+        @Query("sort") sort: String,
     ): Single<PagingResponse>
 }

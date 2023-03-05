@@ -7,7 +7,7 @@ import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 class GetUserInfoUseCase @Inject constructor(
-    private val appRemoteDataRefreshableRepositoryInterface: AppRemoteDataRefreshableRepositoryInterface
+    private val appRemoteDataRefreshableRepositoryInterface: AppRemoteDataRefreshableRepositoryInterface,
 ) : SingleUseCase<Unit, UserResponse>() {
     override fun buildUseCase(params: Unit): Single<UserResponse> {
         return appRemoteDataRefreshableRepositoryInterface.getUserInfo()
