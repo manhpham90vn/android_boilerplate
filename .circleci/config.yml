@@ -4,7 +4,7 @@ orbs:
 jobs:
   unit-test:
     docker:
-      - image: cimg/android:2023.02.1-browsers
+      - image: cimg/android:2023.12.1-browsers
     steps:
       - checkout
       - run:
@@ -29,7 +29,7 @@ jobs:
           path: app/build/outputs/apk/dev/debug/app-dev-debug.apk
   to-store:
     docker:
-      - image: cimg/android:2023.02.1-browsers
+      - image: cimg/android:2023.12.1-browsers
     steps:
       - checkout
       - run:
